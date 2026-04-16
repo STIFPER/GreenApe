@@ -46,7 +46,8 @@
     </script>
 
     <style>
-        body { background-color: #2a1962; color: white; }
+        /* Added Fredoka as a hard fallback to ensure mobile browsers load it properly globally */
+        body { background-color: #2a1962; color: white; font-family: 'Fredoka', sans-serif; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #2a1962; }
         ::-webkit-scrollbar-thumb { background: #4a3982; border-radius: 3px; }
@@ -57,7 +58,7 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="antialiased selection:bg-[#c6dc3b] selection:text-black">
+<body class="antialiased font-bd selection:bg-[#c6dc3b] selection:text-black">
     <div id="root"></div>
 
     <script type="text/babel">
@@ -85,16 +86,6 @@
             { cat: 'HYBRID', name: 'PURE MICHIGAN', tags: [], thc: '20-22%', cbd: '0%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (FRUIT)', 'CARYOPHYLLENE (PEPPER)'] },
             { cat: 'HYBRID', name: 'GRAPE SODA', tags: [], thc: '22-26%', cbd: '<1%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (GRAPE)', 'LINALOOL (FLORAL)'] },
             { cat: 'HYBRID', name: 'APPLE GELATO', tags: [], thc: '24-28%', cbd: '0%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (CREAM)', 'LIMONENE (CITRUS)'] },
-        ];
-
-        const preRolls = [
-            'PINEAPPLE XPRESS 2.0', 
-            'BERRY BOOMSTICK', 
-            'MATCHA LOLLIPOP', 
-            'CUBAN DOOBIE', 
-            'VANILLA FRUITTEN PIE', 
-            'MANGO SUNSET HAZE', 
-            'CASHEW SUNDAE'
         ];
         
         // --- COMPONENTS ---
@@ -310,6 +301,35 @@
             </div>
         );
 
+        // Extracted PartyPackPromo component so we can render it in different places based on screen size
+        const PartyPackPromo = ({ className }) => (
+            <div className={`border border-gray-200 rounded-2xl shadow-xl overflow-hidden bg-white flex-col flex-1 relative group transition-all duration-300 hover:shadow-2xl ${className || 'flex'}`}>
+                <div className="flex justify-center items-center px-5 py-4 border-b border-[#2a1962] bg-[#2a1962]">
+                    <h2 className="font-bd font-black text-3xl text-white uppercase tracking-wide">PARTY PACK PROMO</h2>
+                </div>
+                
+                <div className="p-6 flex flex-col flex-1 items-center justify-center text-center relative z-10">
+                    <div className="font-bd font-black text-[64px] leading-none text-[#2a1962] drop-shadow-sm mb-2 group-hover:scale-105 transition-transform duration-300">
+                        28 <span className="text-4xl text-[#2a1962]">g</span>
+                    </div>
+                    
+                    <div className="font-bd font-black text-[42px] text-[#2a1962] leading-none mb-2">
+                        5,600 <span className="text-2xl text-[#2a1962]">THB</span>
+                    </div>
+                    
+                    <div className="font-bd font-bold text-lg text-[#2a1962]/80 bg-gray-100 px-5 py-1.5 rounded-full mb-6 border border-gray-200">
+                        ( 200 THB/g )
+                    </div>
+                    
+                    <div className="w-4/5 h-px bg-gradient-to-r from-transparent via-[#2a1962]/20 to-transparent mb-6"></div>
+                    
+                    <div className="font-bd font-bold text-sm md:text-base text-[#2a1962] uppercase tracking-widest flex items-center justify-center w-full bg-primary px-4 py-3.5 rounded-xl shadow-sm border border-[#b2c832]">
+                        Mix and Match Up to 4 Strains
+                    </div>
+                </div>
+            </div>
+        );
+
         const App = () => {
             const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -358,32 +378,8 @@
                                 </div>
                             )}
                             
-                            {/* 3. PARTY PACK PROMO */}
-                            <div className="border border-gray-200 rounded-2xl shadow-xl overflow-hidden bg-white flex flex-col flex-1 relative group transition-all duration-300 hover:shadow-2xl">
-                                <div className="flex justify-center items-center px-5 py-4 border-b border-[#2a1962] bg-[#2a1962]">
-                                    <h2 className="font-bd font-black text-3xl text-white uppercase tracking-wide">PARTY PACK PROMO</h2>
-                                </div>
-                                
-                                <div className="p-6 flex flex-col flex-1 items-center justify-center text-center relative z-10">
-                                    <div className="font-bd font-black text-[64px] leading-none text-[#2a1962] drop-shadow-sm mb-2 group-hover:scale-105 transition-transform duration-300">
-                                        28 <span className="text-4xl text-[#2a1962]">g</span>
-                                    </div>
-                                    
-                                    <div className="font-bd font-black text-[42px] text-[#2a1962] leading-none mb-2">
-                                        5,600 <span className="text-2xl text-[#2a1962]">THB</span>
-                                    </div>
-                                    
-                                    <div className="font-bd font-bold text-lg text-[#2a1962]/80 bg-gray-100 px-5 py-1.5 rounded-full mb-6 border border-gray-200">
-                                        ( 200 THB/g )
-                                    </div>
-                                    
-                                    <div className="w-4/5 h-px bg-gradient-to-r from-transparent via-[#2a1962]/20 to-transparent mb-6"></div>
-                                    
-                                    <div className="font-bd font-bold text-sm md:text-base text-[#2a1962] uppercase tracking-widest flex items-center justify-center w-full bg-primary px-4 py-3.5 rounded-xl shadow-sm border border-[#b2c832]">
-                                        Mix and Match Up to 4 Strains
-                                    </div>
-                                </div>
-                            </div>
+                            {/* 3. PARTY PACK PROMO (Visible only on Desktop in this column) */}
+                            <PartyPackPromo className="hidden md:flex" />
                         </div>
 
                         {/* RIGHT COLUMN */}
@@ -413,6 +409,9 @@
                                     </div>
                                 </div>
                             )}
+
+                            {/* 7. PARTY PACK PROMO (Visible only on Mobile in this column so it stays at the bottom) */}
+                            <PartyPackPromo className="flex md:hidden" />
                         </div>
 
                     </main>
