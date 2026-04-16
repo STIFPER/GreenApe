@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -21,6 +21,7 @@
                     fontFamily: {
                         // Set BD Supper as primary, fallback to Fredoka
                         bd: ['"BD Supper"', 'Fredoka', 'sans-serif'],        
+                        yellix: ['Yellix', 'Fredoka', 'sans-serif'],
                     },
                     colors: {
                         bg: '#2a1962',          
@@ -46,8 +47,25 @@
     </script>
 
     <style>
+        /* 1. ประกาศฟอนต์จากไฟล์ที่คุณอัปโหลดขึ้น GitHub */
+        @font-face {
+            font-family: 'BD Supper';
+            src: url('BDSupper-Bold.woff2') format('woff2'); /* แก้ชื่อไฟล์ให้ตรงกับที่อัปโหลด */
+            font-weight: bold;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Yellix';
+            src: url('Yellix-Regular.woff2') format('woff2'); /* แก้ชื่อไฟล์ให้ตรงกับที่อัปโหลด */
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
         /* Added Fredoka as a hard fallback to ensure mobile browsers load it properly globally */
-        body { background-color: #2a1962; color: white; font-family: 'Fredoka', sans-serif; }
+        body { background-color: #2a1962; color: white; font-family: 'BD Supper', 'Fredoka', sans-serif; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #2a1962; }
         ::-webkit-scrollbar-thumb { background: #4a3982; border-radius: 3px; }
@@ -108,7 +126,7 @@
             const bgClass = colorMap[key] || 'bg-gray-600';
 
             return (
-                <span className={`inline-block ${bgClass} text-white font-bd font-bold text-[9px] px-2 py-0.5 rounded-full mr-1 mb-1 uppercase tracking-wide shadow-sm`}>
+                <span className={`inline-block ${bgClass} text-white font-yellix font-bold text-[9px] px-2 py-0.5 rounded-full mr-1 mb-1 uppercase tracking-wide shadow-sm`}>
                     {name}
                 </span>
             );
@@ -278,8 +296,8 @@
                             {product.name}
                         </h3>
                         <div className="flex items-center gap-3 mb-2">
-                            <span className="font-bd font-bold text-white/80 text-xs bg-white/10 px-2 py-0.5 rounded-md">THC {product.thc}</span>
-                            <span className="font-bd font-bold text-white/80 text-xs bg-white/10 px-2 py-0.5 rounded-md">CBD {product.cbd}</span>
+                            <span className="font-yellix font-medium text-white/80 text-[10px] bg-white/10 px-2 py-0.5 rounded-md">THC {product.thc}</span>
+                            <span className="font-yellix font-medium text-white/80 text-[10px] bg-white/10 px-2 py-0.5 rounded-md">CBD {product.cbd}</span>
                         </div>
                         <div className="flex flex-wrap gap-1">
                             {product.terpenes.map((t, i) => <TerpeneBadge key={i} name={t} />)}
@@ -297,7 +315,7 @@
         const BoxHeader = ({ title, bgColor }) => (
             <div className="flex justify-between items-center px-5 py-3 border-b border-white/10" style={{ backgroundColor: bgColor }}>
                 <h2 className="font-bd font-black text-2xl text-white uppercase tracking-tight">{title}</h2>
-                <span className="font-bd font-bold text-white/80 text-sm bg-black/20 px-3 py-1 rounded-full">1G | 3.5G</span>
+                <span className="font-yellix font-bold text-white/80 text-xs bg-black/20 px-3 py-1 rounded-full">1G | 3.5G</span>
             </div>
         );
 
@@ -317,7 +335,7 @@
                         5,600 <span className="text-2xl text-[#2a1962]">THB</span>
                     </div>
                     
-                    <div className="font-bd font-bold text-lg text-[#2a1962]/80 bg-gray-100 px-5 py-1.5 rounded-full mb-6 border border-gray-200">
+                    <div className="font-yellix font-bold text-lg text-[#2a1962]/80 bg-gray-100 px-5 py-1.5 rounded-full mb-6 border border-gray-200">
                         ( 200 THB/g )
                     </div>
                     
@@ -350,7 +368,7 @@
                     
                     {/* Header */}
                     <header className="max-w-[1400px] mx-auto w-full px-4 pt-10 pb-8 text-center flex flex-col items-center">
-                        <h2 className="font-bd font-bold text-xl text-white/70 uppercase tracking-wider mb-2">Green Ape</h2>
+                        <h2 className="font-yellix font-bold text-sm text-white/70 uppercase tracking-[0.3em] mb-2">Green Ape</h2>
                         <h1 className="font-bd font-black text-[46px] text-primary uppercase leading-none tracking-tight mb-3 drop-shadow-lg">FLOWER MENU</h1>
                         <p className="font-bd font-bold text-lg text-white uppercase tracking-[0.2em] bg-tertiary px-6 py-1.5 rounded-full shadow-lg">{currentMonthYear}</p>
                     </header>
