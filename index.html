@@ -227,6 +227,13 @@
             </svg>
         );
 
+        // --- SVG ICON สำหรับปุ่มโปรโมชั่น (ดีไซน์แบบ Tag ราคา / ข้อเสนอ) ---
+        const SvgPromoOffer = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+            </svg>
+        );
+
         const StatusBadge = ({ tags }) => {
             const containerClass = "flex items-center justify-center mr-3 w-[50px] shrink-0";
             
@@ -287,8 +294,8 @@
                 </div>
                 
                 <div className="p-6 flex flex-col flex-1 items-center justify-center text-center relative z-10">
-                    <div className="font-bd font-black text-[64px] leading-none text-[#2a1962] drop-shadow-sm mb-2 group-hover:scale-105 transition-transform duration-300 flex items-baseline justify-center">
-                        28<span className="text-4xl text-[#2a1962] ml-0.5">g</span>
+                    <div className="font-bd font-black text-[64px] leading-none text-[#2a1962] drop-shadow-sm mb-2 group-hover:scale-105 transition-transform duration-300 flex items-baseline justify-center gap-0.5">
+                        28<span className="text-[36px] text-[#2a1962]">g</span>
                     </div>
                     
                     <div className="font-bd font-black text-[42px] text-[#2a1962] leading-none mb-2">
@@ -461,7 +468,7 @@
             if (!isOpen) return null;
 
             return (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/50 backdrop-blur-md animate-fadeIn" onClick={onClose}>
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/40 backdrop-blur-xl animate-fadeIn" onClick={onClose}>
                     {/* กล่องใส่รูป */}
                     <div className="relative max-w-md md:max-w-lg w-full animate-popup" onClick={(e) => e.stopPropagation()}>
                         
@@ -508,14 +515,14 @@
                     <PromoModal isOpen={showPromoModal} onClose={() => setShowPromoModal(false)} />
 
                     {/* Header: จัดระยะห่างช่องไฟให้เรียงตัวสวยงาม */}
-                    <header className="max-w-[1400px] mx-auto w-full px-4 pt-10 pb-8 text-center flex flex-col items-center justify-center gap-4">
+                    <header className="max-w-[1400px] mx-auto w-full px-4 pt-8 pb-6 text-center flex flex-col items-center justify-center gap-3">
                         <img 
                             src="logo.png" 
                             alt="Green Ape Logo" 
-                            className="h-8 md:h-10 w-auto max-w-[110px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
+                            className="h-10 md:h-12 w-auto max-w-[110px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
                         />
-                        <h1 className="font-bd font-black text-[42px] md:text-[48px] text-primary uppercase leading-none tracking-tight drop-shadow-lg mt-1">FLOWER MENU</h1>
-                        <p className="font-bd font-bold text-base text-white uppercase tracking-[0.2em] bg-tertiary px-6 py-1.5 rounded-full shadow-lg">{currentMonthYear}</p>
+                        <h1 className="font-bd font-black text-[40px] md:text-[48px] text-primary uppercase leading-none tracking-tight drop-shadow-lg">FLOWER MENU</h1>
+                        <p className="font-bd font-bold text-sm md:text-base text-white uppercase tracking-[0.2em] bg-tertiary px-6 py-1.5 rounded-full shadow-lg">{currentMonthYear}</p>
                     </header>
 
                     {/* CONTENT GRID (รายการดอกไม้) */}
@@ -588,6 +595,16 @@
                         <CbdOilPromo />
                     </section>
 
+                    {/* Floating Promo Button - ปุ่มกดเรียกโปรโมชั่นที่มุมล่างขวา */}
+                    {!showPromoModal && (
+                        <button
+                            onClick={() => setShowPromoModal(true)}
+                            className="fixed bottom-6 right-6 md:bottom-8 md:right-8 bg-[#e8246e] text-white px-4 py-3 rounded-full shadow-[0_4px_20px_rgba(232,36,110,0.5)] flex items-center justify-center gap-2 hover:scale-110 transition-transform duration-300 z-40 border border-white/30 group animate-popup"
+                        >
+                            <SvgPromoOffer />
+                            <span className="font-bd font-bold text-sm md:text-base uppercase tracking-widest mt-0.5 drop-shadow-sm">Offers</span>
+                        </button>
+                    )}
                 </div>
             );
         };
