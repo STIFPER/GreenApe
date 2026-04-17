@@ -335,23 +335,35 @@
                     </div>
                 </div>
 
-                {/* Right side - DESKTOP VIEW (Classic elegant layout) */}
-                <div className="hidden md:flex p-8 items-center justify-center flex-1 gap-12 bg-white/50 backdrop-blur-sm">
-                    <div className="flex flex-col items-center justify-center">
-                        <div className="font-bd font-black text-[64px] leading-none text-[#2a1962] drop-shadow-sm group-hover:scale-105 transition-transform duration-300 flex items-baseline">
-                            28<span className="text-[36px] text-[#2a1962] ml-1">g</span>
+                {/* Right side - DESKTOP VIEW (Highlighted Ticket Style Layout) */}
+                <div className="hidden md:flex p-6 lg:p-8 items-center justify-evenly flex-1 gap-6 bg-white/50 backdrop-blur-sm">
+                    <div className="flex flex-col items-center justify-center flex-1">
+                        <span className="font-yellix font-bold text-[#2a1962]/50 tracking-widest uppercase text-xs mb-1">Volume</span>
+                        <div className="font-bd font-black text-[56px] leading-none text-[#2a1962] drop-shadow-sm flex items-baseline">
+                            28<span className="text-[28px] text-[#2a1962] ml-1">g</span>
                         </div>
                     </div>
                     
-                    <div className="w-px h-16 bg-[#2a1962]/20"></div>
+                    <div className="w-px h-20 bg-gradient-to-b from-transparent via-[#2a1962]/20 to-transparent"></div>
 
-                    <div className="flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-center justify-center flex-1">
+                        <span className="font-yellix font-bold text-[#2a1962]/50 tracking-widest uppercase text-xs mb-1">Total Price</span>
                         <div className="font-bd font-black text-[48px] text-[#2a1962] leading-none flex items-baseline drop-shadow-sm">
                             <span className="text-3xl text-[#2a1962] mr-2">฿</span>5,600
                         </div>
-                        <div className="font-yellix font-bold text-base text-[#2a1962]/70 bg-white px-5 py-1.5 rounded-full mt-2 shadow-sm border border-gray-200">
-                            ( ฿200 / g )
+                    </div>
+
+                    <div className="w-px h-20 bg-gradient-to-b from-transparent via-[#2a1962]/20 to-transparent"></div>
+
+                    {/* Value Proposition (Highlighted box) */}
+                    <div className="flex flex-col items-center justify-center flex-1 bg-gradient-to-br from-[#e8246e]/10 to-[#e8246e]/5 rounded-2xl p-5 border border-[#e8246e]/20 relative overflow-hidden group-hover:bg-[#e8246e]/10 transition-colors">
+                        <div className="bg-[#e8246e] text-white font-yellix font-bold text-[11px] uppercase tracking-widest px-4 py-1 rounded-full mb-1 shadow-sm relative z-10">
+                            Best Value
                         </div>
+                        <div className="font-bd font-black text-4xl text-[#e8246e] flex items-baseline drop-shadow-sm my-1 relative z-10">
+                            <span className="text-2xl mr-1">฿</span>200
+                        </div>
+                        <span className="font-yellix font-bold text-[#2a1962]/70 text-xs tracking-widest uppercase mt-0.5 relative z-10">per gram</span>
                     </div>
                 </div>
 
