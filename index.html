@@ -72,6 +72,7 @@
         .animate-fadeIn { animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* ซ่อน Scrollbar ให้สวยงาม แต่ยังเลื่อนสไลด์ได้ */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -85,25 +86,25 @@
         // --- DATA ---
         const products = [
             // INDICA
-            { cat: 'INDICA', name: 'SUPER SLURRICANE', tags: [], thc: '20-24%', cbd: '0%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (MUSK)', 'TERPINEOL (BERRY)'] },
-            { cat: 'INDICA', name: 'CASHEW SUNDAE', tags: [], thc: '19-24%', cbd: '0%', p1: '350฿', p35: '1,100฿', terpenes: ['BISABOLOL (NUTTY)', 'CARYOPHYLLENE (EARTHY)'] },
-            { cat: 'INDICA', name: 'DANTE’S INFERNO', tags: [], thc: '22-26%', cbd: '≤1%', p1: '350฿', p35: '1,100฿', terpenes: ['LIMONENE (FRUIT)', 'CARYOPHYLLENE (SPICE)'] },
-            { cat: 'INDICA', name: 'SWEET OCTANE', tags: [], thc: '24-28%', cbd: '<1%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (FRUIT)', 'LIMONENE (GAS)'] },
-            { cat: 'INDICA', name: 'CHERRY MARKER', tags: [], thc: '24-28%', cbd: '<1%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (FRUIT)', 'CARYOPHYLLENE (GAS)'] },
-            { cat: 'INDICA', name: 'CUBAN DOOBIE', tags: [], thc: '27-30%', cbd: '<1%', p1: '350฿', p35: '1,100฿', terpenes: ['HUMULENE (WOOD)', 'MYRCENE (MUSK)'] },
+            { cat: 'INDICA', name: 'SUPER SLURRICANE', tags: [], thc: '20-24%', cbd: '0%', p1: '฿350', p35: '฿1,100', terpenes: ['MYRCENE (MUSK)', 'TERPINEOL (BERRY)'] },
+            { cat: 'INDICA', name: 'CASHEW SUNDAE', tags: [], thc: '19-24%', cbd: '0%', p1: '฿350', p35: '฿1,100', terpenes: ['BISABOLOL (NUTTY)', 'CARYOPHYLLENE (EARTHY)'] },
+            { cat: 'INDICA', name: 'DANTE’S INFERNO', tags: [], thc: '22-26%', cbd: '≤1%', p1: '฿350', p35: '฿1,100', terpenes: ['LIMONENE (FRUIT)', 'CARYOPHYLLENE (SPICE)'] },
+            { cat: 'INDICA', name: 'SWEET OCTANE', tags: [], thc: '24-28%', cbd: '<1%', p1: '฿350', p35: '฿1,100', terpenes: ['MYRCENE (FRUIT)', 'LIMONENE (GAS)'] },
+            { cat: 'INDICA', name: 'CHERRY MARKER', tags: [], thc: '24-28%', cbd: '<1%', p1: '฿350', p35: '฿1,100', terpenes: ['MYRCENE (FRUIT)', 'CARYOPHYLLENE (GAS)'] },
+            { cat: 'INDICA', name: 'CUBAN DOOBIE', tags: [], thc: '27-30%', cbd: '<1%', p1: '฿350', p35: '฿1,100', terpenes: ['HUMULENE (WOOD)', 'MYRCENE (MUSK)'] },
 
             // SATIVA
-            { cat: 'SATIVA', name: 'TROP CHERRY GAS', tags: [], thc: '20-22%', cbd: '0%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (MUSK)', 'LIMONENE (CITRUS)'] },
-            { cat: 'SATIVA', name: 'BERRY BOOMSTICK', tags: [], thc: '21-23%', cbd: '<1%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (MUSK)', 'OCIMENE (FRUIT)'] },
-            { cat: 'SATIVA', name: 'MANGO SUNSET HAZE', tags: [], thc: '20-24%', cbd: '0%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (MANGO)', 'LIMONENE (LEMON)'] },
-            { cat: 'SATIVA', name: 'LEMON UPZ', tags: [], thc: '24-28%', cbd: '0%', p1: '350฿', p35: '1,100฿', terpenes: ['LIMONENE (LEMON)', 'CARYOPHYLLENE (PEPPER)'] },
-            { cat: 'SATIVA', name: 'LEMON CHERRY RUNTZ', tags: [], thc: '22-26%', cbd: '0%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (EARTHY)', 'LIMONENE (CITRUS)'] },
-            { cat: 'SATIVA', name: 'PINEAPPLE XPRESS 2.0', tags: [], thc: '28-35%', cbd: '1-2%', p1: '350฿', p35: '1,100฿', terpenes: ['PINENE (PINE)', 'MYRCENE (MUSK)'] },
+            { cat: 'SATIVA', name: 'TROP CHERRY GAS', tags: [], thc: '20-22%', cbd: '0%', p1: '฿350', p35: '฿1,100', terpenes: ['MYRCENE (MUSK)', 'LIMONENE (CITRUS)'] },
+            { cat: 'SATIVA', name: 'BERRY BOOMSTICK', tags: [], thc: '21-23%', cbd: '<1%', p1: '฿350', p35: '฿1,100', terpenes: ['MYRCENE (MUSK)', 'OCIMENE (FRUIT)'] },
+            { cat: 'SATIVA', name: 'MANGO SUNSET HAZE', tags: [], thc: '20-24%', cbd: '0%', p1: '฿350', p35: '฿1,100', terpenes: ['MYRCENE (MANGO)', 'LIMONENE (LEMON)'] },
+            { cat: 'SATIVA', name: 'LEMON UPZ', tags: [], thc: '24-28%', cbd: '0%', p1: '฿350', p35: '฿1,100', terpenes: ['LIMONENE (LEMON)', 'CARYOPHYLLENE (PEPPER)'] },
+            { cat: 'SATIVA', name: 'LEMON CHERRY RUNTZ', tags: [], thc: '22-26%', cbd: '0%', p1: '฿350', p35: '฿1,100', terpenes: ['MYRCENE (EARTHY)', 'LIMONENE (CITRUS)'] },
+            { cat: 'SATIVA', name: 'PINEAPPLE XPRESS 2.0', tags: [], thc: '28-35%', cbd: '1-2%', p1: '฿350', p35: '฿1,100', terpenes: ['PINENE (PINE)', 'MYRCENE (MUSK)'] },
 
             // HYBRID
-            { cat: 'HYBRID', name: 'PURE MICHIGAN', tags: [], thc: '20-22%', cbd: '0%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (FRUIT)', 'CARYOPHYLLENE (PEPPER)'] },
-            { cat: 'HYBRID', name: 'GRAPE SODA', tags: [], thc: '22-26%', cbd: '<1%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (GRAPE)', 'LINALOOL (FLORAL)'] },
-            { cat: 'HYBRID', name: 'APPLE GELATO', tags: [], thc: '24-28%', cbd: '0%', p1: '350฿', p35: '1,100฿', terpenes: ['MYRCENE (CREAM)', 'LIMONENE (CITRUS)'] },
+            { cat: 'HYBRID', name: 'PURE MICHIGAN', tags: [], thc: '20-22%', cbd: '0%', p1: '฿350', p35: '฿1,100', terpenes: ['MYRCENE (FRUIT)', 'CARYOPHYLLENE (PEPPER)'] },
+            { cat: 'HYBRID', name: 'GRAPE SODA', tags: [], thc: '22-26%', cbd: '<1%', p1: '฿350', p35: '฿1,100', terpenes: ['MYRCENE (GRAPE)', 'LINALOOL (FLORAL)'] },
+            { cat: 'HYBRID', name: 'APPLE GELATO', tags: [], thc: '24-28%', cbd: '0%', p1: '฿350', p35: '฿1,100', terpenes: ['MYRCENE (CREAM)', 'LIMONENE (CITRUS)'] },
         ];
         
         // --- COMPONENTS ---
@@ -284,11 +285,11 @@
                     </div>
                     
                     <div className="font-bd font-black text-[42px] text-[#2a1962] leading-none mb-2">
-                        5,600 <span className="text-2xl text-[#2a1962]">THB</span>
+                        <span className="text-3xl text-[#2a1962] mr-1">฿</span>5,600
                     </div>
                     
                     <div className="font-yellix font-bold text-lg text-[#2a1962]/80 bg-gray-100 px-5 py-1.5 rounded-full mb-6 border border-gray-200">
-                        ( 200 THB/g )
+                        ( ฿200/g )
                     </div>
                     
                     <div className="w-4/5 h-px bg-gradient-to-r from-transparent via-[#2a1962]/20 to-transparent mb-6"></div>
@@ -332,11 +333,11 @@
                             <div className="bg-white rounded-[2rem] p-6 w-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-b-[6px] border-[#1a2542]/10 transition-transform hover:-translate-y-1 flex flex-col gap-3">
                                 <div className="flex justify-between items-center border-b-2 border-gray-100 pb-3">
                                     <span className="font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide">Box of 5</span>
-                                    <span className="font-bd font-black text-2xl text-[#1a2542]">750 <span className="text-lg">THB</span></span>
+                                    <span className="font-bd font-black text-2xl text-[#1a2542]"><span className="text-lg mr-1">฿</span>750</span>
                                 </div>
                                 <div className="flex justify-between items-center pt-1">
                                     <span className="font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide">Box of 3</span>
-                                    <span className="font-bd font-black text-2xl text-[#1a2542]">550 <span className="text-lg">THB</span></span>
+                                    <span className="font-bd font-black text-2xl text-[#1a2542]"><span className="text-lg mr-1">฿</span>550</span>
                                 </div>
                             </div>
                         </div>
@@ -349,11 +350,11 @@
                             <div className="bg-white rounded-[2rem] p-6 w-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-b-[6px] border-[#1a2542]/10 transition-transform hover:-translate-y-1 flex flex-col gap-3">
                                 <div className="flex justify-between items-center border-b-2 border-gray-100 pb-3">
                                     <span className="font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide">Box of 5</span>
-                                    <span className="font-bd font-black text-2xl text-[#1a2542]">750 <span className="text-lg">THB</span></span>
+                                    <span className="font-bd font-black text-2xl text-[#1a2542]"><span className="text-lg mr-1">฿</span>750</span>
                                 </div>
                                 <div className="flex justify-between items-center pt-1">
                                     <span className="font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide">Box of 3</span>
-                                    <span className="font-bd font-black text-2xl text-[#1a2542]">550 <span className="text-lg">THB</span></span>
+                                    <span className="font-bd font-black text-2xl text-[#1a2542]"><span className="text-lg mr-1">฿</span>550</span>
                                 </div>
                             </div>
                         </div>
@@ -441,7 +442,7 @@
                         <div className="text-left xl:text-right shrink-0 bg-white/30 xl:bg-transparent p-5 xl:p-0 rounded-2xl border border-white/40 xl:border-none">
                             <span className="font-yellix font-bold text-sm text-[#1a2542]/60 uppercase tracking-widest block mb-1">Price</span>
                             <div className="font-bd font-black text-4xl md:text-5xl text-[#2a1962] drop-shadow-sm leading-none">
-                                1,800 <span className="text-2xl md:text-3xl opacity-80">THB</span>
+                                <span className="text-2xl md:text-3xl opacity-80 mr-1">฿</span>1,800
                             </div>
                         </div>
                         
@@ -450,6 +451,52 @@
                 </div>
             </div>
         );
+
+        // NEW COMPONENT: Highlight Promotions Slider at the Top
+        const TopPromotions = () => {
+            return (
+                <section className="max-w-[1400px] mx-auto w-full px-4 mb-10 overflow-hidden">
+                    {/* Container เลื่อนสไลด์สำหรับมือถือ และเป็น Grid บนคอมพิวเตอร์ */}
+                    <div className="flex items-center gap-4 md:grid md:grid-cols-3 md:gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-4 pt-2 -mx-4 px-4 md:mx-0 md:px-0">
+                        
+                        {/* รูปที่ 1: BUY 2 GET 1 / BUY 1 GET 1 */}
+                        <div className="snap-center shrink-0 w-[88%] sm:w-[70%] md:w-full flex justify-center items-center hover:-translate-y-1 transition-transform duration-300">
+                            <img 
+                                src="promo-1.png" 
+                                alt="Buy 2 Get 1 Free Pre-rolls / Strain of the Month Buy 1 Get 1" 
+                                className="w-full h-auto object-contain drop-shadow-xl"
+                            />
+                        </div>
+
+                        {/* รูปที่ 2: LINE QR 20% OFF */}
+                        <div className="snap-center shrink-0 w-[88%] sm:w-[70%] md:w-full flex justify-center items-center hover:-translate-y-1 transition-transform duration-300">
+                            <img 
+                                src="promo-2.png" 
+                                alt="Special 20% OFF - Line Friend" 
+                                className="w-full h-auto object-contain drop-shadow-xl"
+                            />
+                        </div>
+
+                        {/* รูปที่ 3: Free Rolling Service */}
+                        <div className="snap-center shrink-0 w-[88%] sm:w-[70%] md:w-full flex justify-center items-center hover:-translate-y-1 transition-transform duration-300">
+                            <img 
+                                src="promo-3.png" 
+                                alt="Enjoy Free Rolling Service" 
+                                className="w-full h-auto object-contain drop-shadow-xl"
+                            />
+                        </div>
+
+                    </div>
+                    
+                    {/* จุด Indicator เพื่อบอกว่าปัดซ้ายขวาได้ (โชว์เฉพาะบนมือถือ) */}
+                    <div className="flex justify-center items-center gap-2 mt-2 md:hidden">
+                        <span className="w-8 h-1.5 rounded-full bg-[#c6dc3b]"></span>
+                        <span className="w-2 h-2 rounded-full bg-white/30"></span>
+                        <span className="w-2 h-2 rounded-full bg-white/30"></span>
+                    </div>
+                </section>
+            );
+        };
 
         const App = () => {
             const [selectedProduct, setSelectedProduct] = useState(null);
@@ -470,11 +517,19 @@
                 <div className="min-h-screen flex flex-col pb-10">
                     
                     {/* Header */}
-                    <header className="max-w-[1400px] mx-auto w-full px-4 pt-10 pb-8 text-center flex flex-col items-center">
-                        <h2 className="font-yellix font-bold text-sm text-white/70 uppercase tracking-[0.3em] mb-2">Green Ape</h2>
+                    <header className="max-w-[1400px] mx-auto w-full px-4 pt-10 pb-6 text-center flex flex-col items-center">
+                        {/* โลโก้ที่ถูกเปลี่ยนจากตัวหนังสือ */}
+                        <img 
+                            src="logo.png" 
+                            alt="Green Ape Logo" 
+                            className="h-16 md:h-20 w-auto object-contain mb-3 drop-shadow-lg hover:scale-105 transition-transform duration-300"
+                        />
                         <h1 className="font-bd font-black text-[46px] text-primary uppercase leading-none tracking-tight mb-3 drop-shadow-lg">FLOWER MENU</h1>
                         <p className="font-bd font-bold text-lg text-white uppercase tracking-[0.2em] bg-tertiary px-6 py-1.5 rounded-full shadow-lg">{currentMonthYear}</p>
                     </header>
+
+                    {/* NEW: TOP PROMOTIONS SLIDER (แสดงก่อนเมนู) */}
+                    <TopPromotions />
 
                     {/* CONTENT GRID */}
                     <main className="flex flex-col md:flex-row gap-6 max-w-[1400px] mx-auto w-full px-4 mb-4">
