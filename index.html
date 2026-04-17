@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Green Ape - Flower Menu</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              bd: ['"BD Supper"', "Fredoka", "sans-serif"],
+              yellix: ["Yellix", "Fredoka", "sans-serif"],
+            },
+            colors: {
+              bg: "#2a1962",
+              primary: "#c6dc3b",
+              tertiary: "#e8246e",
+              "t-myrcene": "#2b398c",
+              "t-caryophyllene": "#77823d",
+              "t-humulene": "#fd8b03",
+              "t-limonene": "#7bc70f",
+              "t-ocimene": "#009282",
+              "t-phellandrene": "#fd0106",
+              "t-pinene": "#08a152",
+              "t-terpinolene": "#4b5e3d",
+              "t-terpineol": "#ee5a29",
+              "t-linalool": "#9094d8",
+              "t-bisabolol": "#e6c122",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      @font-face {
+        font-family: "BD Supper";
+        src: url("BDSupper-Bold.woff2") format("woff2");
+        font-weight: bold;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "Yellix";
+        src: url("Yellix-Regular.woff2") format("woff2");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      body {
+        background-color: #2a1962;
+        color: white;
+        font-family: "BD Supper", "Fredoka", sans-serif;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #2a1962;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #4a3982;
+        border-radius: 3px;
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.3s ease-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .animate-popup {
+        animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      }
+      @keyframes popIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body class="antialiased font-bd selection:bg-[#c6dc3b] selection:text-black">
+    <div id="root"></div>
+
+    <script type="text/babel" src="data/products.js"></script>
+
+    <script type="text/babel" src="components/icons/SvgNew.js"></script>
+    <script type="text/babel" src="components/icons/SvgBestSeller.js"></script>
+    <script type="text/babel" src="components/icons/SvgBuy1Get1.js"></script>
+    <script type="text/babel" src="components/icons/SvgPromoOffer.js"></script>
+
+    <script type="text/babel" src="components/badges/TerpeneBadge.js"></script>
+    <script type="text/babel" src="components/badges/StatusBadge.js"></script>
+
+    <script type="text/babel" src="components/layout/BoxHeader.js"></script>
+    <script type="text/babel" src="components/cards/ProductCard.js"></script>
+
+    <script type="text/babel" src="components/promo/PartyPackPromo.js"></script>
+    <script type="text/babel" src="components/promo/PreRollsPromo.js"></script>
+    <script type="text/babel" src="components/promo/CbdOilPromo.js"></script>
+    <script type="text/babel" src="components/promo/PromoModal.js"></script>
+
+    <script type="text/babel" src="App.js"></script>
+  </body>
+</html>
