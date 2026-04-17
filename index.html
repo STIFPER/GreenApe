@@ -114,9 +114,9 @@
             { cat: 'HYBRID', name: 'APPLE GELATO', tags: [], thc: '24-28%', cbd: '0%', p1: '฿350', p35: '฿1,100', terpenes: ['MYRCENE (CREAM)', 'LIMONENE (CITRUS)'] },
 
             // COMPOUND GENETICS
-            { cat: 'COMPOUND_GENETICS', name: 'DA FUNK', tags: [], thc: '21-23%', cbd: '<1%', p1: '฿700', p35: '฿2,500', terpenes: ['OCIMENE (FRUIT)', 'MYRCENE (MUSK)'] },
-            { cat: 'COMPOUND_GENETICS', name: 'APPLES & BANANAS', tags: [], thc: '24-26%', cbd: '0.1%', p1: '฿700', p35: '฿2,500', terpenes: ['CARYOPHYLLENE (SPICE)'] },
-            { cat: 'COMPOUND_GENETICS', name: 'GOOFIEZ', tags: [], thc: '23-25%', cbd: '0%', p1: '฿700', p35: '฿2,500', terpenes: ['LIMONENE (LEMON)', 'MYRCENE (MANGO)'] },
+            { cat: 'COMPOUND_GENETICS', type: 'SATIVA', name: 'DA FUNK', tags: [], thc: '21-23%', cbd: '<1%', p1: '฿700', p35: '฿2,500', terpenes: ['OCIMENE (FRUIT)', 'MYRCENE (MUSK)'] },
+            { cat: 'COMPOUND_GENETICS', type: 'HYBRID', name: 'APPLES & BANANAS', tags: [], thc: '24-26%', cbd: '0.1%', p1: '฿700', p35: '฿2,500', terpenes: ['LIMONENE (LEMON)', 'CARYOPHYLLENE (SPICE)'] },
+            { cat: 'COMPOUND_GENETICS', type: 'INDICA', name: 'GOOFIEZ', tags: [], thc: '23-25%', cbd: '0%', p1: '฿700', p35: '฿2,500', terpenes: ['LIMONENE (LEMON)', 'MYRCENE (MANGO)'] },
         ];
         
         // --- COMPONENTS ---
@@ -282,9 +282,16 @@
                             <h3 className={`font-bd font-bold text-base md:text-lg uppercase leading-tight transition-colors mb-1 ${titleColor} ${titleHover}`}>
                                 {product.name}
                             </h3>
-                            <div className="flex items-center gap-3 mb-2">
-                                <span className={`font-yellix font-medium text-[10px] px-2 py-0.5 rounded-md ${detailColor} ${detailBg}`}>THC {product.thc}</span>
-                                <span className={`font-yellix font-medium text-[10px] px-2 py-0.5 rounded-md ${detailColor} ${detailBg}`}>CBD {product.cbd}</span>
+                            {/* ใช้ flex-wrap และ whitespace-nowrap เพื่อป้องกันข้อความแตกบรรทัดในตัวเอง */}
+                            <div className="flex flex-wrap items-center gap-2 mb-2">
+                                {/* เพิ่มป้ายประเภทสายพันธุ์ เฉพาะของ Compound Genetics */}
+                                {product.type && (
+                                    <span className={`font-yellix font-bold text-[9px] px-1.5 py-0.5 rounded uppercase tracking-wider whitespace-nowrap ${isCompound ? 'bg-[#c8c7c7]/20 text-[#c8c7c7]' : 'bg-white/20 text-white'}`}>
+                                        {product.type}
+                                    </span>
+                                )}
+                                <span className={`font-yellix font-medium text-[10px] px-2 py-0.5 rounded-md whitespace-nowrap ${detailColor} ${detailBg}`}>THC {product.thc}</span>
+                                <span className={`font-yellix font-medium text-[10px] px-2 py-0.5 rounded-md whitespace-nowrap ${detailColor} ${detailBg}`}>CBD {product.cbd}</span>
                             </div>
                             <div className="flex flex-wrap gap-1">
                                 {product.terpenes.map((t, i) => <TerpeneBadge key={i} name={t} />)}
