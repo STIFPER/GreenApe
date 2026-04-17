@@ -279,20 +279,25 @@
                     <div className="flex items-center flex-1 pr-2">
                         <StatusBadge tags={product.tags} />
                         <div className="flex flex-col justify-center">
-                            <h3 className={`font-bd font-bold text-base md:text-lg uppercase leading-tight transition-colors mb-1 ${titleColor} ${titleHover}`}>
+                            <h3 className={`font-bd font-bold text-base md:text-lg uppercase leading-tight transition-colors mb-1.5 ${titleColor} ${titleHover}`}>
                                 {product.name}
                             </h3>
-                            {/* ใช้ flex-wrap และ whitespace-nowrap เพื่อป้องกันข้อความแตกบรรทัดในตัวเอง */}
-                            <div className="flex flex-wrap items-center gap-2 mb-2">
-                                {/* เพิ่มป้ายประเภทสายพันธุ์ เฉพาะของ Compound Genetics */}
-                                {product.type && (
+                            
+                            {/* แยกบรรทัดระหว่าง ป้ายสายพันธุ์ (Type) กับ THC/CBD */}
+                            {product.type && (
+                                <div className="mb-1.5">
                                     <span className={`font-yellix font-bold text-[9px] px-1.5 py-0.5 rounded uppercase tracking-wider whitespace-nowrap ${isCompound ? 'bg-[#c8c7c7]/20 text-[#c8c7c7]' : 'bg-white/20 text-white'}`}>
                                         {product.type}
                                     </span>
-                                )}
+                                </div>
+                            )}
+
+                            {/* THC / CBD */}
+                            <div className="flex flex-wrap items-center gap-2 mb-2">
                                 <span className={`font-yellix font-medium text-[10px] px-2 py-0.5 rounded-md whitespace-nowrap ${detailColor} ${detailBg}`}>THC {product.thc}</span>
                                 <span className={`font-yellix font-medium text-[10px] px-2 py-0.5 rounded-md whitespace-nowrap ${detailColor} ${detailBg}`}>CBD {product.cbd}</span>
                             </div>
+                            
                             <div className="flex flex-wrap gap-1">
                                 {product.terpenes.map((t, i) => <TerpeneBadge key={i} name={t} />)}
                             </div>
@@ -318,51 +323,52 @@
         const PartyPackPromo = () => (
             <div className="border border-white/20 rounded-2xl shadow-2xl overflow-hidden bg-gradient-to-r from-gray-50 to-gray-200 flex flex-col md:flex-row items-stretch w-full mt-4 mb-8 relative group transition-all duration-300 hover:shadow-white/10">
                 {/* Left side (Title & Info) */}
-                <div className="bg-[#2a1962] p-6 md:p-8 flex flex-col items-center justify-center w-full md:w-[35%] lg:w-[30%] shrink-0">
+                <div className="bg-[#2a1962] p-5 md:p-8 flex flex-col items-center justify-center w-full md:w-[35%] lg:w-[30%] shrink-0">
                     <h2 className="font-bd font-black text-3xl md:text-4xl text-white uppercase tracking-wide text-center drop-shadow-md leading-tight">
                         PARTY PACK<br/><span className="text-primary mt-1 block">PROMO</span>
                     </h2>
-                    <div className="font-bd font-bold text-xs md:text-sm text-[#2a1962] uppercase tracking-widest flex items-center justify-center bg-primary px-4 py-2 rounded-full shadow-sm mt-4 border border-[#b2c832] text-center w-full max-w-[220px]">
+                    <div className="font-bd font-bold text-xs md:text-sm text-[#2a1962] uppercase tracking-widest flex items-center justify-center bg-primary px-4 py-2 rounded-full shadow-sm mt-3 md:mt-4 border border-[#b2c832] text-center w-full max-w-[220px]">
                         Mix & Match 4 Strains
                     </div>
                 </div>
 
-                {/* Right side (Value Breakdown Layout) */}
-                <div className="p-6 md:p-8 flex flex-col sm:flex-row items-center justify-evenly flex-1 gap-4 md:gap-6 bg-white/50 backdrop-blur-sm">
+                {/* Right side (Value Breakdown Layout - Mobile 2x1 Grid, Desktop 1x3 Row) */}
+                <div className="p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row items-center justify-evenly flex-1 gap-3 sm:gap-4 md:gap-6 bg-white/50 backdrop-blur-sm">
                     
-                    {/* 1. Volume */}
-                    <div className="flex flex-col items-center flex-1">
-                        <span className="font-yellix font-bold text-[#2a1962]/40 tracking-widest uppercase text-[10px] md:text-xs mb-1">Volume</span>
-                        <div className="font-bd font-black text-[48px] md:text-[56px] leading-none text-[#2a1962] drop-shadow-sm flex items-baseline">
-                            28<span className="text-[24px] md:text-[28px] text-[#2a1962] ml-1">g</span>
+                    {/* 1. Volume & 2. Total Price (Side-by-side on mobile) */}
+                    <div className="flex flex-row w-full sm:w-auto justify-between sm:justify-evenly flex-1 gap-3 sm:gap-0">
+                        {/* Volume */}
+                        <div className="flex flex-col items-center justify-center flex-1 bg-white/60 sm:bg-transparent rounded-2xl sm:rounded-none p-3 sm:p-0 shadow-sm sm:shadow-none border border-white/50 sm:border-none">
+                            <span className="font-yellix font-bold text-[#2a1962]/50 tracking-widest uppercase text-[10px] md:text-xs mb-0.5">Volume</span>
+                            <div className="font-bd font-black text-[36px] sm:text-[48px] md:text-[56px] leading-none text-[#2a1962] drop-shadow-sm flex items-baseline">
+                                28<span className="text-[18px] sm:text-[24px] md:text-[28px] text-[#2a1962] ml-0.5">g</span>
+                            </div>
+                        </div>
+
+                        {/* Desktop Divider */}
+                        <div className="hidden sm:block w-px h-20 bg-gradient-to-b from-transparent via-[#2a1962]/20 to-transparent mx-2"></div>
+
+                        {/* Total Price */}
+                        <div className="flex flex-col items-center justify-center flex-1 bg-white/60 sm:bg-transparent rounded-2xl sm:rounded-none p-3 sm:p-0 shadow-sm sm:shadow-none border border-white/50 sm:border-none">
+                            <span className="font-yellix font-bold text-[#2a1962]/50 tracking-widest uppercase text-[10px] md:text-xs mb-0.5">Total Price</span>
+                            <div className="font-bd font-black text-[30px] sm:text-[40px] md:text-[48px] text-[#2a1962] leading-none flex items-baseline drop-shadow-sm">
+                                <span className="text-xl sm:text-2xl md:text-3xl text-[#2a1962] mr-1">฿</span>5,600
+                            </div>
                         </div>
                     </div>
                     
-                    {/* Divider */}
-                    <div className="hidden sm:block w-px h-20 bg-gradient-to-b from-transparent via-[#2a1962]/20 to-transparent"></div>
-                    <div className="sm:hidden w-1/2 h-px bg-gradient-to-r from-transparent via-[#2a1962]/20 to-transparent my-2"></div>
+                    {/* Desktop Divider */}
+                    <div className="hidden sm:block w-px h-20 bg-gradient-to-b from-transparent via-[#2a1962]/20 to-transparent mx-2"></div>
 
-                    {/* 2. Total Price */}
-                    <div className="flex flex-col items-center flex-1">
-                        <span className="font-yellix font-bold text-[#2a1962]/40 tracking-widest uppercase text-[10px] md:text-xs mb-1">Total Price</span>
-                        <div className="font-bd font-black text-[40px] md:text-[48px] text-[#2a1962] leading-none flex items-baseline drop-shadow-sm">
-                            <span className="text-2xl md:text-3xl text-[#2a1962] mr-1">฿</span>5,600
-                        </div>
-                    </div>
-
-                    {/* Divider */}
-                    <div className="hidden sm:block w-px h-20 bg-gradient-to-b from-transparent via-[#2a1962]/20 to-transparent"></div>
-                    <div className="sm:hidden w-1/2 h-px bg-gradient-to-r from-transparent via-[#2a1962]/20 to-transparent my-2"></div>
-
-                    {/* 3. Value Proposition (ตกกรัมละเท่าไหร่) */}
-                    <div className="flex flex-col items-center flex-1">
-                        <div className="bg-[#c6dc3b]/30 text-[#2a1962] font-yellix font-bold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full mb-1 border border-[#c6dc3b]/50">
+                    {/* 3. Value Proposition (Full width highlighted box on mobile) */}
+                    <div className="flex flex-col items-center justify-center w-full sm:w-auto flex-1 bg-gradient-to-r from-[#e8246e]/10 via-[#e8246e]/5 to-[#e8246e]/10 sm:bg-none rounded-2xl sm:rounded-none p-4 sm:p-0 border border-[#e8246e]/20 sm:border-none relative overflow-hidden">
+                        <div className="bg-[#e8246e] sm:bg-[#c6dc3b]/30 text-white sm:text-[#2a1962] font-yellix font-bold text-[10px] md:text-[11px] uppercase tracking-widest px-4 py-1 rounded-full mb-1 sm:border sm:border-[#c6dc3b]/50 shadow-sm sm:shadow-none relative z-10">
                             Best Value
                         </div>
-                        <div className="font-bd font-bold text-2xl md:text-3xl text-[#e8246e] flex items-baseline drop-shadow-sm">
-                            <span className="text-lg md:text-xl mr-1">฿</span>200
+                        <div className="font-bd font-black text-3xl md:text-4xl text-[#e8246e] flex items-baseline drop-shadow-sm sm:scale-100 my-1 sm:my-0 relative z-10">
+                            <span className="text-xl md:text-2xl mr-1">฿</span>200
                         </div>
-                        <span className="font-yellix font-semibold text-[#2a1962]/60 text-xs md:text-sm tracking-wide mt-0.5">per gram</span>
+                        <span className="font-yellix font-bold text-[#2a1962]/70 text-[11px] md:text-sm tracking-widest uppercase mt-0.5 relative z-10">per gram</span>
                     </div>
 
                 </div>
@@ -548,8 +554,6 @@
         const App = () => {
             // ==========================================
             // ตั้งค่าเปิด-ปิด แสดงกรอบ COMPOUND GENETICS
-            // เปลี่ยนค่าจาก true เป็น false เมื่อต้องการซ่อน
-            // ระบบจะทำการ Auto-Balance Layout ให้สวยงามเสมอ
             // ==========================================
             const SHOW_COMPOUND_GENETICS = true;
 
