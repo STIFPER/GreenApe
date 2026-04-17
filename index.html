@@ -75,13 +75,20 @@
         /* ซ่อน Scrollbar ให้สวยงาม แต่ยังเลื่อนสไลด์ได้ */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* เอฟเฟกต์สำหรับ Popup */
+        .animate-popup { animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
     </style>
 </head>
 <body class="antialiased font-bd selection:bg-[#c6dc3b] selection:text-black">
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState } = React;
+        const { useState, useEffect } = React;
 
         // --- DATA ---
         const products = [
@@ -452,53 +459,38 @@
             </div>
         );
 
-        // NEW COMPONENT: Highlight Promotions Vertical Stack (No Frames)
-        const TopPromotions = () => {
+        // NEW COMPONENT: Popup Modal สำหรับโปรโมชั่น
+        const PromoModal = ({ isOpen, onClose }) => {
+            if (!isOpen) return null;
+
             return (
-                <section className="max-w-[1400px] mx-auto w-full px-4 mb-6 mt-8">
-                    {/* Header เล็กๆ บอกโซนโปรโมชั่น - ชิดซ้ายเสมอ */}
-                    <div className="flex items-center justify-start gap-3 mb-5 px-1">
-                        <span className="bg-primary w-2 h-6 rounded-full inline-block shadow-sm"></span>
-                        <h2 className="font-bd font-black text-xl md:text-2xl text-white tracking-widest uppercase opacity-90 drop-shadow-sm">Special Offers</h2>
-                    </div>
-
-                    {/* จัดเรียงเป็นแนวตั้งยาวลงมาเหมือนในมือถือ (ทั้งคอมพิวเตอร์และมือถือ) เอากรอบพื้นหลังออก */}
-                    <div className="flex flex-col gap-6 md:gap-8 w-full max-w-5xl mx-auto">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm animate-fadeIn" onClick={onClose}>
+                    {/* กล่องใส่รูป */}
+                    <div className="relative max-w-md md:max-w-lg w-full animate-popup" onClick={(e) => e.stopPropagation()}>
                         
-                        {/* รูปที่ 1: BUY 2 GET 1 */}
-                        <div className="w-full flex justify-center items-center group cursor-pointer">
-                            <img 
-                                src="promo-1.png" 
-                                alt="Buy 2 Get 1 Free Pre-rolls" 
-                                className="w-full h-auto object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
-                            />
-                        </div>
+                        {/* ปุ่มปิด (X) */}
+                        <button 
+                            onClick={onClose}
+                            className="absolute -top-3 -right-3 md:-top-5 md:-right-5 bg-[#e8246e] text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center font-bold text-xl md:text-2xl shadow-xl border-2 border-white hover:scale-110 transition-transform z-10"
+                        >
+                            &times;
+                        </button>
 
-                        {/* รูปที่ 2: LINE 20% OFF */}
-                        <div className="w-full flex justify-center items-center group cursor-pointer">
-                            <img 
-                                src="promo-2.png" 
-                                alt="Special 20% OFF - Line Friend" 
-                                className="w-full h-auto object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
-                            />
-                        </div>
-
-                        {/* รูปที่ 3: FREE ROLLING */}
-                        <div className="w-full flex justify-center items-center group cursor-pointer">
-                            <img 
-                                src="promo-3.png" 
-                                alt="Enjoy Free Rolling Service" 
-                                className="w-full h-auto object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
-                            />
-                        </div>
-
+                        {/* รูปโปรโมชั่น */}
+                        <img 
+                            src="promo-popup.png" 
+                            alt="Special Promotion" 
+                            className="w-full h-auto rounded-2xl shadow-2xl object-contain bg-black/20"
+                        />
                     </div>
-                </section>
+                </div>
             );
         };
 
         const App = () => {
             const [selectedProduct, setSelectedProduct] = useState(null);
+            // ตั้งค่าให้ Popup แสดงทันทีที่เปิดหน้าเว็บ
+            const [showPromoModal, setShowPromoModal] = useState(true);
 
             // Auto update month and year
             const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
@@ -513,24 +505,23 @@
             const compound = products.filter(p => p.cat === 'COMPOUND');
 
             return (
-                <div className="min-h-screen flex flex-col pb-10">
+                <div className="min-h-screen flex flex-col pb-10 relative">
                     
-                    {/* 1. TOP PROMOTIONS (นำส่วนโปรโมชั่นขึ้นก่อนเป็นอันดับแรก) */}
-                    <TopPromotions />
+                    {/* เรียกใช้ Popup Modal */}
+                    <PromoModal isOpen={showPromoModal} onClose={() => setShowPromoModal(false)} />
 
-                    {/* 2. Header (โลโก้ และชื่อเมนู ย้ายมาคั่นกลางก่อนเข้าสู่รายการดอกไม้) */}
-                    <header className="max-w-[1400px] mx-auto w-full px-4 pt-4 pb-8 text-center flex flex-col items-center">
-                        {/* โลโก้ ปรับขนาดให้เล็กลงไปอีกประมาณ 30% */}
+                    {/* Header (โลโก้ ปรับขนาดให้เล็กลงไปอีก 20-30% ตามที่ต้องการ) */}
+                    <header className="max-w-[1400px] mx-auto w-full px-4 pt-10 pb-8 text-center flex flex-col items-center">
                         <img 
                             src="logo.png" 
                             alt="Green Ape Logo" 
-                            className="h-8 md:h-10 w-auto max-w-[140px] object-contain mb-2 drop-shadow-md hover:scale-105 transition-transform duration-300"
+                            className="h-6 md:h-8 w-auto max-w-[110px] object-contain mb-2 drop-shadow-md hover:scale-105 transition-transform duration-300"
                         />
                         <h1 className="font-bd font-black text-[46px] text-primary uppercase leading-none tracking-tight mb-3 drop-shadow-lg">FLOWER MENU</h1>
                         <p className="font-bd font-bold text-lg text-white uppercase tracking-[0.2em] bg-tertiary px-6 py-1.5 rounded-full shadow-lg">{currentMonthYear}</p>
                     </header>
 
-                    {/* 3. CONTENT GRID (รายการดอกไม้) */}
+                    {/* CONTENT GRID (รายการดอกไม้) */}
                     <main className="flex flex-col md:flex-row gap-6 max-w-[1400px] mx-auto w-full px-4 mb-4">
                         
                         {/* LEFT COLUMN */}
