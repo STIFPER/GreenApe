@@ -22,7 +22,7 @@ const PreRollsPromo = () => (
           </h3>
           <div className="bg-white rounded-[2rem] p-6 w-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-b-[6px] border-[#1a2542]/10 transition-transform hover:-translate-y-1 flex flex-col gap-3">
             <div className="flex justify-between items-center border-b-2 border-gray-100 pb-3">
-              <span className="font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide">
+              <span className="font-bd font-black text-lg text-[#1a2542]/60 uppercase tracking-wide">
                 Box of 5
               </span>
               <span className="font-bd font-black text-2xl text-[#1a2542]">
@@ -30,7 +30,7 @@ const PreRollsPromo = () => (
               </span>
             </div>
             <div className="flex justify-between items-center pt-1">
-              <span className="font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide">
+              <span className="font-bd font-black text-lg text-[#1a2542]/60 uppercase tracking-wide">
                 Box of 3
               </span>
               <span className="font-bd font-black text-2xl text-[#1a2542]">
@@ -46,7 +46,7 @@ const PreRollsPromo = () => (
           </h3>
           <div className="bg-white rounded-[2rem] p-6 w-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-b-[6px] border-[#1a2542]/10 transition-transform hover:-translate-y-1 flex flex-col gap-3">
             <div className="flex justify-between items-center border-b-2 border-gray-100 pb-3">
-              <span className="font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide">
+              <span className="font-bd font-black text-lg text-[#1a2542]/60 uppercase tracking-wide">
                 Box of 5
               </span>
               <span className="font-bd font-black text-2xl text-[#1a2542]">
@@ -54,7 +54,7 @@ const PreRollsPromo = () => (
               </span>
             </div>
             <div className="flex justify-between items-center pt-1">
-              <span className="font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide">
+              <span className="font-bd font-black text-lg text-[#1a2542]/60 uppercase tracking-wide">
                 Box of 3
               </span>
               <span className="font-bd font-black text-2xl text-[#1a2542]">
