@@ -124,6 +124,7 @@ const products = [
   },
 
   // HYBRID
+
   {
     cat: "HYBRID",
     name: "PURE MICHIGAN",
@@ -153,6 +154,16 @@ const products = [
     p1: "฿350",
     p35: "฿1,100",
     terpenes: ["MYRCENE (CREAM)", "LIMONENE (CITRUS)"],
+  },
+  {
+    cat: "HYBRID",
+    name: "AROUND THE WORLD",
+    tags: [],
+    thc: "24-28%",
+    cbd: "0%",
+    p1: "฿350",
+    p35: "฿1,100",
+    terpenes: ["MYRCENE (FRUIT)", "PINENE (PINE)"],
   },
 
   // COMPOUND GENETICS
