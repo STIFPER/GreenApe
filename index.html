@@ -12,6 +12,7 @@
       rel="stylesheet"
     />
 
+    <!-- นำ Babel ออกไป และใช้เฉพาะ React กับ ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -49,10 +50,10 @@
     </script>
 
     <style>
-      /* 1. ประกาศฟอนต์จากไฟล์ที่คุณอัปโหลดขึ้น GitHub */
+      /* ประกาศฟอนต์จากไฟล์ที่คุณอัปโหลดขึ้น GitHub */
       @font-face {
         font-family: "BD Supper";
-        src: url("BDSupper-Bold.woff2") format("woff2"); /* แก้ชื่อไฟล์ให้ตรงกับที่อัปโหลด */
+        src: url("BDSupper-Bold.woff2") format("woff2");
         font-weight: bold;
         font-style: normal;
         font-display: swap;
@@ -60,13 +61,12 @@
 
       @font-face {
         font-family: "Yellix";
-        src: url("Yellix-Regular.woff2") format("woff2"); /* แก้ชื่อไฟล์ให้ตรงกับที่อัปโหลด */
+        src: url("Yellix-Regular.woff2") format("woff2");
         font-weight: normal;
         font-style: normal;
         font-display: swap;
       }
 
-      /* Added Fredoka as a hard fallback to ensure mobile browsers load it properly globally */
       body {
         background-color: #2a1962;
         color: white;
@@ -96,7 +96,6 @@
         }
       }
 
-      /* ซ่อน Scrollbar ให้สวยงาม แต่ยังเลื่อนสไลด์ได้ */
       .no-scrollbar::-webkit-scrollbar {
         display: none;
       }
@@ -105,7 +104,6 @@
         scrollbar-width: none;
       }
 
-      /* เอฟเฟกต์สำหรับ Popup */
       .animate-popup {
         animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
       }
@@ -124,808 +122,443 @@
   <body class="antialiased font-bd selection:bg-[#c6dc3b] selection:text-black">
     <div id="root"></div>
 
+    <!-- เปลี่ยน Type เป็น Javascript ปกติ เนื่องจากโค้ดถูกคอมไพล์แล้ว -->
     <script type="text/javascript">
-const { useState, useEffect } = React;
-const products = [
-  // INDICA
-  {
-    cat: "INDICA",
-    name: "SUPER SLURRICANE",
-    tags: [],
-    thc: "20-24%",
-    cbd: "0%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["MYRCENE (MUSK)", "TERPINEOL (BERRY)"]
-  },
-  {
-    cat: "INDICA",
-    name: "CASHEW SUNDAE",
-    tags: [],
-    thc: "19-24%",
-    cbd: "0%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["BISABOLOL (NUTTY)", "CARYOPHYLLENE (EARTHY)"]
-  },
-  {
-    cat: "INDICA",
-    name: "DANTE\u2019S INFERNO",
-    tags: [],
-    thc: "22-26%",
-    cbd: "\u22641%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["LIMONENE (FRUIT)", "CARYOPHYLLENE (SPICE)"]
-  },
-  {
-    cat: "INDICA",
-    name: "SWEET OCTANE",
-    tags: [],
-    thc: "24-28%",
-    cbd: "<1%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["MYRCENE (FRUIT)", "LIMONENE (GAS)"]
-  },
-  {
-    cat: "INDICA",
-    name: "CHERRY MARKER",
-    tags: [],
-    thc: "24-28%",
-    cbd: "<1%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["MYRCENE (FRUIT)", "CARYOPHYLLENE (GAS)"]
-  },
-  {
-    cat: "INDICA",
-    name: "CUBAN DOOBIE",
-    tags: [],
-    thc: "27-30%",
-    cbd: "<1%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["HUMULENE (WOOD)", "MYRCENE (MUSK)"]
-  },
-  // SATIVA
-  {
-    cat: "SATIVA",
-    name: "TROP CHERRY GAS",
-    tags: [],
-    thc: "20-22%",
-    cbd: "0%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["MYRCENE (MUSK)", "LIMONENE (CITRUS)"]
-  },
-  {
-    cat: "SATIVA",
-    name: "BERRY BOOMSTICK",
-    tags: [],
-    thc: "21-23%",
-    cbd: "<1%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["MYRCENE (MUSK)", "OCIMENE (FRUIT)"]
-  },
-  {
-    cat: "SATIVA",
-    name: "MANGO SUNSET HAZE",
-    tags: [],
-    thc: "20-24%",
-    cbd: "0%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["MYRCENE (MANGO)", "LIMONENE (LEMON)"]
-  },
-  {
-    cat: "SATIVA",
-    name: "LEMON UPZ",
-    tags: [],
-    thc: "24-28%",
-    cbd: "0%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["LIMONENE (LEMON)", "CARYOPHYLLENE (PEPPER)"]
-  },
-  {
-    cat: "SATIVA",
-    name: "LEMON CHERRY RUNTZ",
-    tags: [],
-    thc: "22-26%",
-    cbd: "0%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["MYRCENE (EARTHY)", "LIMONENE (CITRUS)"]
-  },
-  {
-    cat: "SATIVA",
-    name: "PINEAPPLE XPRESS 2.0",
-    tags: [],
-    thc: "28-35%",
-    cbd: "1-2%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["PINENE (PINE)", "MYRCENE (MUSK)"]
-  },
-  // HYBRID
-  {
-    cat: "HYBRID",
-    name: "PURE MICHIGAN",
-    tags: [],
-    thc: "20-22%",
-    cbd: "0%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["MYRCENE (FRUIT)", "CARYOPHYLLENE (PEPPER)"]
-  },
-  {
-    cat: "HYBRID",
-    name: "GRAPE SODA",
-    tags: [],
-    thc: "22-26%",
-    cbd: "<1%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["MYRCENE (GRAPE)", "LINALOOL (FLORAL)"]
-  },
-  {
-    cat: "HYBRID",
-    name: "APPLE GELATO",
-    tags: [],
-    thc: "24-28%",
-    cbd: "0%",
-    p1: "\u0E3F350",
-    p35: "\u0E3F1,100",
-    terpenes: ["MYRCENE (CREAM)", "LIMONENE (CITRUS)"]
-  },
-  // COMPOUND GENETICS
-  {
-    cat: "COMPOUND_GENETICS",
-    type: "SATIVA",
-    name: "DA FUNK",
-    tags: [],
-    thc: "21-23%",
-    cbd: "<1%",
-    p1: "\u0E3F700",
-    p35: "\u0E3F2,500",
-    terpenes: ["OCIMENE (FRUIT)", "MYRCENE (MUSK)"]
-  },
-  {
-    cat: "COMPOUND_GENETICS",
-    type: "HYBRID",
-    name: "APPLES & BANANAS",
-    tags: [],
-    thc: "24-26%",
-    cbd: "0.1%",
-    p1: "\u0E3F700",
-    p35: "\u0E3F2,500",
-    terpenes: ["LIMONENE (LEMON)", "CARYOPHYLLENE (SPICE)"]
-  },
-  {
-    cat: "COMPOUND_GENETICS",
-    type: "INDICA",
-    name: "GOOFIEZ",
-    tags: [],
-    thc: "23-25%",
-    cbd: "0%",
-    p1: "\u0E3F700",
-    p35: "\u0E3F2,500",
-    terpenes: ["LIMONENE (LEMON)", "MYRCENE (MANGO)"]
-  }
-];
-const TerpeneBadge = ({ name }) => {
-  const key = name.split(" ")[0].toLowerCase().trim();
-  const colorMap = {
-    myrcene: "bg-t-myrcene",
-    caryophyllene: "bg-t-caryophyllene",
-    humulene: "bg-t-humulene",
-    limonene: "bg-t-limonene",
-    ocimene: "bg-t-ocimene",
-    phellandrene: "bg-t-phellandrene",
-    pinene: "bg-t-pinene",
-    terpinolene: "bg-t-terpinolene",
-    terpineol: "bg-t-terpineol",
-    linalool: "bg-t-linalool",
-    bisabolol: "bg-t-bisabolol"
-  };
-  const bgClass = colorMap[key] || "bg-gray-600";
-  return /* @__PURE__ */ React.createElement(
-    "span",
-    {
-      className: `inline-block ${bgClass} text-white font-yellix font-bold text-[9px] px-2 py-0.5 rounded-full mr-1 mb-1 uppercase tracking-wide shadow-sm`
-    },
-    name
-  );
-};
-const SvgNew = () => /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 54.2 54.2", className: "w-full h-auto drop-shadow-md" }, /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#4aed47",
-    d: "M54.2,27.1c0,2.2-4.7,3.8-5.2,5.9-.6,2.1,2.7,5.8,1.6,7.7s-5.9.9-7.5,2.4-.6,6.4-2.4,7.5-5.6-2.2-7.7-1.6-3.6,5.2-5.9,5.2-3.8-4.7-5.9-5.2-5.8,2.7-7.7,1.6-.9-5.9-2.4-7.5-6.4-.6-7.5-2.4,2.2-5.6,1.6-7.7S0,29.3,0,27.1s4.7-3.8,5.2-5.9-2.7-5.8-1.6-7.7,5.9-.9,7.5-2.4.6-6.4,2.4-7.5,5.6,2.2,7.7,1.6S24.9,0,27.1,0s3.8,4.7,5.9,5.2c2.1.5,5.8-2.7,7.7-1.6s.9,5.9,2.4,7.5,6.4.6,7.5,2.4-2.2,5.6-1.6,7.7,5.2,3.6,5.2,5.9Z"
-  }
-), /* @__PURE__ */ React.createElement("g", { className: "isolation-isolate" }, /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M19.5,20.7v10.3h-2.3l-3.7-5.4h0v5.4h-2.8v-10.3h2.4l3.7,5.4h0v-5.4h2.8Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M20.9,31v-10.3h7.5v2.3h-4.6v1.8h4.3v2.3h-4.3v1.8h4.6v2.3h-7.4Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M32.4,31l-3.1-10.3h3.1l1.4,6.4h0l1.7-6.4h2.5l1.7,6.4h0l1.4-6.4h3.1l-3,10.3h-2.7l-1.8-5.8h0l-1.8,5.8h-2.7Z"
-  }
-))));
-const SvgBestSeller = () => /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 56.14 54.82", className: "w-full h-auto drop-shadow-md" }, /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement(
-  "polygon",
-  {
-    fill: "#ffb300",
-    points: "34.49 54.74 28.23 51.35 22 54.82 17.82 49.05 10.71 49.47 9.45 42.46 2.86 39.75 4.76 32.89 0 27.59 4.7 22.23 2.7 15.39 9.26 12.6 10.43 5.57 17.55 5.9 21.65 .08 27.92 3.46 34.14 0 38.32 5.77 45.43 5.35 46.7 12.36 53.29 15.07 51.38 21.93 56.14 27.23 51.45 32.59 53.44 39.43 46.89 42.22 45.72 49.24 38.6 48.91 34.49 54.74"
-  }
-), /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M31.27,11.47c.16-.05.29-.11.43-.14.72-.16,1.45-.34,2.17-.47.52-.1,1,.08,1.46.3.58.28.8.76.71,1.37-.04.28.06.47.27.64.79.65.9,1.07.55,2.03-.05.14-.13.27-.14.41-.01.17-.02.4.07.51.67.81.44,2.09-.09,2.67-.23.26-.3.51-.2.84.12.4,0,.75-.27,1.06-.53.61-1.18,1.05-1.95,1.19-1.28.24-2.57.4-3.86.53-.93.09-1.88.07-2.82.09-.42.01-.73-.14-1.01-.48-1.49-1.75-2.26-3.78-2.44-6.04-.02-.32.02-.64.06-.95.04-.28.18-.53.45-.66.56-.27.87-.71,1-1.33.17-.81.57-1.52,1.08-2.18.87-1.13,1.43-2.41,1.84-3.77.03-.09.01-.2,0-.3-.08-.33-.18-.66-.25-.99-.14-.7.31-1.26,1.03-1.26.6,0,1.04.28,1.39.74.79,1.03,1.03,2.17.72,3.42-.07.3-.14.6-.21.91-.08.36-.12.72-.02,1.1.06.22.02.47.02.75Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M24.05,23.71c-.53.12-1.06.21-1.57.35-.48.13-.87,0-1.23-.3-.55-.46-.92-1.06-1.23-1.69-.67-1.37-1.19-2.8-1.32-4.33-.04-.46.01-.95.11-1.41.09-.44.4-.73.87-.83.93-.2,1.86-.41,2.79-.61.15-.03.31-.06.46-.06.32,0,.44.11.42.43-.13,1.94.33,3.73,1.36,5.38.43.69.86,1.38,1.29,2.08.27.43.23.53-.27.64-.56.12-1.11.24-1.67.37h0Z"
-  }
-)), /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M13.9,26.19h3.33c1.76,0,2.69.75,2.69,1.92,0,.85-.6,1.5-1.49,1.68v.08c.99.04,1.79.75,1.79,1.83,0,1.26-1.03,2.18-2.7,2.18h-3.62v-7.69ZM16.84,29.3c.55,0,.93-.26.93-.74s-.38-.74-.9-.74h-.89v1.47h.86ZM16.96,32.21c.7,0,1.05-.27,1.05-.78,0-.54-.39-.84-1.02-.84h-1.01v1.62h.98Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M21.37,26.19h5.54v1.68h-3.45v1.32h3.17v1.68h-3.17v1.32h3.44v1.68h-5.53v-7.69Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M31.46,27.8c-.65,0-.93.25-.93.59-.02.37.31.58,1.04.74l.63.13c1.7.36,2.39,1.19,2.4,2.36,0,1.52-1.17,2.36-3.12,2.36s-3.31-.86-3.32-2.79h1.98c.03.71.51,1.08,1.31,1.08.67,0,1.01-.27,1.02-.65,0-.35-.3-.56-1.16-.75l-.77-.17c-1.36-.29-2.2-.96-2.19-2.16-.01-1.46,1.28-2.45,3.11-2.45s3.03,1,3.03,2.51h-2c-.04-.5-.36-.8-1.04-.8Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M35.59,26.19h6.68v1.68h-2.31v6.01h-2.06v-6.01h-2.31v-1.68Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M14.83,37.12c-.5,0-.71.19-.71.45-.01.28.24.45.8.56l.48.1c1.3.28,1.84.91,1.85,1.81,0,1.17-.9,1.81-2.4,1.81s-2.54-.66-2.55-2.15h1.52c.03.54.39.83,1,.83.51,0,.78-.2.79-.5,0-.27-.23-.43-.89-.58l-.59-.13c-1.05-.23-1.69-.74-1.68-1.66,0-1.12.98-1.88,2.39-1.88s2.32.77,2.33,1.93h-1.53c-.03-.38-.28-.61-.8-.61Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M18.18,35.89h4.26v1.29h-2.65v1.02h2.43v1.29h-2.43v1.02h2.64v1.29h-4.25v-5.91Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M23.55,35.89h1.6v4.61h2.39v1.29h-3.99v-5.91Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M28.51,35.89h1.6v4.61h2.39v1.29h-3.99v-5.91Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M33.48,35.89h4.26v1.29h-2.65v1.02h2.43v1.29h-2.43v1.02h2.64v1.29h-4.25v-5.91Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M38.85,35.89h2.55c1.31,0,2.19.75,2.19,2.01,0,.82-.37,1.39-1,1.7l1.2,2.2h-1.74l-1.04-1.95h-.55v1.95h-1.6v-5.91ZM41.02,38.6c.56,0,.9-.2.9-.7s-.34-.73-.9-.73h-.57v1.43h.57Z"
-  }
-)), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M27.98,43.64l.88,1.78,1.97.29-1.43,1.39.34,1.96-1.76-.93-1.76.93.34-1.96-1.43-1.39,1.97-.29.88-1.78"
-  }
-)));
-const SvgBuy1Get1 = () => /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 55.02 55.02", className: "w-full h-auto drop-shadow-md" }, /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#e8246e",
-    d: "M55.02,27.51c0,2.26-4.76,3.86-5.32,5.95s2.73,5.92,1.64,7.81-6.03.93-7.59,2.48-.57,6.48-2.48,7.59-5.66-2.21-7.81-1.64-3.69,5.32-5.95,5.32-3.86-4.76-5.95-5.32-5.92,2.73-7.81,1.64-.93-6.03-2.48-7.59-6.48-.57-7.59-2.48,2.21-5.66,1.64-7.81S0,29.77,0,27.51s4.76-3.86,5.32-5.95-2.73-5.92-1.64-7.81,6.03-.93,7.59-2.48.57-6.48,2.48-7.59,5.66,2.21,7.81,1.64S25.25,0,27.51,0s3.86,4.76,5.95,5.32,5.92-2.73,7.81-1.64.93,6.03,2.48,7.59,6.48.57,7.59,2.48-2.21,5.66-1.64,7.81,5.32,3.69,5.32,5.95Z"
-  }
-), /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#c6dc3b",
-    d: "M13.41,13.19h3.04c1.6,0,2.45.68,2.45,1.75,0,.77-.54,1.37-1.35,1.53v.07c.9.03,1.63.68,1.63,1.67,0,1.15-.94,1.98-2.46,1.98h-3.29v-7ZM16.09,16.02c.5,0,.85-.24.85-.67s-.35-.67-.82-.67h-.81v1.34h.78ZM16.2,18.67c.64,0,.96-.24.96-.71,0-.49-.35-.77-.93-.77h-.92v1.48h.89Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#c6dc3b",
-    d: "M26.27,13.19v4.48c0,1.6-1.22,2.6-3.02,2.6s-3.02-1-3.02-2.6v-4.48h1.9v4.32c0,.65.47,1.12,1.12,1.12s1.12-.47,1.12-1.12v-4.32h1.9Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#c6dc3b",
-    d: "M29.39,13.19l1.37,2.84h.05l1.37-2.84h2.12l-2.57,4.8v2.2h-1.89v-2.2l-2.57-4.8h2.12Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#c6dc3b",
-    d: "M41.05,20.19h-1.9v-5.25h-.04l-1.53.92v-1.61l1.72-1.05h1.75v7Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#c6dc3b",
-    d: "M16.84,26.33c-.96,0-1.5.71-1.5,1.93s.51,1.96,1.49,1.96c.85,0,1.28-.39,1.3-1h-1.27v-1.35h3.1v.97c0,1.91-1.31,3.04-3.14,3.04-2.04,0-3.43-1.37-3.43-3.58s1.53-3.61,3.42-3.61c1.65,0,2.93,1,3.08,2.41h-1.92c-.12-.48-.52-.75-1.11-.75Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#c6dc3b",
-    d: "M21.24,24.77h5.04v1.53h-3.14v1.2h2.88v1.53h-2.88v1.2h3.13v1.53h-5.03v-7Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#c6dc3b",
-    d: "M27.42,24.77h6.08v1.53h-2.11v5.47h-1.87v-5.47h-2.11v-1.53Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#c6dc3b",
-    d: "M40.35,31.77h-1.9v-5.25h-.04l-1.53.92v-1.61l1.72-1.05h1.75v7Z"
-  }
-)), /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#c6dc3b",
-    d: "M13.49,35.02h5.47v1.7h-3.36v1.34h3.03v1.7h-3.03v3.04h-2.11v-7.78Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#c6dc3b",
-    d: "M20.16,35.02h3.36c1.73,0,2.89.99,2.89,2.64,0,1.08-.49,1.83-1.32,2.23l1.58,2.9h-2.29l-1.37-2.57h-.73v2.57h-2.11v-7.78ZM23.02,38.6c.74,0,1.18-.26,1.18-.93s-.44-.96-1.18-.96h-.75v1.88h.75Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#c6dc3b",
-    d: "M27.73,35.02h5.61v1.7h-3.5v1.34h3.21v1.7h-3.21v1.34h3.48v1.7h-5.59v-7.78Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#c6dc3b",
-    d: "M34.81,35.02h5.61v1.7h-3.5v1.34h3.21v1.7h-3.21v1.34h3.48v1.7h-5.59v-7.78Z"
-  }
-))), /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M13.41,13.19h3.04c1.6,0,2.45.68,2.45,1.75,0,.77-.54,1.37-1.35,1.53v.07c.9.03,1.63.68,1.63,1.67,0,1.15-.94,1.98-2.46,1.98h-3.29v-7ZM16.09,16.02c.5,0,.85-.24.85-.67s-.35-.67-.82-.67h-.81v1.34h.78ZM16.2,18.67c.64,0,.96-.24.96-.71,0-.49-.35-.77-.93-.77h-.92v1.48h.89Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M26.27,13.19v4.48c0,1.6-1.22,2.6-3.02,2.6s-3.02-1-3.02-2.6v-4.48h1.9v4.32c0,.65.47,1.12,1.12,1.12s1.12-.47,1.12-1.12v-4.32h1.9Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M29.39,13.19l1.37,2.84h.05l1.37-2.84h2.12l-2.57,4.8v2.2h-1.89v-2.2l-2.57-4.8h2.12Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M37.61,18.82l2.61-2.16c.52-.43.83-.75.83-1.24,0-.54-.37-.86-.9-.86s-.88.33-.88.92h-1.8c0-1.47,1.06-2.38,2.69-2.38s2.75.85,2.75,2.16c0,.81-.41,1.5-2,2.83l-.66.55v.04h2.73v1.52h-5.37v-1.37Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M16.84,26.33c-.96,0-1.5.71-1.5,1.93s.51,1.96,1.49,1.96c.85,0,1.28-.39,1.3-1h-1.27v-1.35h3.1v.97c0,1.91-1.31,3.04-3.14,3.04-2.04,0-3.43-1.37-3.43-3.58s1.53-3.61,3.42-3.61c1.65,0,2.93,1,3.08,2.41h-1.92c-.12-.48-.52-.75-1.11-.75Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M21.24,24.77h5.04v1.53h-3.14v1.2h2.88v1.53h-2.88v1.2h3.13v1.53h-5.03v-7Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M27.42,24.77h6.08v1.53h-2.11v5.47h-1.87v-5.47h-2.11v-1.53Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M40.35,31.77h-1.9v-5.25h-.04l-1.53.92v-1.61l1.72-1.05h1.75v7Z"
-  }
-)), /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M13.49,35.02h5.47v1.7h-3.36v1.34h3.02v1.7h-3.02v3.04h-2.11v-7.78Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M20.16,35.02h3.36c1.73,0,2.89.99,2.89,2.64,0,1.08-.49,1.83-1.32,2.23l1.58,2.9h-2.29l-1.37-2.57h-.73v2.57h-2.11v-7.78ZM23.02,38.6c.74,0,1.19-.26,1.19-.93s-.44-.96-1.19-.96h-.75v1.88h.75Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M27.73,35.02h5.61v1.7h-3.5v1.34h3.21v1.7h-3.21v1.34h3.48v1.7h-5.59v-7.78Z"
-  }
-), /* @__PURE__ */ React.createElement(
-  "path",
-  {
-    fill: "#fff",
-    d: "M34.81,35.02h5.61v1.7h-3.5v1.34h3.21v1.7h-3.21v1.34h3.48v1.7h-5.59v-7.78Z"
-  }
-)))))));
-const SvgPromoOffer = () => /* @__PURE__ */ React.createElement(
-  "svg",
-  {
-    className: "w-5 h-5",
-    fill: "none",
-    stroke: "currentColor",
-    viewBox: "0 0 24 24"
-  },
-  /* @__PURE__ */ React.createElement(
-    "path",
-    {
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      strokeWidth: "2.5",
-      d: "M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-    }
-  )
-);
-const StatusBadge = ({ tags }) => {
-  const containerClass = "flex items-center justify-center mr-3 w-[50px] shrink-0";
-  if (!tags || tags.length === 0) {
-    return /* @__PURE__ */ React.createElement("div", { className: containerClass });
-  }
-  const tag = tags[0];
-  if (tag === "NEW") {
-    return /* @__PURE__ */ React.createElement("div", { className: containerClass }, /* @__PURE__ */ React.createElement(SvgNew, null));
-  } else if (tag === "BEST SELLER") {
-    return /* @__PURE__ */ React.createElement("div", { className: containerClass }, /* @__PURE__ */ React.createElement(SvgBestSeller, null));
-  } else if (tag.includes("BUY 1")) {
-    return /* @__PURE__ */ React.createElement("div", { className: containerClass }, /* @__PURE__ */ React.createElement(SvgBuy1Get1, null));
-  }
-  return /* @__PURE__ */ React.createElement("div", { className: containerClass });
-};
-const ProductCard = ({ product, onClick, theme }) => {
-  const isCompound = theme === "compound";
-  const titleColor = isCompound ? "text-[#c8c7c7]" : "text-white";
-  const titleHover = isCompound ? "group-hover:text-white" : "group-hover:text-primary";
-  const detailColor = isCompound ? "text-[#112237]" : "text-white/80";
-  const detailBg = isCompound ? "bg-[#c8c7c7]" : "bg-white/10";
-  const priceColor1 = isCompound ? "text-white" : "text-primary";
-  const priceDivider = isCompound ? "text-[#c8c7c7]/50" : "text-tertiary";
-  const borderCls = isCompound ? "border-[#c8c7c7]/20" : "border-white/10";
-  const hoverBgCls = isCompound ? "hover:bg-[#c8c7c7]/5" : "hover:bg-white/10";
-  return /* @__PURE__ */ React.createElement(
-    "div",
-    {
-      onClick: () => onClick(product),
-      className: `group cursor-pointer py-3 px-3 transition-all duration-200 flex items-start justify-between border-b last:border-0 rounded-xl ${borderCls} ${hoverBgCls}`
-    },
-    /* @__PURE__ */ React.createElement("div", { className: "flex items-center flex-1 pr-2" }, /* @__PURE__ */ React.createElement(StatusBadge, { tags: product.tags }), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col justify-center" }, /* @__PURE__ */ React.createElement(
-      "h3",
-      {
-        className: `font-bd font-bold text-base md:text-lg uppercase leading-tight transition-colors mb-0.5 ${titleColor} ${titleHover}`
-      },
-      product.name
-    ), product.type && /* @__PURE__ */ React.createElement("div", { className: "mb-0.5 mt-0.5" }, /* @__PURE__ */ React.createElement(
-      "span",
-      {
-        className: `font-yellix font-bold text-[10px] md:text-[11px] px-2 py-0.5 rounded uppercase tracking-widest whitespace-nowrap ${isCompound ? "bg-[#c8c7c7]/20 text-[#c8c7c7]" : "bg-white/20 text-white"}`
-      },
-      product.type
-    )), /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap items-center gap-1.5 mb-1 mt-0.5" }, /* @__PURE__ */ React.createElement(
-      "span",
-      {
-        className: `font-yellix font-medium text-[10px] px-2 py-0.5 rounded-md whitespace-nowrap ${detailColor} ${detailBg}`
-      },
-      "THC ",
-      product.thc
-    ), /* @__PURE__ */ React.createElement(
-      "span",
-      {
-        className: `font-yellix font-medium text-[10px] px-2 py-0.5 rounded-md whitespace-nowrap ${detailColor} ${detailBg}`
-      },
-      "CBD ",
-      product.cbd
-    )), /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap gap-1" }, product.terpenes.map((t, i) => /* @__PURE__ */ React.createElement(TerpeneBadge, { key: i, name: t }))))),
-    /* @__PURE__ */ React.createElement("div", { className: "text-right whitespace-nowrap pl-2 self-start pt-1" }, /* @__PURE__ */ React.createElement(
-      "div",
-      {
-        className: `font-bd font-bold text-lg md:text-xl tracking-tight ${priceColor1}`
-      },
-      product.p1,
-      " ",
-      /* @__PURE__ */ React.createElement(
-        "span",
-        {
-          className: `text-sm align-middle mx-1 font-black ${priceDivider}`
+      const { useState, useEffect } = React;
+      // ประกาศตัวแปรย่อคำสั่ง createElement เพื่อให้โค้ดสะอาดขึ้น (ทำหน้าที่แทน JSX)
+      const e = React.createElement;
+
+      // --- DATA ---
+      const products = [
+        // INDICA
+        { cat: "INDICA", name: "SUPER SLURRICANE", tags: [], thc: "20-24%", cbd: "0%", p1: "฿350", p35: "฿1,100", terpenes: ["MYRCENE (MUSK)", "TERPINEOL (BERRY)"] },
+        { cat: "INDICA", name: "CASHEW SUNDAE", tags: [], thc: "19-24%", cbd: "0%", p1: "฿350", p35: "฿1,100", terpenes: ["BISABOLOL (NUTTY)", "CARYOPHYLLENE (EARTHY)"] },
+        { cat: "INDICA", name: "DANTE’S INFERNO", tags: [], thc: "22-26%", cbd: "≤1%", p1: "฿350", p35: "฿1,100", terpenes: ["LIMONENE (FRUIT)", "CARYOPHYLLENE (SPICE)"] },
+        { cat: "INDICA", name: "SWEET OCTANE", tags: [], thc: "24-28%", cbd: "<1%", p1: "฿350", p35: "฿1,100", terpenes: ["MYRCENE (FRUIT)", "LIMONENE (GAS)"] },
+        { cat: "INDICA", name: "CHERRY MARKER", tags: [], thc: "24-28%", cbd: "<1%", p1: "฿350", p35: "฿1,100", terpenes: ["MYRCENE (FRUIT)", "CARYOPHYLLENE (GAS)"] },
+        { cat: "INDICA", name: "CUBAN DOOBIE", tags: [], thc: "27-30%", cbd: "<1%", p1: "฿350", p35: "฿1,100", terpenes: ["HUMULENE (WOOD)", "MYRCENE (MUSK)"] },
+
+        // SATIVA
+        { cat: "SATIVA", name: "TROP CHERRY GAS", tags: [], thc: "20-22%", cbd: "0%", p1: "฿350", p35: "฿1,100", terpenes: ["MYRCENE (MUSK)", "LIMONENE (CITRUS)"] },
+        { cat: "SATIVA", name: "BERRY BOOMSTICK", tags: [], thc: "21-23%", cbd: "<1%", p1: "฿350", p35: "฿1,100", terpenes: ["MYRCENE (MUSK)", "OCIMENE (FRUIT)"] },
+        { cat: "SATIVA", name: "MANGO SUNSET HAZE", tags: [], thc: "20-24%", cbd: "0%", p1: "฿350", p35: "฿1,100", terpenes: ["MYRCENE (MANGO)", "LIMONENE (LEMON)"] },
+        { cat: "SATIVA", name: "LEMON UPZ", tags: [], thc: "24-28%", cbd: "0%", p1: "฿350", p35: "฿1,100", terpenes: ["LIMONENE (LEMON)", "CARYOPHYLLENE (PEPPER)"] },
+        { cat: "SATIVA", name: "LEMON CHERRY RUNTZ", tags: [], thc: "22-26%", cbd: "0%", p1: "฿350", p35: "฿1,100", terpenes: ["MYRCENE (EARTHY)", "LIMONENE (CITRUS)"] },
+        { cat: "SATIVA", name: "PINEAPPLE XPRESS 2.0", tags: [], thc: "28-35%", cbd: "1-2%", p1: "฿350", p35: "฿1,100", terpenes: ["PINENE (PINE)", "MYRCENE (MUSK)"] },
+
+        // HYBRID
+        { cat: "HYBRID", name: "PURE MICHIGAN", tags: [], thc: "20-22%", cbd: "0%", p1: "฿350", p35: "฿1,100", terpenes: ["MYRCENE (FRUIT)", "CARYOPHYLLENE (PEPPER)"] },
+        { cat: "HYBRID", name: "GRAPE SODA", tags: [], thc: "22-26%", cbd: "<1%", p1: "฿350", p35: "฿1,100", terpenes: ["MYRCENE (GRAPE)", "LINALOOL (FLORAL)"] },
+        { cat: "HYBRID", name: "APPLE GELATO", tags: [], thc: "24-28%", cbd: "0%", p1: "฿350", p35: "฿1,100", terpenes: ["MYRCENE (CREAM)", "LIMONENE (CITRUS)"] },
+
+        // COMPOUND GENETICS
+        { cat: "COMPOUND_GENETICS", type: "SATIVA", name: "DA FUNK", tags: [], thc: "21-23%", cbd: "<1%", p1: "฿700", p35: "฿2,500", terpenes: ["OCIMENE (FRUIT)", "MYRCENE (MUSK)"] },
+        { cat: "COMPOUND_GENETICS", type: "HYBRID", name: "APPLES & BANANAS", tags: [], thc: "24-26%", cbd: "0.1%", p1: "฿700", p35: "฿2,500", terpenes: ["LIMONENE (LEMON)", "CARYOPHYLLENE (SPICE)"] },
+        { cat: "COMPOUND_GENETICS", type: "INDICA", name: "GOOFIEZ", tags: [], thc: "23-25%", cbd: "0%", p1: "฿700", p35: "฿2,500", terpenes: ["LIMONENE (LEMON)", "MYRCENE (MANGO)"] },
+      ];
+
+      // --- COMPONENTS ---
+      const TerpeneBadge = ({ name }) => {
+        const key = name.split(" ")[0].toLowerCase().trim();
+        const colorMap = {
+          myrcene: "bg-t-myrcene", caryophyllene: "bg-t-caryophyllene",
+          humulene: "bg-t-humulene", limonene: "bg-t-limonene",
+          ocimene: "bg-t-ocimene", phellandrene: "bg-t-phellandrene",
+          pinene: "bg-t-pinene", terpinolene: "bg-t-terpinolene",
+          terpineol: "bg-t-terpineol", linalool: "bg-t-linalool",
+          bisabolol: "bg-t-bisabolol",
+        };
+        const bgClass = colorMap[key] || "bg-gray-600";
+
+        return e('span', {
+          className: `inline-block ${bgClass} text-white font-yellix font-bold text-[9px] px-2 py-0.5 rounded-full mr-1 mb-1 uppercase tracking-wide shadow-sm`
+        }, name);
+      };
+
+      // --- SVG ICONS (แปลงเป็น JS Objects) ---
+      const SvgNew = () => e("svg", { viewBox: "0 0 54.2 54.2", className: "w-full h-auto drop-shadow-md" },
+        e("path", { fill: "#4aed47", d: "M54.2,27.1c0,2.2-4.7,3.8-5.2,5.9-.6,2.1,2.7,5.8,1.6,7.7s-5.9.9-7.5,2.4-.6,6.4-2.4,7.5-5.6-2.2-7.7-1.6-3.6,5.2-5.9,5.2-3.8-4.7-5.9-5.2-5.8,2.7-7.7,1.6-.9-5.9-2.4-7.5-6.4-.6-7.5-2.4,2.2-5.6,1.6-7.7S0,29.3,0,27.1s4.7-3.8,5.2-5.9-2.7-5.8-1.6-7.7,5.9-.9,7.5-2.4.6-6.4,2.4-7.5,5.6,2.2,7.7,1.6S24.9,0,27.1,0s3.8,4.7,5.9,5.2c2.1.5,5.8-2.7,7.7-1.6s.9,5.9,2.4,7.5,6.4.6,7.5,2.4-2.2,5.6-1.6,7.7,5.2,3.6,5.2,5.9Z" }),
+        e("g", { className: "isolation-isolate" },
+          e("g", null,
+            e("path", { fill: "#fff", d: "M19.5,20.7v10.3h-2.3l-3.7-5.4h0v5.4h-2.8v-10.3h2.4l3.7,5.4h0v-5.4h2.8Z" }),
+            e("path", { fill: "#fff", d: "M20.9,31v-10.3h7.5v2.3h-4.6v1.8h4.3v2.3h-4.3v1.8h4.6v2.3h-7.4Z" }),
+            e("path", { fill: "#fff", d: "M32.4,31l-3.1-10.3h3.1l1.4,6.4h0l1.7-6.4h2.5l1.7,6.4h0l1.4-6.4h3.1l-3,10.3h-2.7l-1.8-5.8h0l-1.8,5.8h-2.7Z" })
+          )
+        )
+      );
+
+      const SvgBestSeller = () => e("svg", { viewBox: "0 0 56.14 54.82", className: "w-full h-auto drop-shadow-md" },
+        e("g", null,
+          e("polygon", { fill: "#ffb300", points: "34.49 54.74 28.23 51.35 22 54.82 17.82 49.05 10.71 49.47 9.45 42.46 2.86 39.75 4.76 32.89 0 27.59 4.7 22.23 2.7 15.39 9.26 12.6 10.43 5.57 17.55 5.9 21.65 .08 27.92 3.46 34.14 0 38.32 5.77 45.43 5.35 46.7 12.36 53.29 15.07 51.38 21.93 56.14 27.23 51.45 32.59 53.44 39.43 46.89 42.22 45.72 49.24 38.6 48.91 34.49 54.74" }),
+          e("g", null,
+            e("path", { fill: "#fff", d: "M31.27,11.47c.16-.05.29-.11.43-.14.72-.16,1.45-.34,2.17-.47.52-.1,1,.08,1.46.3.58.28.8.76.71,1.37-.04.28.06.47.27.64.79.65.9,1.07.55,2.03-.05.14-.13.27-.14.41-.01.17-.02.4.07.51.67.81.44,2.09-.09,2.67-.23.26-.3.51-.2.84.12.4,0,.75-.27,1.06-.53.61-1.18,1.05-1.95,1.19-1.28.24-2.57.4-3.86.53-.93.09-1.88.07-2.82.09-.42.01-.73-.14-1.01-.48-1.49-1.75-2.26-3.78-2.44-6.04-.02-.32.02-.64.06-.95.04-.28.18-.53.45-.66.56-.27.87-.71,1-1.33.17-.81.57-1.52,1.08-2.18.87-1.13,1.43-2.41,1.84-3.77.03-.09.01-.2,0-.3-.08-.33-.18-.66-.25-.99-.14-.7.31-1.26,1.03-1.26.6,0,1.04.28,1.39.74.79,1.03,1.03,2.17.72,3.42-.07.3-.14.6-.21.91-.08.36-.12.72-.02,1.1.06.22.02.47.02.75Z" }),
+            e("path", { fill: "#fff", d: "M24.05,23.71c-.53.12-1.06.21-1.57.35-.48.13-.87,0-1.23-.3-.55-.46-.92-1.06-1.23-1.69-.67-1.37-1.19-2.8-1.32-4.33-.04-.46.01-.95.11-1.41.09-.44.4-.73.87-.83.93-.2,1.86-.41,2.79-.61.15-.03.31-.06.46-.06.32,0,.44.11.42.43-.13,1.94.33,3.73,1.36,5.38.43.69.86,1.38,1.29,2.08.27.43.23.53-.27.64-.56.12-1.11.24-1.67.37h0Z" })
+          ),
+          e("g", null,
+            e("path", { fill: "#fff", d: "M13.9,26.19h3.33c1.76,0,2.69.75,2.69,1.92,0,.85-.6,1.5-1.49,1.68v.08c.99.04,1.79.75,1.79,1.83,0,1.26-1.03,2.18-2.7,2.18h-3.62v-7.69ZM16.84,29.3c.55,0,.93-.26.93-.74s-.38-.74-.9-.74h-.89v1.47h.86ZM16.96,32.21c.7,0,1.05-.27,1.05-.78,0-.54-.39-.84-1.02-.84h-1.01v1.62h.98Z" }),
+            e("path", { fill: "#fff", d: "M21.37,26.19h5.54v1.68h-3.45v1.32h3.17v1.68h-3.17v1.32h3.44v1.68h-5.53v-7.69Z" }),
+            e("path", { fill: "#fff", d: "M31.46,27.8c-.65,0-.93.25-.93.59-.02.37.31.58,1.04.74l.63.13c1.7.36,2.39,1.19,2.4,2.36,0,1.52-1.17,2.36-3.12,2.36s-3.31-.86-3.32-2.79h1.98c.03.71.51,1.08,1.31,1.08.67,0,1.01-.27,1.02-.65,0-.35-.3-.56-1.16-.75l-.77-.17c-1.36-.29-2.2-.96-2.19-2.16-.01-1.46,1.28-2.45,3.11-2.45s3.03,1,3.03,2.51h-2c-.04-.5-.36-.8-1.04-.8Z" }),
+            e("path", { fill: "#fff", d: "M35.59,26.19h6.68v1.68h-2.31v6.01h-2.06v-6.01h-2.31v-1.68Z" }),
+            e("path", { fill: "#fff", d: "M14.83,37.12c-.5,0-.71.19-.71.45-.01.28.24.45.8.56l.48.1c1.3.28,1.84.91,1.85,1.81,0,1.17-.9,1.81-2.4,1.81s-2.54-.66-2.55-2.15h1.52c.03.54.39.83,1,.83.51,0,.78-.2.79-.5,0-.27-.23-.43-.89-.58l-.59-.13c-1.05-.23-1.69-.74-1.68-1.66,0-1.12.98-1.88,2.39-1.88s2.32.77,2.33,1.93h-1.53c-.03-.38-.28-.61-.8-.61Z" }),
+            e("path", { fill: "#fff", d: "M18.18,35.89h4.26v1.29h-2.65v1.02h2.43v1.29h-2.43v1.02h2.64v1.29h-4.25v-5.91Z" }),
+            e("path", { fill: "#fff", d: "M23.55,35.89h1.6v4.61h2.39v1.29h-3.99v-5.91Z" }),
+            e("path", { fill: "#fff", d: "M28.51,35.89h1.6v4.61h2.39v1.29h-3.99v-5.91Z" }),
+            e("path", { fill: "#fff", d: "M33.48,35.89h4.26v1.29h-2.65v1.02h2.43v1.29h-2.43v1.02h2.64v1.29h-4.25v-5.91Z" }),
+            e("path", { fill: "#fff", d: "M38.85,35.89h2.55c1.31,0,2.19.75,2.19,2.01,0,.82-.37,1.39-1,1.7l1.2,2.2h-1.74l-1.04-1.95h-.55v1.95h-1.6v-5.91ZM41.02,38.6c.56,0,.9-.2.9-.7s-.34-.73-.9-.73h-.57v1.43h.57Z" })
+          ),
+          e("path", { fill: "#fff", d: "M27.98,43.64l.88,1.78,1.97.29-1.43,1.39.34,1.96-1.76-.93-1.76.93.34-1.96-1.43-1.39,1.97-.29.88-1.78" })
+        )
+      );
+
+      const SvgBuy1Get1 = () => e("svg", { viewBox: "0 0 55.02 55.02", className: "w-full h-auto drop-shadow-md" },
+        e("g", null,
+          e("path", { fill: "#e8246e", d: "M55.02,27.51c0,2.26-4.76,3.86-5.32,5.95s2.73,5.92,1.64,7.81-6.03.93-7.59,2.48-.57,6.48-2.48,7.59-5.66-2.21-7.81-1.64-3.69,5.32-5.95,5.32-3.86-4.76-5.95-5.32-5.92,2.73-7.81,1.64-.93-6.03-2.48-7.59-6.48-.57-7.59-2.48,2.21-5.66,1.64-7.81S0,29.77,0,27.51s4.76-3.86,5.32-5.95-2.73-5.92-1.64-7.81,6.03-.93,7.59-2.48.57-6.48,2.48-7.59,5.66,2.21,7.81,1.64S25.25,0,27.51,0s3.86,4.76,5.95,5.32,5.92-2.73,7.81-1.64.93,6.03,2.48,7.59,6.48.57,7.59,2.48-2.21,5.66-1.64,7.81,5.32,3.69,5.32,5.95Z" }),
+          e("g", null,
+            e("g", null,
+              e("g", null,
+                e("path", { fill: "#c6dc3b", d: "M13.41,13.19h3.04c1.6,0,2.45.68,2.45,1.75,0,.77-.54,1.37-1.35,1.53v.07c.9.03,1.63.68,1.63,1.67,0,1.15-.94,1.98-2.46,1.98h-3.29v-7ZM16.09,16.02c.5,0,.85-.24.85-.67s-.35-.67-.82-.67h-.81v1.34h.78ZM16.2,18.67c.64,0,.96-.24.96-.71,0-.49-.35-.77-.93-.77h-.92v1.48h.89Z" }),
+                e("path", { fill: "#c6dc3b", d: "M26.27,13.19v4.48c0,1.6-1.22,2.6-3.02,2.6s-3.02-1-3.02-2.6v-4.48h1.9v4.32c0,.65.47,1.12,1.12,1.12s1.12-.47,1.12-1.12v-4.32h1.9Z" }),
+                e("path", { fill: "#c6dc3b", d: "M29.39,13.19l1.37,2.84h.05l1.37-2.84h2.12l-2.57,4.8v2.2h-1.89v-2.2l-2.57-4.8h2.12Z" }),
+                e("path", { fill: "#c6dc3b", d: "M41.05,20.19h-1.9v-5.25h-.04l-1.53.92v-1.61l1.72-1.05h1.75v7Z" }),
+                e("path", { fill: "#c6dc3b", d: "M16.84,26.33c-.96,0-1.5.71-1.5,1.93s.51,1.96,1.49,1.96c.85,0,1.28-.39,1.3-1h-1.27v-1.35h3.1v.97c0,1.91-1.31,3.04-3.14,3.04-2.04,0-3.43-1.37-3.43-3.58s1.53-3.61,3.42-3.61c1.65,0,2.93,1,3.08,2.41h-1.92c-.12-.48-.52-.75-1.11-.75Z" }),
+                e("path", { fill: "#c6dc3b", d: "M21.24,24.77h5.04v1.53h-3.14v1.2h2.88v1.53h-2.88v1.2h3.13v1.53h-5.03v-7Z" }),
+                e("path", { fill: "#c6dc3b", d: "M27.42,24.77h6.08v1.53h-2.11v5.47h-1.87v-5.47h-2.11v-1.53Z" }),
+                e("path", { fill: "#c6dc3b", d: "M40.35,31.77h-1.9v-5.25h-.04l-1.53.92v-1.61l1.72-1.05h1.75v7Z" })
+              ),
+              e("g", null,
+                e("path", { fill: "#c6dc3b", d: "M13.49,35.02h5.47v1.7h-3.36v1.34h3.03v1.7h-3.03v3.04h-2.11v-7.78Z" }),
+                e("path", { fill: "#c6dc3b", d: "M20.16,35.02h3.36c1.73,0,2.89.99,2.89,2.64,0,1.08-.49,1.83-1.32,2.23l1.58,2.9h-2.29l-1.37-2.57h-.73v2.57h-2.11v-7.78ZM23.02,38.6c.74,0,1.18-.26,1.18-.93s-.44-.96-1.18-.96h-.75v1.88h.75Z" }),
+                e("path", { fill: "#c6dc3b", d: "M27.73,35.02h5.61v1.7h-3.5v1.34h3.21v1.7h-3.21v1.34h3.48v1.7h-5.59v-7.78Z" }),
+                e("path", { fill: "#c6dc3b", d: "M34.81,35.02h5.61v1.7h-3.5v1.34h3.21v1.7h-3.21v1.34h3.48v1.7h-5.59v-7.78Z" })
+              )
+            ),
+            e("g", null,
+              e("g", null,
+                e("g", null,
+                  e("path", { fill: "#fff", d: "M13.41,13.19h3.04c1.6,0,2.45.68,2.45,1.75,0,.77-.54,1.37-1.35,1.53v.07c.9.03,1.63.68,1.63,1.67,0,1.15-.94,1.98-2.46,1.98h-3.29v-7ZM16.09,16.02c.5,0,.85-.24.85-.67s-.35-.67-.82-.67h-.81v1.34h.78ZM16.2,18.67c.64,0,.96-.24.96-.71,0-.49-.35-.77-.93-.77h-.92v1.48h.89Z" }),
+                  e("path", { fill: "#fff", d: "M26.27,13.19v4.48c0,1.6-1.22,2.6-3.02,2.6s-3.02-1-3.02-2.6v-4.48h1.9v4.32c0,.65.47,1.12,1.12,1.12s1.12-.47,1.12-1.12v-4.32h1.9Z" }),
+                  e("path", { fill: "#fff", d: "M29.39,13.19l1.37,2.84h.05l1.37-2.84h2.12l-2.57,4.8v2.2h-1.89v-2.2l-2.57-4.8h2.12Z" }),
+                  e("path", { fill: "#fff", d: "M37.61,18.82l2.61-2.16c.52-.43.83-.75.83-1.24,0-.54-.37-.86-.9-.86s-.88.33-.88.92h-1.8c0-1.47,1.06-2.38,2.69-2.38s2.75.85,2.75,2.16c0,.81-.41,1.5-2,2.83l-.66.55v.04h2.73v1.52h-5.37v-1.37Z" }),
+                  e("path", { fill: "#fff", d: "M16.84,26.33c-.96,0-1.5.71-1.5,1.93s.51,1.96,1.49,1.96c.85,0,1.28-.39,1.3-1h-1.27v-1.35h3.1v.97c0,1.91-1.31,3.04-3.14,3.04-2.04,0-3.43-1.37-3.43-3.58s1.53-3.61,3.42-3.61c1.65,0,2.93,1,3.08,2.41h-1.92c-.12-.48-.52-.75-1.11-.75Z" }),
+                  e("path", { fill: "#fff", d: "M21.24,24.77h5.04v1.53h-3.14v1.2h2.88v1.53h-2.88v1.2h3.13v1.53h-5.03v-7Z" }),
+                  e("path", { fill: "#fff", d: "M27.42,24.77h6.08v1.53h-2.11v5.47h-1.87v-5.47h-2.11v-1.53Z" }),
+                  e("path", { fill: "#fff", d: "M40.35,31.77h-1.9v-5.25h-.04l-1.53.92v-1.61l1.72-1.05h1.75v7Z" })
+                ),
+                e("g", null,
+                  e("path", { fill: "#fff", d: "M13.49,35.02h5.47v1.7h-3.36v1.34h3.02v1.7h-3.02v3.04h-2.11v-7.78Z" }),
+                  e("path", { fill: "#fff", d: "M20.16,35.02h3.36c1.73,0,2.89.99,2.89,2.64,0,1.08-.49,1.83-1.32,2.23l1.58,2.9h-2.29l-1.37-2.57h-.73v2.57h-2.11v-7.78ZM23.02,38.6c.74,0,1.19-.26,1.19-.93s-.44-.96-1.19-.96h-.75v1.88h.75Z" }),
+                  e("path", { fill: "#fff", d: "M27.73,35.02h5.61v1.7h-3.5v1.34h3.21v1.7h-3.21v1.34h3.48v1.7h-5.59v-7.78Z" }),
+                  e("path", { fill: "#fff", d: "M34.81,35.02h5.61v1.7h-3.5v1.34h3.21v1.7h-3.21v1.34h3.48v1.7h-5.59v-7.78Z" })
+                )
+              )
+            )
+          )
+        )
+      );
+
+      const SvgPromoOffer = () => e("svg", { className: "w-5 h-5", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24" },
+        e("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2.5", d: "M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" })
+      );
+
+      const StatusBadge = ({ tags }) => {
+        const containerClass = "flex items-center justify-center mr-3 w-[50px] shrink-0";
+        if (!tags || tags.length === 0) return e("div", { className: containerClass });
+        const tag = tags[0];
+
+        if (tag === "NEW") return e("div", { className: containerClass }, e(SvgNew));
+        if (tag === "BEST SELLER") return e("div", { className: containerClass }, e(SvgBestSeller));
+        if (tag.includes("BUY 1")) return e("div", { className: containerClass }, e(SvgBuy1Get1));
+
+        return e("div", { className: containerClass });
+      };
+
+      const ProductCard = ({ product, onClick, theme }) => {
+        const isCompound = theme === "compound";
+        const titleColor = isCompound ? "text-[#c8c7c7]" : "text-white";
+        const titleHover = isCompound ? "group-hover:text-white" : "group-hover:text-primary";
+        const detailColor = isCompound ? "text-[#112237]" : "text-white/80";
+        const detailBg = isCompound ? "bg-[#c8c7c7]" : "bg-white/10";
+        const priceColor1 = isCompound ? "text-white" : "text-primary";
+        const priceDivider = isCompound ? "text-[#c8c7c7]/50" : "text-tertiary";
+        const borderCls = isCompound ? "border-[#c8c7c7]/20" : "border-white/10";
+        const hoverBgCls = isCompound ? "hover:bg-[#c8c7c7]/5" : "hover:bg-white/10";
+
+        return e("div", { onClick: () => onClick(product), className: `group cursor-pointer py-3 px-3 transition-all duration-200 flex items-start justify-between border-b last:border-0 rounded-xl ${borderCls} ${hoverBgCls}` },
+          e("div", { className: "flex items-center flex-1 pr-2" },
+            e(StatusBadge, { tags: product.tags }),
+            e("div", { className: "flex flex-col justify-center" },
+              e("h3", { className: `font-bd font-bold text-base md:text-lg uppercase leading-tight transition-colors mb-0.5 ${titleColor} ${titleHover}` }, product.name),
+              product.type && e("div", { className: "mb-0.5 mt-0.5" },
+                e("span", { className: `font-yellix font-bold text-[10px] md:text-[11px] px-2 py-0.5 rounded uppercase tracking-widest whitespace-nowrap ${isCompound ? "bg-[#c8c7c7]/20 text-[#c8c7c7]" : "bg-white/20 text-white"}` }, product.type)
+              ),
+              e("div", { className: "flex flex-wrap items-center gap-1.5 mb-1 mt-0.5" },
+                e("span", { className: `font-yellix font-medium text-[10px] px-2 py-0.5 rounded-md whitespace-nowrap ${detailColor} ${detailBg}` }, `THC ${product.thc}`),
+                e("span", { className: `font-yellix font-medium text-[10px] px-2 py-0.5 rounded-md whitespace-nowrap ${detailColor} ${detailBg}` }, `CBD ${product.cbd}`)
+              ),
+              e("div", { className: "flex flex-wrap gap-1" },
+                product.terpenes.map((t, i) => e(TerpeneBadge, { key: i, name: t }))
+              )
+            )
+          ),
+          e("div", { className: "text-right whitespace-nowrap pl-2 self-start pt-1" },
+            e("div", { className: `font-bd font-bold text-lg md:text-xl tracking-tight ${priceColor1}` },
+              product.p1, " ",
+              e("span", { className: `text-sm align-middle mx-1 font-black ${priceDivider}` }, "|"),
+              " ", product.p35
+            )
+          )
+        );
+      };
+
+      const BoxHeader = ({ title, bgColor, isCompound }) => e("div", {
+          className: "flex justify-between items-center px-5 py-3 border-b",
+          style: {
+            backgroundColor: bgColor,
+            borderColor: isCompound ? "rgba(200, 199, 199, 0.2)" : "rgba(255,255,255,0.1)",
+          }
         },
-        "|"
-      ),
-      " ",
-      product.p35
-    ))
-  );
-};
-const BoxHeader = ({ title, bgColor, isCompound }) => /* @__PURE__ */ React.createElement(
-  "div",
-  {
-    className: "flex justify-between items-center px-5 py-3 border-b",
-    style: {
-      backgroundColor: bgColor,
-      borderColor: isCompound ? "rgba(200, 199, 199, 0.2)" : "rgba(255,255,255,0.1)"
-    }
-  },
-  /* @__PURE__ */ React.createElement(
-    "h2",
-    {
-      className: `font-bd font-black text-2xl uppercase tracking-tight ${isCompound ? "text-[#c8c7c7]" : "text-white"}`
-    },
-    title
-  ),
-  /* @__PURE__ */ React.createElement(
-    "span",
-    {
-      className: `font-yellix font-bold text-xs px-3 py-1 rounded-full ${isCompound ? "bg-[#c8c7c7] text-[#112237]" : "bg-black/20 text-white/80"}`
-    },
-    "1G | 3.5G"
-  )
-);
-const PartyPackPromo = () => /* @__PURE__ */ React.createElement("div", { className: "border border-white/20 rounded-2xl shadow-2xl overflow-hidden bg-gradient-to-r from-gray-50 to-gray-200 flex flex-col md:flex-row items-stretch w-full mt-4 mb-8 relative group transition-all duration-300 hover:shadow-white/10" }, /* @__PURE__ */ React.createElement("div", { className: "bg-[#2a1962] p-5 md:p-8 flex flex-col items-center justify-center w-full md:w-[35%] lg:w-[30%] shrink-0 border-b md:border-b-0 md:border-r border-[#2a1962]/20" }, /* @__PURE__ */ React.createElement("h2", { className: "font-bd font-black text-3xl md:text-4xl text-white uppercase tracking-wide text-center drop-shadow-md leading-tight" }, "PARTY PACK", /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement("span", { className: "text-primary mt-1 md:mt-2 block" }, "PROMO")), /* @__PURE__ */ React.createElement("div", { className: "font-bd font-bold text-xs md:text-sm text-[#2a1962] uppercase tracking-widest flex items-center justify-center bg-primary px-4 py-2 rounded-full shadow-sm mt-3 md:mt-4 border border-[#b2c832] text-center w-full max-w-[220px]" }, "Mix & Match 4 Strains")), /* @__PURE__ */ React.createElement("div", { className: "hidden md:flex p-6 lg:p-8 items-center justify-evenly flex-1 gap-6 bg-white/50 backdrop-blur-sm" }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col items-center justify-center flex-1" }, /* @__PURE__ */ React.createElement("span", { className: "font-yellix font-bold text-[#2a1962]/50 tracking-widest uppercase text-xs mb-1" }, "Volume"), /* @__PURE__ */ React.createElement("div", { className: "font-bd font-black text-[56px] leading-none text-[#2a1962] drop-shadow-sm flex items-baseline" }, "28", /* @__PURE__ */ React.createElement("span", { className: "text-[28px] text-[#2a1962] ml-1" }, "g"))), /* @__PURE__ */ React.createElement("div", { className: "w-px h-20 bg-gradient-to-b from-transparent via-[#2a1962]/20 to-transparent" }), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col items-center justify-center flex-1" }, /* @__PURE__ */ React.createElement("span", { className: "font-yellix font-bold text-[#2a1962]/50 tracking-widest uppercase text-xs mb-1" }, "Total Price"), /* @__PURE__ */ React.createElement("div", { className: "font-bd font-black text-[48px] text-[#2a1962] leading-none flex items-baseline drop-shadow-sm" }, /* @__PURE__ */ React.createElement("span", { className: "text-3xl text-[#2a1962] mr-2" }, "\u0E3F"), "5,600")), /* @__PURE__ */ React.createElement("div", { className: "w-px h-20 bg-gradient-to-b from-transparent via-[#2a1962]/20 to-transparent" }), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col items-center justify-center flex-1 bg-gradient-to-br from-[#e8246e]/10 to-[#e8246e]/5 rounded-2xl p-5 border border-[#e8246e]/20 relative overflow-hidden group-hover:bg-[#e8246e]/10 transition-colors" }, /* @__PURE__ */ React.createElement("div", { className: "bg-[#e8246e] text-white font-yellix font-bold text-[11px] uppercase tracking-widest px-4 py-1 rounded-full mb-1 shadow-sm relative z-10" }, "Best Value"), /* @__PURE__ */ React.createElement("div", { className: "font-bd font-black text-4xl text-[#e8246e] flex items-baseline drop-shadow-sm my-1 relative z-10" }, /* @__PURE__ */ React.createElement("span", { className: "text-2xl mr-1" }, "\u0E3F"), "200"), /* @__PURE__ */ React.createElement("span", { className: "font-yellix font-bold text-[#2a1962]/70 text-xs tracking-widest uppercase mt-0.5 relative z-10" }, "per gram"))), /* @__PURE__ */ React.createElement("div", { className: "flex md:hidden p-4 sm:p-6 flex-col items-center justify-evenly flex-1 gap-3 sm:gap-4 bg-white/50 backdrop-blur-sm" }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-row w-full justify-between sm:justify-evenly flex-1 gap-3 sm:gap-0" }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col items-center justify-center flex-1 bg-white/60 sm:bg-transparent rounded-2xl sm:rounded-none p-3 sm:p-0 shadow-sm sm:shadow-none border border-white/50 sm:border-none" }, /* @__PURE__ */ React.createElement("span", { className: "font-yellix font-bold text-[#2a1962]/50 tracking-widest uppercase text-[10px] mb-0.5" }, "Volume"), /* @__PURE__ */ React.createElement("div", { className: "font-bd font-black text-[36px] sm:text-[48px] leading-none text-[#2a1962] drop-shadow-sm flex items-baseline" }, "28", /* @__PURE__ */ React.createElement("span", { className: "text-[18px] sm:text-[24px] text-[#2a1962] ml-0.5" }, "g"))), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col items-center justify-center flex-1 bg-white/60 sm:bg-transparent rounded-2xl sm:rounded-none p-3 sm:p-0 shadow-sm sm:shadow-none border border-white/50 sm:border-none" }, /* @__PURE__ */ React.createElement("span", { className: "font-yellix font-bold text-[#2a1962]/50 tracking-widest uppercase text-[10px] mb-0.5" }, "Total Price"), /* @__PURE__ */ React.createElement("div", { className: "font-bd font-black text-[30px] sm:text-[40px] text-[#2a1962] leading-none flex items-baseline drop-shadow-sm" }, /* @__PURE__ */ React.createElement("span", { className: "text-xl sm:text-2xl text-[#2a1962] mr-1" }, "\u0E3F"), "5,600"))), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col items-center justify-center w-full bg-gradient-to-r from-[#e8246e]/10 via-[#e8246e]/5 to-[#e8246e]/10 rounded-2xl p-4 border border-[#e8246e]/20 relative overflow-hidden mt-1" }, /* @__PURE__ */ React.createElement("div", { className: "bg-[#e8246e] text-white font-yellix font-bold text-[10px] uppercase tracking-widest px-4 py-1 rounded-full mb-1 shadow-sm relative z-10" }, "Best Value"), /* @__PURE__ */ React.createElement("div", { className: "font-bd font-black text-3xl text-[#e8246e] flex items-baseline drop-shadow-sm my-1 relative z-10" }, /* @__PURE__ */ React.createElement("span", { className: "text-xl mr-1" }, "\u0E3F"), "200"), /* @__PURE__ */ React.createElement("span", { className: "font-yellix font-bold text-[#2a1962]/70 text-[11px] tracking-widest uppercase mt-0.5 relative z-10" }, "per gram"))));
-const PreRollsPromo = () => /* @__PURE__ */ React.createElement("div", { className: "border-2 border-[#8fe4f6]/50 rounded-2xl shadow-2xl overflow-hidden flex flex-col bg-gradient-to-b from-[#8fe4f6] to-[#60cae8] w-full mt-4 mb-6" }, /* @__PURE__ */ React.createElement("div", { className: "flex justify-center items-center px-5 py-5 bg-[#c8e658] border-b-4 border-[#1a2542]/10 relative overflow-hidden" }, /* @__PURE__ */ React.createElement("h2", { className: "font-bd font-black text-4xl text-[#1a2542] uppercase tracking-wider relative z-10 drop-shadow-md" }, "PRE-ROLLS")), /* @__PURE__ */ React.createElement("div", { className: "p-6 md:p-10 flex flex-col items-center justify-center relative" }, /* @__PURE__ */ React.createElement("div", { className: "w-full max-w-[450px] aspect-square mb-10 flex flex-col items-center justify-center relative" }, /* @__PURE__ */ React.createElement(
-  "img",
-  {
-    src: "preolls-greenape.png",
-    alt: "Green Ape Pre-Rolls",
-    className: "w-full h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
-  }
-)), /* @__PURE__ */ React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-4xl relative z-10" }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col items-center" }, /* @__PURE__ */ React.createElement("h3", { className: "font-bd font-black text-3xl text-[#1a2542] text-center mb-4 drop-shadow-sm flex items-center gap-2" }, "Sativa ", /* @__PURE__ */ React.createElement("span", { className: "text-xl" }, "Pre-rolls")), /* @__PURE__ */ React.createElement("div", { className: "bg-white rounded-[2rem] p-6 w-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-b-[6px] border-[#1a2542]/10 transition-transform hover:-translate-y-1 flex flex-col gap-3" }, /* @__PURE__ */ React.createElement("div", { className: "flex justify-between items-center border-b-2 border-gray-100 pb-3" }, /* @__PURE__ */ React.createElement("span", { className: "font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide" }, "Box of 5"), /* @__PURE__ */ React.createElement("span", { className: "font-bd font-black text-2xl text-[#1a2542]" }, /* @__PURE__ */ React.createElement("span", { className: "text-lg mr-1" }, "\u0E3F"), "750")), /* @__PURE__ */ React.createElement("div", { className: "flex justify-between items-center pt-1" }, /* @__PURE__ */ React.createElement("span", { className: "font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide" }, "Box of 3"), /* @__PURE__ */ React.createElement("span", { className: "font-bd font-black text-2xl text-[#1a2542]" }, /* @__PURE__ */ React.createElement("span", { className: "text-lg mr-1" }, "\u0E3F"), "550")))), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col items-center" }, /* @__PURE__ */ React.createElement("h3", { className: "font-bd font-black text-3xl text-[#1a2542] text-center mb-4 drop-shadow-sm flex items-center gap-2" }, "Indica ", /* @__PURE__ */ React.createElement("span", { className: "text-xl" }, "Pre-rolls")), /* @__PURE__ */ React.createElement("div", { className: "bg-white rounded-[2rem] p-6 w-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-b-[6px] border-[#1a2542]/10 transition-transform hover:-translate-y-1 flex flex-col gap-3" }, /* @__PURE__ */ React.createElement("div", { className: "flex justify-between items-center border-b-2 border-gray-100 pb-3" }, /* @__PURE__ */ React.createElement("span", { className: "font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide" }, "Box of 5"), /* @__PURE__ */ React.createElement("span", { className: "font-bd font-black text-2xl text-[#1a2542]" }, /* @__PURE__ */ React.createElement("span", { className: "text-lg mr-1" }, "\u0E3F"), "750")), /* @__PURE__ */ React.createElement("div", { className: "flex justify-between items-center pt-1" }, /* @__PURE__ */ React.createElement("span", { className: "font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide" }, "Box of 3"), /* @__PURE__ */ React.createElement("span", { className: "font-bd font-black text-2xl text-[#1a2542]" }, /* @__PURE__ */ React.createElement("span", { className: "text-lg mr-1" }, "\u0E3F"), "550")))))));
-const CbdOilPromo = () => /* @__PURE__ */ React.createElement("div", { className: "rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row bg-gradient-to-br from-[#eafaf9] to-[#cbf0f3] w-full mt-6 mb-12 text-[#1a2542] border border-white/40" }, /* @__PURE__ */ React.createElement("div", { className: "w-full md:w-[45%] lg:w-[40%] p-8 flex flex-col items-center justify-center relative bg-white/30 backdrop-blur-sm min-h-[350px] md:min-h-[auto]" }, /* @__PURE__ */ React.createElement("div", { className: "w-full max-w-[320px] aspect-[3/4] flex flex-col items-center justify-center relative" }, /* @__PURE__ */ React.createElement(
-  "img",
-  {
-    src: "ato-cbd.png",
-    alt: "ATO Rest CBD Oil",
-    className: "w-full h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
-  }
-))), /* @__PURE__ */ React.createElement("div", { className: "w-full md:w-[55%] lg:w-[60%] p-8 md:p-10 lg:p-12 flex flex-col justify-center" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-3 mb-3" }, /* @__PURE__ */ React.createElement("span", { className: "bg-[#e8246e] text-white font-yellix font-bold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-sm" }, "New Arrival")), /* @__PURE__ */ React.createElement("h2", { className: "font-bd font-black text-4xl md:text-5xl uppercase tracking-wider text-[#1a2542] mb-2 leading-none drop-shadow-sm" }, "ATO Rest CBD Oil"), /* @__PURE__ */ React.createElement("p", { className: "font-yellix text-xl md:text-2xl text-[#1a2542]/70 font-bold mb-8" }, "CBD Wellness for the Good Feelings"), /* @__PURE__ */ React.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5 mb-8 border-y border-[#1a2542]/10 py-6" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-start gap-3" }, /* @__PURE__ */ React.createElement("div", { className: "bg-[#c6dc3b] p-2 rounded-xl text-[#1a2542] shrink-0 mt-0.5 shadow-sm" }, /* @__PURE__ */ React.createElement(
-  "svg",
-  {
-    className: "w-5 h-5",
-    fill: "none",
-    stroke: "currentColor",
-    viewBox: "0 0 24 24"
-  },
-  /* @__PURE__ */ React.createElement(
-    "path",
-    {
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      strokeWidth: "2.5",
-      d: "M5 13l4 4L19 7"
-    }
-  )
-)), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h4", { className: "font-bd font-bold text-lg text-[#1a2542] mb-0.5 leading-tight" }, "Premium Purity"), /* @__PURE__ */ React.createElement("p", { className: "font-yellix text-sm font-semibold text-[#1a2542]/60 leading-snug" }, "2,000mg CBD Isolate.", /* @__PURE__ */ React.createElement("br", null), "No chemicals or pesticides."))), /* @__PURE__ */ React.createElement("div", { className: "flex items-start gap-3" }, /* @__PURE__ */ React.createElement("div", { className: "bg-[#c6dc3b] p-2 rounded-xl text-[#1a2542] shrink-0 mt-0.5 shadow-sm" }, /* @__PURE__ */ React.createElement(
-  "svg",
-  {
-    className: "w-5 h-5",
-    fill: "none",
-    stroke: "currentColor",
-    viewBox: "0 0 24 24"
-  },
-  /* @__PURE__ */ React.createElement(
-    "path",
-    {
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      strokeWidth: "2.5",
-      d: "M13 10V3L4 14h7v7l9-11h-7z"
-    }
-  )
-)), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h4", { className: "font-bd font-bold text-lg text-[#1a2542] mb-0.5 leading-tight" }, "Potent Formula"), /* @__PURE__ */ React.createElement("p", { className: "font-yellix text-sm font-semibold text-[#1a2542]/60 leading-snug" }, "10mg of CBD per drop.", /* @__PURE__ */ React.createElement("br", null), "Just 1-5 drops per serving."))), /* @__PURE__ */ React.createElement("div", { className: "flex items-start gap-3 sm:col-span-2 pt-2 sm:pt-0" }, /* @__PURE__ */ React.createElement("div", { className: "bg-[#c6dc3b] p-2 rounded-xl text-[#1a2542] shrink-0 mt-0.5 shadow-sm" }, /* @__PURE__ */ React.createElement(
-  "svg",
-  {
-    className: "w-5 h-5",
-    fill: "none",
-    stroke: "currentColor",
-    viewBox: "0 0 24 24"
-  },
-  /* @__PURE__ */ React.createElement(
-    "path",
-    {
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      strokeWidth: "2.5",
-      d: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-    }
-  )
-)), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h4", { className: "font-bd font-bold text-lg text-[#1a2542] mb-0.5 leading-tight" }, "Trusted Quality"), /* @__PURE__ */ React.createElement("p", { className: "font-yellix text-sm font-semibold text-[#1a2542]/60 leading-snug" }, "Lab-tested & manufactured from ISO and GHP Certified Facility.")))), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col xl:flex-row xl:items-end justify-between gap-6" }, /* @__PURE__ */ React.createElement("div", { className: "bg-white/50 backdrop-blur-sm rounded-2xl p-5 shadow-sm border border-white/60 flex-1" }, /* @__PURE__ */ React.createElement("span", { className: "font-yellix font-bold text-xs uppercase tracking-widest text-[#1a2542]/60 block mb-3" }, "May help with"), /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap gap-2" }, /* @__PURE__ */ React.createElement("span", { className: "bg-[#2a1962] text-white font-bd text-sm px-4 py-1.5 rounded-xl shadow-sm" }, "Better Sleep"), /* @__PURE__ */ React.createElement("span", { className: "bg-[#2a1962] text-white font-bd text-sm px-4 py-1.5 rounded-xl shadow-sm" }, "Pain Relief"), /* @__PURE__ */ React.createElement("span", { className: "bg-[#2a1962] text-white font-bd text-sm px-4 py-1.5 rounded-xl shadow-sm" }, "Stress & Anxiety"))), /* @__PURE__ */ React.createElement("div", { className: "text-center xl:text-right shrink-0 bg-gradient-to-r from-[#2a1962] to-[#4a3982] p-6 rounded-[1.5rem] shadow-[0_10px_25px_rgba(42,25,98,0.4)] border border-white/20 flex flex-col items-center xl:items-end justify-center w-full xl:w-auto relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300" }, /* @__PURE__ */ React.createElement("div", { className: "absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-12 -mt-12 blur-2xl" }), /* @__PURE__ */ React.createElement("span", { className: "font-yellix font-bold text-xs md:text-sm text-white/70 uppercase tracking-[0.2em] block mb-2 relative z-10" }, "Special Price"), /* @__PURE__ */ React.createElement("div", { className: "font-bd font-black text-5xl md:text-6xl text-[#c6dc3b] drop-shadow-md leading-none relative z-10 flex items-baseline" }, /* @__PURE__ */ React.createElement("span", { className: "text-3xl md:text-4xl opacity-90 mr-1.5 text-white/90" }, "\u0E3F"), "1,800")))));
-const PromoModal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-  return /* @__PURE__ */ React.createElement(
-    "div",
-    {
-      className: "fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/40 backdrop-blur-xl animate-fadeIn",
-      onClick: onClose
-    },
-    /* @__PURE__ */ React.createElement(
-      "div",
-      {
-        className: "relative max-w-md md:max-w-lg w-full animate-popup",
-        onClick: (e) => e.stopPropagation()
-      },
-      /* @__PURE__ */ React.createElement(
-        "button",
-        {
-          onClick: onClose,
-          className: "absolute -top-3 -right-3 md:-top-5 md:-right-5 bg-[#e8246e] text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center font-bold text-xl md:text-2xl shadow-xl border-2 border-white hover:scale-110 transition-transform z-10"
-        },
-        "\xD7"
-      ),
-      /* @__PURE__ */ React.createElement(
-        "img",
-        {
-          src: "promo-popup.png",
-          alt: "Special Promotion",
-          className: "w-full h-auto rounded-2xl shadow-2xl object-contain bg-black/20"
+        e("h2", { className: `font-bd font-black text-2xl uppercase tracking-tight ${isCompound ? "text-[#c8c7c7]" : "text-white"}` }, title),
+        e("span", { className: `font-yellix font-bold text-xs px-3 py-1 rounded-full ${isCompound ? "bg-[#c8c7c7] text-[#112237]" : "bg-black/20 text-white/80"}` }, "1G | 3.5G")
+      );
+
+      const PartyPackPromo = () => e("div", { className: "border border-white/20 rounded-2xl shadow-2xl overflow-hidden bg-gradient-to-r from-gray-50 to-gray-200 flex flex-col md:flex-row items-stretch w-full mt-4 mb-8 relative group transition-all duration-300 hover:shadow-white/10" },
+        // Left side
+        e("div", { className: "bg-[#2a1962] p-5 md:p-8 flex flex-col items-center justify-center w-full md:w-[35%] lg:w-[30%] shrink-0 border-b md:border-b-0 md:border-r border-[#2a1962]/20" },
+          e("h2", { className: "font-bd font-black text-3xl md:text-4xl text-white uppercase tracking-wide text-center drop-shadow-md leading-tight" },
+            "PARTY PACK", e("br"), e("span", { className: "text-primary mt-1 md:mt-2 block" }, "PROMO")
+          ),
+          e("div", { className: "font-bd font-bold text-xs md:text-sm text-[#2a1962] uppercase tracking-widest flex items-center justify-center bg-primary px-4 py-2 rounded-full shadow-sm mt-3 md:mt-4 border border-[#b2c832] text-center w-full max-w-[220px]" }, "Mix & Match 4 Strains")
+        ),
+        // Right side - DESKTOP
+        e("div", { className: "hidden md:flex p-6 lg:p-8 items-center justify-evenly flex-1 gap-6 bg-white/50 backdrop-blur-sm" },
+          e("div", { className: "flex flex-col items-center justify-center flex-1" },
+            e("span", { className: "font-yellix font-bold text-[#2a1962]/50 tracking-widest uppercase text-xs mb-1" }, "Volume"),
+            e("div", { className: "font-bd font-black text-[56px] leading-none text-[#2a1962] drop-shadow-sm flex items-baseline" }, "28", e("span", { className: "text-[28px] text-[#2a1962] ml-1" }, "g"))
+          ),
+          e("div", { className: "w-px h-20 bg-gradient-to-b from-transparent via-[#2a1962]/20 to-transparent" }),
+          e("div", { className: "flex flex-col items-center justify-center flex-1" },
+            e("span", { className: "font-yellix font-bold text-[#2a1962]/50 tracking-widest uppercase text-xs mb-1" }, "Total Price"),
+            e("div", { className: "font-bd font-black text-[48px] text-[#2a1962] leading-none flex items-baseline drop-shadow-sm" }, e("span", { className: "text-3xl text-[#2a1962] mr-2" }, "฿"), "5,600")
+          ),
+          e("div", { className: "w-px h-20 bg-gradient-to-b from-transparent via-[#2a1962]/20 to-transparent" }),
+          e("div", { className: "flex flex-col items-center justify-center flex-1 bg-gradient-to-br from-[#e8246e]/10 to-[#e8246e]/5 rounded-2xl p-5 border border-[#e8246e]/20 relative overflow-hidden group-hover:bg-[#e8246e]/10 transition-colors" },
+            e("div", { className: "bg-[#e8246e] text-white font-yellix font-bold text-[11px] uppercase tracking-widest px-4 py-1 rounded-full mb-1 shadow-sm relative z-10" }, "Best Value"),
+            e("div", { className: "font-bd font-black text-4xl text-[#e8246e] flex items-baseline drop-shadow-sm my-1 relative z-10" }, e("span", { className: "text-2xl mr-1" }, "฿"), "200"),
+            e("span", { className: "font-yellix font-bold text-[#2a1962]/70 text-xs tracking-widest uppercase mt-0.5 relative z-10" }, "per gram")
+          )
+        ),
+        // Right side - MOBILE
+        e("div", { className: "flex md:hidden p-4 sm:p-6 flex-col items-center justify-evenly flex-1 gap-3 sm:gap-4 bg-white/50 backdrop-blur-sm" },
+          e("div", { className: "flex flex-row w-full justify-between sm:justify-evenly flex-1 gap-3 sm:gap-0" },
+            e("div", { className: "flex flex-col items-center justify-center flex-1 bg-white/60 sm:bg-transparent rounded-2xl sm:rounded-none p-3 sm:p-0 shadow-sm sm:shadow-none border border-white/50 sm:border-none" },
+              e("span", { className: "font-yellix font-bold text-[#2a1962]/50 tracking-widest uppercase text-[10px] mb-0.5" }, "Volume"),
+              e("div", { className: "font-bd font-black text-[36px] sm:text-[48px] leading-none text-[#2a1962] drop-shadow-sm flex items-baseline" }, "28", e("span", { className: "text-[18px] sm:text-[24px] text-[#2a1962] ml-0.5" }, "g"))
+            ),
+            e("div", { className: "flex flex-col items-center justify-center flex-1 bg-white/60 sm:bg-transparent rounded-2xl sm:rounded-none p-3 sm:p-0 shadow-sm sm:shadow-none border border-white/50 sm:border-none" },
+              e("span", { className: "font-yellix font-bold text-[#2a1962]/50 tracking-widest uppercase text-[10px] mb-0.5" }, "Total Price"),
+              e("div", { className: "font-bd font-black text-[30px] sm:text-[40px] text-[#2a1962] leading-none flex items-baseline drop-shadow-sm" }, e("span", { className: "text-xl sm:text-2xl text-[#2a1962] mr-1" }, "฿"), "5,600")
+            )
+          ),
+          e("div", { className: "flex flex-col items-center justify-center w-full bg-gradient-to-r from-[#e8246e]/10 via-[#e8246e]/5 to-[#e8246e]/10 rounded-2xl p-4 border border-[#e8246e]/20 relative overflow-hidden mt-1" },
+            e("div", { className: "bg-[#e8246e] text-white font-yellix font-bold text-[10px] uppercase tracking-widest px-4 py-1 rounded-full mb-1 shadow-sm relative z-10" }, "Best Value"),
+            e("div", { className: "font-bd font-black text-3xl text-[#e8246e] flex items-baseline drop-shadow-sm my-1 relative z-10" }, e("span", { className: "text-xl mr-1" }, "฿"), "200"),
+            e("span", { className: "font-yellix font-bold text-[#2a1962]/70 text-[11px] tracking-widest uppercase mt-0.5 relative z-10" }, "per gram")
+          )
+        )
+      );
+
+      const PreRollsPromo = () => e("div", { className: "border-2 border-[#8fe4f6]/50 rounded-2xl shadow-2xl overflow-hidden flex flex-col bg-gradient-to-b from-[#8fe4f6] to-[#60cae8] w-full mt-4 mb-6" },
+        e("div", { className: "flex justify-center items-center px-5 py-5 bg-[#c8e658] border-b-4 border-[#1a2542]/10 relative overflow-hidden" },
+          e("h2", { className: "font-bd font-black text-4xl text-[#1a2542] uppercase tracking-wider relative z-10 drop-shadow-md" }, "PRE-ROLLS")
+        ),
+        e("div", { className: "p-6 md:p-10 flex flex-col items-center justify-center relative" },
+          e("div", { className: "w-full max-w-[450px] aspect-square mb-10 flex flex-col items-center justify-center relative" },
+            e("img", { src: "preolls-greenape.png", alt: "Green Ape Pre-Rolls", className: "w-full h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500" })
+          ),
+          e("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-4xl relative z-10" },
+            // Sativa
+            e("div", { className: "flex flex-col items-center" },
+              e("h3", { className: "font-bd font-black text-3xl text-[#1a2542] text-center mb-4 drop-shadow-sm flex items-center gap-2" }, "Sativa ", e("span", { className: "text-xl" }, "Pre-rolls")),
+              e("div", { className: "bg-white rounded-[2rem] p-6 w-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-b-[6px] border-[#1a2542]/10 transition-transform hover:-translate-y-1 flex flex-col gap-3" },
+                e("div", { className: "flex justify-between items-center border-b-2 border-gray-100 pb-3" },
+                  e("span", { className: "font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide" }, "Box of 5"),
+                  e("span", { className: "font-bd font-black text-2xl text-[#1a2542]" }, e("span", { className: "text-lg mr-1" }, "฿"), "750")
+                ),
+                e("div", { className: "flex justify-between items-center pt-1" },
+                  e("span", { className: "font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide" }, "Box of 3"),
+                  e("span", { className: "font-bd font-black text-2xl text-[#1a2542]" }, e("span", { className: "text-lg mr-1" }, "฿"), "550")
+                )
+              )
+            ),
+            // Indica
+            e("div", { className: "flex flex-col items-center" },
+              e("h3", { className: "font-bd font-black text-3xl text-[#1a2542] text-center mb-4 drop-shadow-sm flex items-center gap-2" }, "Indica ", e("span", { className: "text-xl" }, "Pre-rolls")),
+              e("div", { className: "bg-white rounded-[2rem] p-6 w-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-b-[6px] border-[#1a2542]/10 transition-transform hover:-translate-y-1 flex flex-col gap-3" },
+                e("div", { className: "flex justify-between items-center border-b-2 border-gray-100 pb-3" },
+                  e("span", { className: "font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide" }, "Box of 5"),
+                  e("span", { className: "font-bd font-black text-2xl text-[#1a2542]" }, e("span", { className: "text-lg mr-1" }, "฿"), "750")
+                ),
+                e("div", { className: "flex justify-between items-center pt-1" },
+                  e("span", { className: "font-yellix font-bold text-lg text-[#1a2542]/60 uppercase tracking-wide" }, "Box of 3"),
+                  e("span", { className: "font-bd font-black text-2xl text-[#1a2542]" }, e("span", { className: "text-lg mr-1" }, "฿"), "550")
+                )
+              )
+            )
+          )
+        )
+      );
+
+      const CbdOilPromo = () => e("div", { className: "rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row bg-gradient-to-br from-[#eafaf9] to-[#cbf0f3] w-full mt-6 mb-12 text-[#1a2542] border border-white/40" },
+        // Left
+        e("div", { className: "w-full md:w-[45%] lg:w-[40%] p-8 flex flex-col items-center justify-center relative bg-white/30 backdrop-blur-sm min-h-[350px] md:min-h-[auto]" },
+          e("div", { className: "w-full max-w-[320px] aspect-[3/4] flex flex-col items-center justify-center relative" },
+            e("img", { src: "ato-cbd.png", alt: "ATO Rest CBD Oil", className: "w-full h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500" })
+          )
+        ),
+        // Right
+        e("div", { className: "w-full md:w-[55%] lg:w-[60%] p-8 md:p-10 lg:p-12 flex flex-col justify-center" },
+          e("div", { className: "flex items-center gap-3 mb-3" },
+            e("span", { className: "bg-[#e8246e] text-white font-yellix font-bold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-sm" }, "New Arrival")
+          ),
+          e("h2", { className: "font-bd font-black text-4xl md:text-5xl uppercase tracking-wider text-[#1a2542] mb-2 leading-none drop-shadow-sm" }, "ATO Rest CBD Oil"),
+          e("p", { className: "font-yellix text-xl md:text-2xl text-[#1a2542]/70 font-bold mb-8" }, "CBD Wellness for the Good Feelings"),
+          // Grid
+          e("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5 mb-8 border-y border-[#1a2542]/10 py-6" },
+            e("div", { className: "flex items-start gap-3" },
+              e("div", { className: "bg-[#c6dc3b] p-2 rounded-xl text-[#1a2542] shrink-0 mt-0.5 shadow-sm" },
+                e("svg", { className: "w-5 h-5", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24" }, e("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2.5", d: "M5 13l4 4L19 7" }))
+              ),
+              e("div", null,
+                e("h4", { className: "font-bd font-bold text-lg text-[#1a2542] mb-0.5 leading-tight" }, "Premium Purity"),
+                e("p", { className: "font-yellix text-sm font-semibold text-[#1a2542]/60 leading-snug" }, "2,000mg CBD Isolate.", e("br"), "No chemicals or pesticides.")
+              )
+            ),
+            e("div", { className: "flex items-start gap-3" },
+              e("div", { className: "bg-[#c6dc3b] p-2 rounded-xl text-[#1a2542] shrink-0 mt-0.5 shadow-sm" },
+                e("svg", { className: "w-5 h-5", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24" }, e("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2.5", d: "M13 10V3L4 14h7v7l9-11h-7z" }))
+              ),
+              e("div", null,
+                e("h4", { className: "font-bd font-bold text-lg text-[#1a2542] mb-0.5 leading-tight" }, "Potent Formula"),
+                e("p", { className: "font-yellix text-sm font-semibold text-[#1a2542]/60 leading-snug" }, "10mg of CBD per drop.", e("br"), "Just 1-5 drops per serving.")
+              )
+            ),
+            e("div", { className: "flex items-start gap-3 sm:col-span-2 pt-2 sm:pt-0" },
+              e("div", { className: "bg-[#c6dc3b] p-2 rounded-xl text-[#1a2542] shrink-0 mt-0.5 shadow-sm" },
+                e("svg", { className: "w-5 h-5", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24" }, e("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2.5", d: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" }))
+              ),
+              e("div", null,
+                e("h4", { className: "font-bd font-bold text-lg text-[#1a2542] mb-0.5 leading-tight" }, "Trusted Quality"),
+                e("p", { className: "font-yellix text-sm font-semibold text-[#1a2542]/60 leading-snug" }, "Lab-tested & manufactured from ISO and GHP Certified Facility.")
+              )
+            )
+          ),
+          // Bottom row
+          e("div", { className: "flex flex-col xl:flex-row xl:items-end justify-between gap-6" },
+            e("div", { className: "bg-white/50 backdrop-blur-sm rounded-2xl p-5 shadow-sm border border-white/60 flex-1" },
+              e("span", { className: "font-yellix font-bold text-xs uppercase tracking-widest text-[#1a2542]/60 block mb-3" }, "May help with"),
+              e("div", { className: "flex flex-wrap gap-2" },
+                e("span", { className: "bg-[#2a1962] text-white font-bd text-sm px-4 py-1.5 rounded-xl shadow-sm" }, "Better Sleep"),
+                e("span", { className: "bg-[#2a1962] text-white font-bd text-sm px-4 py-1.5 rounded-xl shadow-sm" }, "Pain Relief"),
+                e("span", { className: "bg-[#2a1962] text-white font-bd text-sm px-4 py-1.5 rounded-xl shadow-sm" }, "Stress & Anxiety")
+              )
+            ),
+            e("div", { className: "text-center xl:text-right shrink-0 bg-gradient-to-r from-[#2a1962] to-[#4a3982] p-6 rounded-[1.5rem] shadow-[0_10px_25px_rgba(42,25,98,0.4)] border border-white/20 flex flex-col items-center xl:items-end justify-center w-full xl:w-auto relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300" },
+              e("div", { className: "absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-12 -mt-12 blur-2xl" }),
+              e("span", { className: "font-yellix font-bold text-xs md:text-sm text-white/70 uppercase tracking-[0.2em] block mb-2 relative z-10" }, "Special Price"),
+              e("div", { className: "font-bd font-black text-5xl md:text-6xl text-[#c6dc3b] drop-shadow-md leading-none relative z-10 flex items-baseline" },
+                e("span", { className: "text-3xl md:text-4xl opacity-90 mr-1.5 text-white/90" }, "฿"),
+                "1,800"
+              )
+            )
+          )
+        )
+      );
+
+      const PromoModal = ({ isOpen, onClose }) => {
+        if (!isOpen) return null;
+
+        return e("div", { className: "fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/40 backdrop-blur-xl animate-fadeIn", onClick: onClose },
+          e("div", { className: "relative max-w-md md:max-w-lg w-full animate-popup", onClick: (e) => e.stopPropagation() },
+            e("button", { onClick: onClose, className: "absolute -top-3 -right-3 md:-top-5 md:-right-5 bg-[#e8246e] text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center font-bold text-xl md:text-2xl shadow-xl border-2 border-white hover:scale-110 transition-transform z-10" }, "\u00D7"),
+            e("img", { src: "promo-popup.png", alt: "Special Promotion", className: "w-full h-auto rounded-2xl shadow-2xl object-contain bg-black/20" })
+          )
+        );
+      };
+
+      const App = () => {
+        const SHOW_COMPOUND_GENETICS = true;
+        const [selectedProduct, setSelectedProduct] = useState(null);
+        const [showPromoModal, setShowPromoModal] = useState(true);
+
+        const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+        const currentDate = new Date();
+        const currentMonthYear = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+
+        const sativa = products.filter((p) => p.cat === "SATIVA");
+        const indica = products.filter((p) => p.cat === "INDICA");
+        const hybrid = products.filter((p) => p.cat === "HYBRID");
+        const cbd = products.filter((p) => p.cat === "CBD");
+        const compoundGenetics = products.filter((p) => p.cat === "COMPOUND_GENETICS");
+
+        const allSections = [
+          { id: "sativa", title: "SATIVA", color: "#9e9e5e", data: sativa },
+          { id: "indica", title: "INDICA", color: "#4a5585", data: indica },
+          { id: "hybrid", title: "HYBRID", color: "#9e7b5e", data: hybrid },
+          { id: "cbd", title: "CBD", color: "#9e5e97", data: cbd },
+        ];
+
+        if (SHOW_COMPOUND_GENETICS) {
+          allSections.push({ id: "compound", title: "COMPOUND GENETICS", color: "#112237", data: compoundGenetics, isCompound: true });
         }
-      )
-    )
-  );
-};
-const App = () => {
-  const SHOW_COMPOUND_GENETICS = true;
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [showPromoModal, setShowPromoModal] = useState(true);
-  const monthNames = [
-    "JANUARY",
-    "FEBRUARY",
-    "MARCH",
-    "APRIL",
-    "MAY",
-    "JUNE",
-    "JULY",
-    "AUGUST",
-    "SEPTEMBER",
-    "OCTOBER",
-    "NOVEMBER",
-    "DECEMBER"
-  ];
-  const currentDate = /* @__PURE__ */ new Date();
-  const currentMonthYear = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
-  const sativa = products.filter((p) => p.cat === "SATIVA");
-  const indica = products.filter((p) => p.cat === "INDICA");
-  const hybrid = products.filter((p) => p.cat === "HYBRID");
-  const cbd = products.filter((p) => p.cat === "CBD");
-  const compoundGenetics = products.filter(
-    (p) => p.cat === "COMPOUND_GENETICS"
-  );
-  const allSections = [
-    { id: "sativa", title: "SATIVA", color: "#9e9e5e", data: sativa },
-    { id: "indica", title: "INDICA", color: "#4a5585", data: indica },
-    { id: "hybrid", title: "HYBRID", color: "#9e7b5e", data: hybrid },
-    { id: "cbd", title: "CBD", color: "#9e5e97", data: cbd }
-  ];
-  if (SHOW_COMPOUND_GENETICS) {
-    allSections.push({
-      id: "compound",
-      title: "COMPOUND GENETICS",
-      color: "#112237",
-      data: compoundGenetics,
-      isCompound: true
-    });
-  }
-  const activeSections = allSections.filter((s) => s.data.length > 0);
-  let leftCol = [];
-  let rightCol = [];
-  let leftWeight = 0;
-  let rightWeight = 0;
-  activeSections.forEach((section) => {
-    const weight = section.data.length + 1.5;
-    if (leftWeight <= rightWeight) {
-      leftCol.push(section);
-      leftWeight += weight;
-    } else {
-      rightCol.push(section);
-      rightWeight += weight;
-    }
-  });
-  const renderSection = (section) => /* @__PURE__ */ React.createElement(
-    "div",
-    {
-      key: section.id,
-      className: `border rounded-2xl shadow-xl overflow-hidden flex flex-col mb-6 ${section.isCompound ? "border-[#c8c7c7]/30 shadow-[0_10px_30px_rgba(17,34,55,0.8)] bg-[#112237]" : "border-white/20 bg-black/20 backdrop-blur-sm"}`
-    },
-    /* @__PURE__ */ React.createElement(
-      BoxHeader,
-      {
-        title: section.title,
-        bgColor: section.color,
-        isCompound: section.isCompound
-      }
-    ),
-    /* @__PURE__ */ React.createElement("div", { className: "p-3 space-y-1" }, section.data.map((p, idx) => /* @__PURE__ */ React.createElement(
-      ProductCard,
-      {
-        key: idx,
-        product: p,
-        onClick: setSelectedProduct,
-        theme: section.isCompound ? "compound" : "default"
-      }
-    )))
-  );
-  return /* @__PURE__ */ React.createElement("div", { className: "min-h-screen flex flex-col pb-10 relative" }, /* @__PURE__ */ React.createElement(
-    PromoModal,
-    {
-      isOpen: showPromoModal,
-      onClose: () => setShowPromoModal(false)
-    }
-  ), /* @__PURE__ */ React.createElement("header", { className: "max-w-[1400px] mx-auto w-full px-4 pt-8 pb-6 text-center flex flex-col items-center justify-center gap-3" }, /* @__PURE__ */ React.createElement(
-    "img",
-    {
-      src: "logo.png",
-      alt: "Green Ape Logo",
-      className: "h-10 md:h-12 w-auto max-w-[110px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
-    }
-  ), /* @__PURE__ */ React.createElement("h1", { className: "font-bd font-black text-[40px] md:text-[48px] text-primary uppercase leading-none tracking-tight drop-shadow-lg" }, "FLOWER MENU"), /* @__PURE__ */ React.createElement("p", { className: "font-bd font-bold text-sm md:text-base text-white uppercase tracking-[0.2em] bg-tertiary px-6 py-1.5 rounded-full shadow-lg" }, currentMonthYear)), /* @__PURE__ */ React.createElement("main", { className: "flex flex-col md:flex-row gap-6 max-w-[1400px] mx-auto w-full px-4 mb-4 items-start" }, /* @__PURE__ */ React.createElement("div", { className: "w-full md:w-1/2 flex flex-col" }, leftCol.map(renderSection)), /* @__PURE__ */ React.createElement("div", { className: "w-full md:w-1/2 flex flex-col" }, rightCol.map(renderSection))), /* @__PURE__ */ React.createElement("section", { className: "max-w-[1400px] mx-auto w-full px-4" }, /* @__PURE__ */ React.createElement(PartyPackPromo, null)), /* @__PURE__ */ React.createElement("section", { className: "max-w-[1400px] mx-auto w-full px-4" }, /* @__PURE__ */ React.createElement(PreRollsPromo, null)), /* @__PURE__ */ React.createElement("section", { className: "max-w-[1400px] mx-auto w-full px-4" }, /* @__PURE__ */ React.createElement(CbdOilPromo, null)), !showPromoModal && /* @__PURE__ */ React.createElement(
-    "button",
-    {
-      onClick: () => setShowPromoModal(true),
-      className: "fixed bottom-6 right-6 md:bottom-8 md:right-8 bg-[#e8246e] text-white px-4 py-3 rounded-full shadow-[0_4px_20px_rgba(232,36,110,0.5)] flex items-center justify-center gap-2 hover:scale-110 transition-transform duration-300 z-40 border border-white/30 group animate-popup"
-    },
-    /* @__PURE__ */ React.createElement(SvgPromoOffer, null),
-    /* @__PURE__ */ React.createElement("span", { className: "font-bd font-bold text-sm md:text-base uppercase tracking-widest mt-0.5 drop-shadow-sm" }, "Offers")
-  ));
-};
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(/* @__PURE__ */ React.createElement(App, null));
-</script>
+
+        const activeSections = allSections.filter((s) => s.data.length > 0);
+
+        let leftCol = [];
+        let rightCol = [];
+        let leftWeight = 0;
+        let rightWeight = 0;
+
+        activeSections.forEach((section) => {
+          const weight = section.data.length + 1.5;
+          if (leftWeight <= rightWeight) {
+            leftCol.push(section);
+            leftWeight += weight;
+          } else {
+            rightCol.push(section);
+            rightWeight += weight;
+          }
+        });
+
+        const renderSection = (section) => e("div", { key: section.id, className: `border rounded-2xl shadow-xl overflow-hidden flex flex-col mb-6 ${section.isCompound ? "border-[#c8c7c7]/30 shadow-[0_10px_30px_rgba(17,34,55,0.8)] bg-[#112237]" : "border-white/20 bg-black/20 backdrop-blur-sm"}` },
+          e(BoxHeader, { title: section.title, bgColor: section.color, isCompound: section.isCompound }),
+          e("div", { className: "p-3 space-y-1" },
+            section.data.map((p, idx) => e(ProductCard, { key: idx, product: p, onClick: setSelectedProduct, theme: section.isCompound ? "compound" : "default" }))
+          )
+        );
+
+        return e("div", { className: "min-h-screen flex flex-col pb-10 relative" },
+          e(PromoModal, { isOpen: showPromoModal, onClose: () => setShowPromoModal(false) }),
+          e("header", { className: "max-w-[1400px] mx-auto w-full px-4 pt-8 pb-6 text-center flex flex-col items-center justify-center gap-3" },
+            e("img", { src: "logo.png", alt: "Green Ape Logo", className: "h-10 md:h-12 w-auto max-w-[110px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-300" }),
+            e("h1", { className: "font-bd font-black text-[40px] md:text-[48px] text-primary uppercase leading-none tracking-tight drop-shadow-lg text-primary" }, "FLOWER MENU"),
+            e("p", { className: "font-bd font-bold text-sm md:text-base text-white uppercase tracking-[0.2em] bg-tertiary px-6 py-1.5 rounded-full shadow-lg" }, currentMonthYear)
+          ),
+          e("main", { className: "flex flex-col md:flex-row gap-6 max-w-[1400px] mx-auto w-full px-4 mb-4 items-start" },
+            e("div", { className: "w-full md:w-1/2 flex flex-col" }, leftCol.map(renderSection)),
+            e("div", { className: "w-full md:w-1/2 flex flex-col" }, rightCol.map(renderSection))
+          ),
+          e("section", { className: "max-w-[1400px] mx-auto w-full px-4" }, e(PartyPackPromo)),
+          e("section", { className: "max-w-[1400px] mx-auto w-full px-4" }, e(PreRollsPromo)),
+          e("section", { className: "max-w-[1400px] mx-auto w-full px-4" }, e(CbdOilPromo)),
+          !showPromoModal && e("button", { onClick: () => setShowPromoModal(true), className: "fixed bottom-6 right-6 md:bottom-8 md:right-8 bg-[#e8246e] text-white px-4 py-3 rounded-full shadow-[0_4px_20px_rgba(232,36,110,0.5)] flex items-center justify-center gap-2 hover:scale-110 transition-transform duration-300 z-40 border border-white/30 group animate-popup" },
+            e(SvgPromoOffer),
+            e("span", { className: "font-bd font-bold text-sm md:text-base uppercase tracking-widest mt-0.5 drop-shadow-sm" }, "Offers")
+          )
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(e(App));
+    </script>
   </body>
 </html>
