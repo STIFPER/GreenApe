@@ -50,10 +50,10 @@
     </script>
 
     <style>
-      /* ประกาศฟอนต์จากไฟล์ที่คุณอัปโหลดขึ้น GitHub */
+      /* ประกาศฟอนต์จากไฟล์ที่คุณอัปโหลดขึ้น GitHub โดยชี้ไปที่โฟลเดอร์ assets/fonts/ */
       @font-face {
         font-family: "BD Supper";
-        src: url("BDSupper-Bold.woff2") format("woff2");
+        src: url("assets/fonts/BDSupper-Bold.woff2") format("woff2");
         font-weight: bold;
         font-style: normal;
         font-display: swap;
@@ -61,7 +61,7 @@
 
       @font-face {
         font-family: "Yellix";
-        src: url("Yellix-Regular.woff2") format("woff2");
+        src: url("assets/fonts/Yellix-Regular.woff2") format("woff2");
         font-weight: normal;
         font-style: normal;
         font-display: swap;
@@ -367,13 +367,14 @@
         )
       );
 
+      // อัปเดต Path รูปภาพ preolls-greenape.png ให้อยู่ในโฟลเดอร์ assets/
       const PreRollsPromo = () => e("div", { className: "border-2 border-[#8fe4f6]/50 rounded-2xl shadow-2xl overflow-hidden flex flex-col bg-gradient-to-b from-[#8fe4f6] to-[#60cae8] w-full mt-4 mb-6" },
         e("div", { className: "flex justify-center items-center px-5 py-5 bg-[#c8e658] border-b-4 border-[#1a2542]/10 relative overflow-hidden" },
           e("h2", { className: "font-bd font-black text-4xl text-[#1a2542] uppercase tracking-wider relative z-10 drop-shadow-md" }, "PRE-ROLLS")
         ),
         e("div", { className: "p-6 md:p-10 flex flex-col items-center justify-center relative" },
           e("div", { className: "w-full max-w-[450px] aspect-square mb-10 flex flex-col items-center justify-center relative" },
-            e("img", { src: "preolls-greenape.png", alt: "Green Ape Pre-Rolls", className: "w-full h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500" })
+            e("img", { src: "assets/preolls-greenape.png", alt: "Green Ape Pre-Rolls", className: "w-full h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500" })
           ),
           e("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-4xl relative z-10" },
             // Sativa
@@ -408,11 +409,12 @@
         )
       );
 
+      // อัปเดต Path รูปภาพ ato-cbd.png ให้อยู่ในโฟลเดอร์ assets/
       const CbdOilPromo = () => e("div", { className: "rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row bg-gradient-to-br from-[#eafaf9] to-[#cbf0f3] w-full mt-6 mb-12 text-[#1a2542] border border-white/40" },
         // Left
         e("div", { className: "w-full md:w-[45%] lg:w-[40%] p-8 flex flex-col items-center justify-center relative bg-white/30 backdrop-blur-sm min-h-[350px] md:min-h-[auto]" },
           e("div", { className: "w-full max-w-[320px] aspect-[3/4] flex flex-col items-center justify-center relative" },
-            e("img", { src: "ato-cbd.png", alt: "ATO Rest CBD Oil", className: "w-full h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500" })
+            e("img", { src: "assets/ato-cbd.png", alt: "ATO Rest CBD Oil", className: "w-full h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500" })
           )
         ),
         // Right
@@ -474,13 +476,14 @@
         )
       );
 
+      // อัปเดต Path รูปภาพ promo-popup.png ให้อยู่ในโฟลเดอร์ assets/
       const PromoModal = ({ isOpen, onClose }) => {
         if (!isOpen) return null;
 
         return e("div", { className: "fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/40 backdrop-blur-xl animate-fadeIn", onClick: onClose },
           e("div", { className: "relative max-w-md md:max-w-lg w-full animate-popup", onClick: (e) => e.stopPropagation() },
             e("button", { onClick: onClose, className: "absolute -top-3 -right-3 md:-top-5 md:-right-5 bg-[#e8246e] text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center font-bold text-xl md:text-2xl shadow-xl border-2 border-white hover:scale-110 transition-transform z-10" }, "\u00D7"),
-            e("img", { src: "promo-popup.png", alt: "Special Promotion", className: "w-full h-auto rounded-2xl shadow-2xl object-contain bg-black/20" })
+            e("img", { src: "assets/promo-popup.png", alt: "Special Promotion", className: "w-full h-auto rounded-2xl shadow-2xl object-contain bg-black/20" })
           )
         );
       };
@@ -538,8 +541,9 @@
 
         return e("div", { className: "min-h-screen flex flex-col pb-10 relative" },
           e(PromoModal, { isOpen: showPromoModal, onClose: () => setShowPromoModal(false) }),
+          // อัปเดต Path รูปภาพ logo.png ให้อยู่ในโฟลเดอร์ assets/
           e("header", { className: "max-w-[1400px] mx-auto w-full px-4 pt-8 pb-6 text-center flex flex-col items-center justify-center gap-3" },
-            e("img", { src: "logo.png", alt: "Green Ape Logo", className: "h-10 md:h-12 w-auto max-w-[110px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-300" }),
+            e("img", { src: "assets/Green Ape Logo", alt: "Green Ape Logo", className: "h-10 md:h-12 w-auto max-w-[110px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-300" }),
             e("h1", { className: "font-bd font-black text-[40px] md:text-[48px] text-primary uppercase leading-none tracking-tight drop-shadow-lg text-primary" }, "FLOWER MENU"),
             e("p", { className: "font-bd font-bold text-sm md:text-base text-white uppercase tracking-[0.2em] bg-tertiary px-6 py-1.5 rounded-full shadow-lg" }, currentMonthYear)
           ),
