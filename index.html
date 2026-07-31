@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+    />
     <title>Green Ape - Flower Menu</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -133,43 +136,27 @@
         // INDICA
         {
           cat: "INDICA",
-          name: "SUPER SLURRICANE",
+          name: "BLACK GARLIC",
           tags: [],
-          thc: "20-24%",
-          cbd: "0%",
+          thc: "23-27%",
+          cbd: "<1%",
           p1: "฿350",
           p35: "฿1,100",
-          terpenes: ["MYRCENE (MUSK)", "TERPINEOL (BERRY)"],
+          stock1: false,
+          stock35: true,
+          terpenes: ["MYRCENE (EARTHY)", "HUMULENE (WOOD)"],
         },
         {
           cat: "INDICA",
           name: "CASHEW SUNDAE",
           tags: [],
           thc: "19-24%",
-          cbd: "0%",
+          cbd: "0%-<1%",
           p1: "฿350",
           p35: "฿1,100",
+          stock1: false,
+          stock35: true,
           terpenes: ["BISABOLOL (NUTTY)", "CARYOPHYLLENE (EARTHY)"],
-        },
-        {
-          cat: "INDICA",
-          name: "DANTE’S INFERNO",
-          tags: [],
-          thc: "22-26%",
-          cbd: "≤1%",
-          p1: "฿350",
-          p35: "฿1,100",
-          terpenes: ["LIMONENE (FRUIT)", "CARYOPHYLLENE (SPICE)"],
-        },
-        {
-          cat: "INDICA",
-          name: "SWEET OCTANE",
-          tags: [],
-          thc: "24-28%",
-          cbd: "<1%",
-          p1: "฿350",
-          p35: "฿1,100",
-          terpenes: ["MYRCENE (FRUIT)", "LIMONENE (GAS)"],
         },
         {
           cat: "INDICA",
@@ -179,30 +166,36 @@
           cbd: "<1%",
           p1: "฿350",
           p35: "฿1,100",
+          stock1: false,
+          stock35: true,
           terpenes: ["MYRCENE (FRUIT)", "CARYOPHYLLENE (GAS)"],
         },
         {
           cat: "INDICA",
-          name: "CUBAN DOOBIE",
+          name: "SUPER SLURRICANE",
           tags: [],
-          thc: "27-30%",
-          cbd: "<1%",
-          p1: "฿350",
-          p35: "฿1,100",
-          terpenes: ["HUMULENE (WOOD)", "MYRCENE (MUSK)"],
-        },
-
-        // SATIVA
-        {
-          cat: "SATIVA",
-          name: "TROP CHERRY GAS",
-          tags: [],
-          thc: "20-22%",
+          thc: "20-24%",
           cbd: "0%",
           p1: "฿350",
           p35: "฿1,100",
-          terpenes: ["MYRCENE (MUSK)", "LIMONENE (CITRUS)"],
+          stock1: true,
+          stock35: true,
+          terpenes: ["MYRCENE (MUSK)", "TERPINEOL (BERRY)"],
         },
+        {
+          cat: "INDICA",
+          name: "SWEET OCTANE",
+          tags: [],
+          thc: "24-28%",
+          cbd: "<1%",
+          p1: "฿350",
+          p35: "฿1,100",
+          stock1: true,
+          stock35: true,
+          terpenes: ["MYRCENE (FRUIT)", "LIMONENE (GAS)"],
+        },
+
+        // SATIVA
         {
           cat: "SATIVA",
           name: "BERRY BOOMSTICK",
@@ -211,27 +204,9 @@
           cbd: "<1%",
           p1: "฿350",
           p35: "฿1,100",
+          stock1: false,
+          stock35: true,
           terpenes: ["MYRCENE (MUSK)", "OCIMENE (FRUIT)"],
-        },
-        {
-          cat: "SATIVA",
-          name: "MANGO SUNSET HAZE",
-          tags: [],
-          thc: "20-24%",
-          cbd: "0%",
-          p1: "฿350",
-          p35: "฿1,100",
-          terpenes: ["MYRCENE (MANGO)", "LIMONENE (LEMON)"],
-        },
-        {
-          cat: "SATIVA",
-          name: "LEMON UPZ",
-          tags: [],
-          thc: "24-28%",
-          cbd: "0%",
-          p1: "฿350",
-          p35: "฿1,100",
-          terpenes: ["LIMONENE (LEMON)", "CARYOPHYLLENE (PEPPER)"],
         },
         {
           cat: "SATIVA",
@@ -241,7 +216,33 @@
           cbd: "0%",
           p1: "฿350",
           p35: "฿1,100",
+          stock1: true,
+          stock35: true,
           terpenes: ["MYRCENE (EARTHY)", "LIMONENE (CITRUS)"],
+        },
+        {
+          cat: "SATIVA",
+          name: "LEMON UPZ",
+          tags: [],
+          thc: "24-28%",
+          cbd: "0%",
+          p1: "฿350",
+          p35: "฿1,100",
+          stock1: false,
+          stock35: true,
+          terpenes: ["LIMONENE (LEMON)", "CARYOPHYLLENE (PEPPER)"],
+        },
+        {
+          cat: "SATIVA",
+          name: "MANGO SUNSET HAZE",
+          tags: [],
+          thc: "20-24%",
+          cbd: "0%",
+          p1: "฿350",
+          p35: "฿1,100",
+          stock1: false,
+          stock35: true,
+          terpenes: ["MYRCENE (MANGO)", "LIMONENE (LEMON)"],
         },
         {
           cat: "SATIVA",
@@ -251,19 +252,47 @@
           cbd: "1-2%",
           p1: "฿350",
           p35: "฿1,100",
+          stock1: true,
+          stock35: true,
           terpenes: ["PINENE (PINE)", "MYRCENE (MUSK)"],
         },
-
-        // HYBRID
         {
-          cat: "HYBRID",
-          name: "PURE MICHIGAN",
+          cat: "SATIVA",
+          name: "PURPLE THAI",
+          tags: [],
+          thc: "14-16%",
+          cbd: "0.1%",
+          p1: "฿350",
+          p35: "฿1,100",
+          stock1: false,
+          stock35: true,
+          terpenes: ["PHELLANDRENE (EUCALYPTUS)", "PINENE (PINE)"],
+        },
+        {
+          cat: "SATIVA",
+          name: "TROP CHERRY GAS",
           tags: [],
           thc: "20-22%",
           cbd: "0%",
           p1: "฿350",
           p35: "฿1,100",
-          terpenes: ["MYRCENE (FRUIT)", "CARYOPHYLLENE (PEPPER)"],
+          stock1: false,
+          stock35: true,
+          terpenes: ["MYRCENE (MUSK)", "LIMONENE (CITRUS)"],
+        },
+
+        // HYBRID
+        {
+          cat: "HYBRID",
+          name: "APPLE GELATO",
+          tags: [],
+          thc: "24-28%",
+          cbd: "0%",
+          p1: "฿350",
+          p35: "฿1,100",
+          stock1: false,
+          stock35: true,
+          terpenes: ["MYRCENE (CREAM)", "LIMONENE (CITRUS)"],
         },
         {
           cat: "HYBRID",
@@ -273,17 +302,81 @@
           cbd: "<1%",
           p1: "฿350",
           p35: "฿1,100",
+          stock1: true,
+          stock35: true,
           terpenes: ["MYRCENE (GRAPE)", "LINALOOL (FLORAL)"],
         },
         {
           cat: "HYBRID",
-          name: "APPLE GELATO",
+          name: "OREOZ",
+          tags: [],
+          thc: "20-24%",
+          cbd: "0%",
+          p1: "฿350",
+          p35: "฿1,100",
+          stock1: false,
+          stock35: true,
+          terpenes: ["MYRCENE (FRUIT)", "CARYOPHYLLENE (EARTHY)"],
+        },
+        {
+          cat: "HYBRID",
+          name: "PAPAYA CHEESY RUNTZ",
+          tags: [],
+          thc: "19-21%",
+          cbd: "0%",
+          p1: "฿350",
+          p35: "฿1,100",
+          stock1: false,
+          stock35: true,
+          terpenes: ["MYRCENE (PAPAYA)", "OCIMENE (APRICOT)"],
+        },
+        {
+          cat: "HYBRID",
+          name: "PERMANENT MARKER",
           tags: [],
           thc: "24-28%",
           cbd: "0%",
           p1: "฿350",
           p35: "฿1,100",
-          terpenes: ["MYRCENE (CREAM)", "LIMONENE (CITRUS)"],
+          stock1: true,
+          stock35: false,
+          terpenes: ["MYRCENE (HERBAL)", "CARYOPHYLLENE (PEPPER)"],
+        },
+        {
+          cat: "HYBRID",
+          name: "PURE MICHIGAN",
+          tags: [],
+          thc: "20-22%",
+          cbd: "0%",
+          p1: "฿350",
+          p35: "฿1,100",
+          stock1: false,
+          stock35: true,
+          terpenes: ["MYRCENE (FRUIT)", "CARYOPHYLLENE (PEPPER)"],
+        },
+        {
+          cat: "HYBRID",
+          name: "SUPER LEMON HAZE",
+          tags: [],
+          thc: "19-21%",
+          cbd: "0%",
+          p1: "฿350",
+          p35: "฿1,100",
+          stock1: false,
+          stock35: true,
+          terpenes: ["LIMONENE (LEMON)", "TERPINEOL (FRUITY)"],
+        },
+        {
+          cat: "HYBRID",
+          name: "SENSI DAWG",
+          tags: [],
+          thc: "27-31%",
+          cbd: "1-2%",
+          p1: "฿350",
+          p35: "฿1,100",
+          stock1: false,
+          stock35: false,
+          terpenes: ["MYRCENE (FRUIT)", "HUMULENE (EARTH)"],
         },
 
         // COMPOUND GENETICS
@@ -296,6 +389,8 @@
           cbd: "<1%",
           p1: "฿700",
           p35: "฿2,500",
+          stock1: true,
+          stock35: false,
           terpenes: ["OCIMENE (FRUIT)", "MYRCENE (MUSK)"],
         },
         {
@@ -304,9 +399,11 @@
           name: "APPLES & BANANAS",
           tags: [],
           thc: "24-26%",
-          cbd: "0.1%",
+          cbd: "0%",
           p1: "฿700",
           p35: "฿2,500",
+          stock1: true,
+          stock35: true,
           terpenes: ["LIMONENE (LEMON)", "CARYOPHYLLENE (SPICE)"],
         },
         {
@@ -318,6 +415,8 @@
           cbd: "0%",
           p1: "฿700",
           p35: "฿2,500",
+          stock1: true,
+          stock35: false,
           terpenes: ["LIMONENE (LEMON)", "MYRCENE (MANGO)"],
         },
       ];
@@ -343,7 +442,7 @@
         return e(
           "span",
           {
-            className: `inline-block ${bgClass} text-white font-yellix font-bold text-[9px] px-2 py-0.5 rounded-full mr-1 mb-1 uppercase tracking-wide shadow-sm`,
+            className: `inline-block ${bgClass} text-white font-yellix font-bold text-[8px] md:text-[9px] px-1.5 md:px-2 py-0.5 rounded-full mr-1 mb-1 uppercase tracking-wide shadow-sm whitespace-nowrap`,
           },
           name,
         );
@@ -626,8 +725,7 @@
       const StatusBadge = ({ tags }) => {
         const containerClass =
           "flex items-center justify-center mr-3 w-[50px] shrink-0";
-        if (!tags || tags.length === 0)
-          return e("div", { className: containerClass });
+        if (!tags || tags.length === 0) return null;
         const tag = tags[0];
 
         if (tag === "NEW")
@@ -649,13 +747,49 @@
         const detailColor = isCompound ? "text-[#112237]" : "text-white/80";
         const detailBg = isCompound ? "bg-[#c8c7c7]" : "bg-white/10";
         const priceColor1 = isCompound ? "text-white" : "text-primary";
-        const priceDivider = isCompound ? "text-[#c8c7c7]/50" : "text-tertiary";
         const borderCls = isCompound
           ? "border-[#c8c7c7]/20"
           : "border-white/10";
         const hoverBgCls = isCompound
           ? "hover:bg-[#c8c7c7]/5"
           : "hover:bg-white/10";
+
+        const soldOutPillCls = isCompound
+          ? "border-[#c8c7c7]/30 text-[#c8c7c7]/60"
+          : "border-white/25 text-white/40";
+        const priceMutedCls = isCompound ? "text-[#c8c7c7]/70" : "text-white/60";
+        const weightMutedCls = isCompound ? "text-[#c8c7c7]/30" : "text-white/25";
+
+        const weightColumn = (price, weightLabel, inStock) =>
+          e(
+            "div",
+            {
+              className:
+                "flex flex-col items-center gap-0.5 md:gap-1 w-[52px] md:w-[68px]",
+            },
+            inStock
+              ? e(
+                  "span",
+                  {
+                    className: `font-yellix font-semibold text-[9px] md:text-[11px] whitespace-nowrap ${priceMutedCls}`,
+                  },
+                  price,
+                )
+              : e(
+                  "span",
+                  {
+                    className: `font-yellix font-bold text-[7px] md:text-[8px] px-1.5 md:px-2 py-0.5 rounded-full border uppercase tracking-wide whitespace-nowrap ${soldOutPillCls}`,
+                  },
+                  "SOLD OUT",
+                ),
+            e(
+              "span",
+              {
+                className: `font-bd font-black text-sm md:text-lg tracking-tight whitespace-nowrap ${inStock ? priceColor1 : weightMutedCls}`,
+              },
+              weightLabel,
+            ),
+          );
 
         return e(
           "div",
@@ -692,19 +826,20 @@
               e(
                 "div",
                 {
-                  className: "flex flex-wrap items-center gap-1.5 mb-1 mt-0.5",
+                  className:
+                    "flex flex-wrap items-center gap-1 md:gap-1.5 mb-1 mt-0.5",
                 },
                 e(
                   "span",
                   {
-                    className: `font-yellix font-medium text-[10px] px-2 py-0.5 rounded-md whitespace-nowrap ${detailColor} ${detailBg}`,
+                    className: `font-yellix font-medium text-[9px] md:text-[10px] px-1.5 md:px-2 py-0.5 rounded-md whitespace-nowrap ${detailColor} ${detailBg}`,
                   },
                   `THC ${product.thc}`,
                 ),
                 e(
                   "span",
                   {
-                    className: `font-yellix font-medium text-[10px] px-2 py-0.5 rounded-md whitespace-nowrap ${detailColor} ${detailBg}`,
+                    className: `font-yellix font-medium text-[9px] md:text-[10px] px-1.5 md:px-2 py-0.5 rounded-md whitespace-nowrap ${detailColor} ${detailBg}`,
                   },
                   `CBD ${product.cbd}`,
                 ),
@@ -720,24 +855,15 @@
           ),
           e(
             "div",
-            { className: "text-right whitespace-nowrap pl-2 self-start pt-1" },
-            e(
-              "div",
-              {
-                className: `font-bd font-bold text-lg md:text-xl tracking-tight ${priceColor1}`,
-              },
-              product.p1,
-              " ",
-              e(
-                "span",
-                {
-                  className: `text-sm align-middle mx-1 font-black ${priceDivider}`,
-                },
-                "|",
-              ),
-              " ",
-              product.p35,
-            ),
+            {
+              className:
+                "flex items-start gap-1.5 md:gap-2.5 pl-1.5 md:pl-2 self-start pt-0.5 shrink-0",
+            },
+            weightColumn(product.p1, "1G", product.stock1 !== false),
+            e("div", {
+              className: `w-px self-stretch my-0.5 ${isCompound ? "bg-[#c8c7c7]/20" : "bg-white/15"}`,
+            }),
+            weightColumn(product.p35, "3.5G", product.stock35 !== false),
           ),
         );
       };
@@ -760,13 +886,6 @@
               className: `font-bd font-black text-2xl uppercase tracking-tight ${isCompound ? "text-[#c8c7c7]" : "text-white"}`,
             },
             title,
-          ),
-          e(
-            "span",
-            {
-              className: `font-yellix font-bold text-xs px-3 py-1 rounded-full ${isCompound ? "bg-[#c8c7c7] text-[#112237]" : "bg-black/20 text-white/80"}`,
-            },
-            "1G | 3.5G",
           ),
         );
 
@@ -1553,13 +1672,24 @@
         const currentDate = new Date();
         const currentMonthYear = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
 
-        const sativa = products.filter((p) => p.cat === "SATIVA");
-        const indica = products.filter((p) => p.cat === "INDICA");
-        const hybrid = products.filter((p) => p.cat === "HYBRID");
-        const cbd = products.filter((p) => p.cat === "CBD");
-        const compoundGenetics = products.filter(
-          (p) => p.cat === "COMPOUND_GENETICS",
-        );
+        const stockRank = (p) => {
+          const has1 = p.stock1 !== false;
+          const has35 = p.stock35 !== false;
+          if (has1 && has35) return 0;
+          if (has1 && !has35) return 1;
+          if (!has1 && has35) return 2;
+          return 3;
+        };
+        const forMenu = (cat) =>
+          products
+            .filter((p) => p.cat === cat && stockRank(p) !== 3)
+            .sort((a, b) => stockRank(a) - stockRank(b));
+
+        const sativa = forMenu("SATIVA");
+        const indica = forMenu("INDICA");
+        const hybrid = forMenu("HYBRID");
+        const cbd = forMenu("CBD");
+        const compoundGenetics = forMenu("COMPOUND_GENETICS");
 
         const allSections = [
           { id: "sativa", title: "SATIVA", color: "#9e9e5e", data: sativa },
@@ -1580,28 +1710,12 @@
 
         const activeSections = allSections.filter((s) => s.data.length > 0);
 
-        let leftCol = [];
-        let rightCol = [];
-        let leftWeight = 0;
-        let rightWeight = 0;
-
-        activeSections.forEach((section) => {
-          const weight = section.data.length + 1.5;
-          if (leftWeight <= rightWeight) {
-            leftCol.push(section);
-            leftWeight += weight;
-          } else {
-            rightCol.push(section);
-            rightWeight += weight;
-          }
-        });
-
         const renderSection = (section) =>
           e(
             "div",
             {
               key: section.id,
-              className: `border rounded-2xl shadow-xl overflow-hidden flex flex-col mb-6 ${section.isCompound ? "border-[#c8c7c7]/30 shadow-[0_10px_30px_rgba(17,34,55,0.8)] bg-[#112237]" : "border-white/20 bg-black/20 backdrop-blur-sm"}`,
+              className: `border rounded-2xl shadow-xl overflow-hidden flex flex-col mb-6 break-inside-avoid ${section.isCompound ? "border-[#c8c7c7]/30 shadow-[0_10px_30px_rgba(17,34,55,0.8)] bg-[#112237]" : "border-white/20 bg-black/20 backdrop-blur-sm"}`,
             },
             e(BoxHeader, {
               title: section.title,
@@ -1637,10 +1751,10 @@
                 "max-w-[1400px] mx-auto w-full px-4 pt-8 pb-6 text-center flex flex-col items-center justify-center gap-3",
             },
             e("img", {
-              src: "assets/logo.png",
+              src: "assets/Green Ape Logo.png",
               alt: "Green Ape Logo",
               className:
-                "h-10 md:h-12 w-auto max-w-[110px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-300",
+                "h-8 md:h-10 w-auto max-w-[220px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-300",
             }),
             e(
               "h1",
@@ -1663,18 +1777,9 @@
             "main",
             {
               className:
-                "flex flex-col md:flex-row gap-6 max-w-[1400px] mx-auto w-full px-4 mb-4 items-start",
+                "max-w-[1400px] mx-auto w-full px-4 mb-4 md:columns-2 md:gap-6",
             },
-            e(
-              "div",
-              { className: "w-full md:w-1/2 flex flex-col" },
-              leftCol.map(renderSection),
-            ),
-            e(
-              "div",
-              { className: "w-full md:w-1/2 flex flex-col" },
-              rightCol.map(renderSection),
-            ),
+            activeSections.map(renderSection),
           ),
           e(
             "section",

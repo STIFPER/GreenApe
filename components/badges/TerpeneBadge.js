@@ -17,7 +17,7 @@ const TerpeneBadge = ({ name }) => {
 
   return (
     <span
-      className={`inline-block ${bgClass} text-white font-yellix font-bold text-[9px] px-2 py-0.5 rounded-full mr-1 mb-1 uppercase tracking-wide shadow-sm`}
+      className={`inline-block ${bgClass} text-white font-yellix font-bold text-[8px] md:text-[9px] px-1.5 md:px-2 py-0.5 rounded-full mr-1 mb-1 uppercase tracking-wide shadow-sm whitespace-nowrap`}
     >
       {name}
     </span>

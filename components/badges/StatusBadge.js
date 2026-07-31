@@ -3,7 +3,7 @@ const StatusBadge = ({ tags }) => {
     "flex items-center justify-center mr-3 w-[50px] shrink-0";
 
   if (!tags || tags.length === 0) {
-    return <div className={containerClass}></div>;
+    return null;
   }
 
   const tag = tags[0];

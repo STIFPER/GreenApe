@@ -23,13 +23,26 @@ const App = () => {
   const currentDate = new Date();
   const currentMonthYear = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
 
-  const sativa = products.filter((p) => p.cat === "SATIVA");
-  const indica = products.filter((p) => p.cat === "INDICA");
-  const hybrid = products.filter((p) => p.cat === "HYBRID");
-  const cbd = products.filter((p) => p.cat === "CBD");
-  const compoundGenetics = products.filter(
-    (p) => p.cat === "COMPOUND_GENETICS",
-  );
+  // อันดับความสำคัญ: มีครบทั้ง 1G/3.5G ก่อน > มีแค่ 1G > มีแค่ 3.5G
+  // ตัวที่หมดสต๊อกทั้งคู่ (เช่น รอเติมสต๊อก) จะถูกซ่อนจากเมนู แต่ยังเก็บข้อมูลไว้ใน products
+  const stockRank = (p) => {
+    const has1 = p.stock1 !== false;
+    const has35 = p.stock35 !== false;
+    if (has1 && has35) return 0;
+    if (has1 && !has35) return 1;
+    if (!has1 && has35) return 2;
+    return 3;
+  };
+  const forMenu = (cat) =>
+    products
+      .filter((p) => p.cat === cat && stockRank(p) !== 3)
+      .sort((a, b) => stockRank(a) - stockRank(b));
+
+  const sativa = forMenu("SATIVA");
+  const indica = forMenu("INDICA");
+  const hybrid = forMenu("HYBRID");
+  const cbd = forMenu("CBD");
+  const compoundGenetics = forMenu("COMPOUND_GENETICS");
 
   const allSections = [
     { id: "sativa", title: "SATIVA", color: "#9e9e5e", data: sativa },
@@ -50,27 +63,10 @@ const App = () => {
 
   const activeSections = allSections.filter((s) => s.data.length > 0);
 
-  let leftCol = [];
-  let rightCol = [];
-  let leftWeight = 0;
-  let rightWeight = 0;
-
-  activeSections.forEach((section) => {
-    const weight = section.data.length + 1.5;
-
-    if (leftWeight <= rightWeight) {
-      leftCol.push(section);
-      leftWeight += weight;
-    } else {
-      rightCol.push(section);
-      rightWeight += weight;
-    }
-  });
-
   const renderSection = (section) => (
     <div
       key={section.id}
-      className={`border rounded-2xl shadow-xl overflow-hidden flex flex-col mb-6 ${section.isCompound ? "border-[#c8c7c7]/30 shadow-[0_10px_30px_rgba(17,34,55,0.8)] bg-[#112237]" : "border-white/20 bg-black/20 backdrop-blur-sm"}`}
+      className={`border rounded-2xl shadow-xl overflow-hidden flex flex-col mb-6 break-inside-avoid ${section.isCompound ? "border-[#c8c7c7]/30 shadow-[0_10px_30px_rgba(17,34,55,0.8)] bg-[#112237]" : "border-white/20 bg-black/20 backdrop-blur-sm"}`}
     >
       <BoxHeader
         title={section.title}
@@ -99,9 +95,9 @@ const App = () => {
 
       <header className="max-w-[1400px] mx-auto w-full px-4 pt-8 pb-6 text-center flex flex-col items-center justify-center gap-3">
         <img
-          src="./assets/logo.png"
-          alt="./assets/Green Ape Logo"
-          className="h-10 md:h-12 w-auto max-w-[110px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
+          src="./assets/Green Ape Logo.png"
+          alt="Green Ape Logo"
+          className="h-8 md:h-10 w-auto max-w-[220px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
         />
         <h1 className="font-bd font-black text-[40px] md:text-[48px] text-primary uppercase leading-none tracking-tight drop-shadow-lg">
           FLOWER MENU
@@ -111,14 +107,8 @@ const App = () => {
         </p>
       </header>
 
-      <main className="flex flex-col md:flex-row gap-6 max-w-[1400px] mx-auto w-full px-4 mb-4 items-start">
-        <div className="w-full md:w-1/2 flex flex-col">
-          {leftCol.map(renderSection)}
-        </div>
-
-        <div className="w-full md:w-1/2 flex flex-col">
-          {rightCol.map(renderSection)}
-        </div>
+      <main className="max-w-[1400px] mx-auto w-full px-4 mb-4 md:columns-2 md:gap-6">
+        {activeSections.map(renderSection)}
       </main>
 
       <section className="max-w-[1400px] mx-auto w-full px-4">

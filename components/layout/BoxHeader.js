@@ -13,10 +13,5 @@ const BoxHeader = ({ title, bgColor, isCompound }) => (
     >
       {title}
     </h2>
-    <span
-      className={`font-yellix font-bold text-xs px-3 py-1 rounded-full ${isCompound ? "bg-[#c8c7c7] text-[#112237]" : "bg-black/20 text-white/80"}`}
-    >
-      1G | 3.5G
-    </span>
   </div>
 );
