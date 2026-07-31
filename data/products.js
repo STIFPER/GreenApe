@@ -113,7 +113,7 @@ const products = [
   {
     cat: "SATIVA",
     name: "PINEAPPLE XPRESS 2.0",
-    tags: [],
+    tags: ["BEST SELLER"],
     thc: "28-35%",
     cbd: "1-2%",
     p1: "฿350",

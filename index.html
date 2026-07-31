@@ -247,7 +247,7 @@
         {
           cat: "SATIVA",
           name: "PINEAPPLE XPRESS 2.0",
-          tags: [],
+          tags: ["BEST SELLER"],
           thc: "28-35%",
           cbd: "1-2%",
           p1: "฿350",
@@ -724,8 +724,9 @@
 
       const StatusBadge = ({ tags }) => {
         const containerClass =
-          "flex items-center justify-center mr-3 w-[50px] shrink-0";
-        if (!tags || tags.length === 0) return null;
+          "flex items-center justify-center mr-2 md:mr-3 w-9 md:w-[50px] shrink-0";
+        if (!tags || tags.length === 0)
+          return e("div", { className: containerClass });
         const tag = tags[0];
 
         if (tag === "NEW")
@@ -1680,10 +1681,16 @@
           if (!has1 && has35) return 2;
           return 3;
         };
+        const isBestSeller = (p) => (p.tags || []).includes("BEST SELLER");
         const forMenu = (cat) =>
           products
             .filter((p) => p.cat === cat && stockRank(p) !== 3)
-            .sort((a, b) => stockRank(a) - stockRank(b));
+            .sort((a, b) => {
+              const bestDiff =
+                (isBestSeller(a) ? 0 : 1) - (isBestSeller(b) ? 0 : 1);
+              if (bestDiff !== 0) return bestDiff;
+              return stockRank(a) - stockRank(b);
+            });
 
         const sativa = forMenu("SATIVA");
         const indica = forMenu("INDICA");

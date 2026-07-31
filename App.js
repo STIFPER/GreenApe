@@ -33,10 +33,15 @@ const App = () => {
     if (!has1 && has35) return 2;
     return 3;
   };
+  const isBestSeller = (p) => (p.tags || []).includes("BEST SELLER");
   const forMenu = (cat) =>
     products
       .filter((p) => p.cat === cat && stockRank(p) !== 3)
-      .sort((a, b) => stockRank(a) - stockRank(b));
+      .sort((a, b) => {
+        const bestDiff = (isBestSeller(a) ? 0 : 1) - (isBestSeller(b) ? 0 : 1);
+        if (bestDiff !== 0) return bestDiff;
+        return stockRank(a) - stockRank(b);
+      });
 
   const sativa = forMenu("SATIVA");
   const indica = forMenu("INDICA");

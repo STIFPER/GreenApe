@@ -1,9 +1,9 @@
 const StatusBadge = ({ tags }) => {
   const containerClass =
-    "flex items-center justify-center mr-3 w-[50px] shrink-0";
+    "flex items-center justify-center mr-2 md:mr-3 w-9 md:w-[50px] shrink-0";
 
   if (!tags || tags.length === 0) {
-    return null;
+    return <div className={containerClass}></div>;
   }
 
   const tag = tags[0];
