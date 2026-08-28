@@ -33,13 +33,19 @@ const App = () => {
     if (!has1 && has35) return 2;
     return 3;
   };
-  const isBestSeller = (p) => (p.tags || []).includes("BEST SELLER");
+  // ป้าย: BEST SELLER ขึ้นก่อนเสมอ ตามด้วย NEW แล้วค่อยเรียงตามสต๊อก
+  const tagRank = (p) => {
+    const tags = p.tags || [];
+    if (tags.includes("BEST SELLER")) return 0;
+    if (tags.includes("NEW")) return 1;
+    return 2;
+  };
   const forMenu = (cat) =>
     products
       .filter((p) => p.cat === cat && stockRank(p) !== 3)
       .sort((a, b) => {
-        const bestDiff = (isBestSeller(a) ? 0 : 1) - (isBestSeller(b) ? 0 : 1);
-        if (bestDiff !== 0) return bestDiff;
+        const tagDiff = tagRank(a) - tagRank(b);
+        if (tagDiff !== 0) return tagDiff;
         return stockRank(a) - stockRank(b);
       });
 
