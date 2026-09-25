@@ -267,7 +267,7 @@ const products = [
     cbd: "<1%",
     p1: "฿700",
     p35: "฿2,500",
-    stock1: true,
+    stock1: false,
     stock35: false,
     terpenes: ["OCIMENE (FRUIT)", "MYRCENE (MUSK)"],
   },
