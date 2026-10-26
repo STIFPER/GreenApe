@@ -97,3 +97,13 @@ The client (Thai-speaking) periodically sends either:
 
 - `assets/logo.png` vs `assets/Green Ape Logo.png`: the header currently uses `Green Ape Logo.png` (a wordmark banner, ~290×67). `logo.png` (~800×800, the mascot icon) is used by `manifest.json` as the PWA icon. At one point these two files were inconsistent between the local working copy and what was already on GitHub — if asset drift shows up again, diff file dimensions/content before assuming one side is "right."
 - The repo's own `README.md` is essentially empty (1 byte) — this `HANDOFF.md` is the actual onboarding doc; consider merging them if you want a single entry point.
+
+## 6. Seasonal themes (temporary) — Halloween 2026
+
+Halloween decorations are pure add-ons (SVG vectors + CSS keyframes), isolated so they can be removed in one go. Strain data is untouched.
+
+- Switch: `SHOW_HALLOWEEN` (auto-false after `HALLOWEEN_END` = 2026-11-03 Bangkok time). Set it to `false` to hide everything instantly.
+- Code: `components/halloween/Halloween.js` (JSX source copy), the same block compiled inline in `index.html` (between `HALLOWEEN START/END`), plus a `HALLOWEEN START/END` CSS block in `index.html`'s `<style>`.
+- Concept "Ape-loween": brand-specific rather than generic Halloween clip-art — pumpkins/ghost/skull wearing the mascot's goggles, lime slime drips (page top + under each section header), green cauldron, hanging jungle vines, witch hat on the title, blinking glowing eyes, lime glow on cards. No bats/webs/spiders on purpose (client did not want it to look like The Dispensary's site).
+- Usage points are marked with `HALLOWEEN` comments in `index.html`, `App.js` and the components (`BoxHeader` gets `extra`/`deco` props, `StatusBadge` glow, `ProductCard` hover tint): header art, tappable "BOO!" pumpkins, section-card lime glow + emblem + slime drip, two divider strips.
+- **To remove after the festival:** delete the Halloween block, the CSS block, and each marked usage (or just leave the flag off). Follow the usual dual-source + deploy rules above.

@@ -77,12 +77,27 @@ const App = () => {
   const renderSection = (section) => (
     <div
       key={section.id}
-      className={`border rounded-2xl shadow-xl overflow-hidden flex flex-col mb-6 break-inside-avoid ${section.isCompound ? "border-[#c8c7c7]/30 shadow-[0_10px_30px_rgba(17,34,55,0.8)] bg-[#112237]" : "border-white/20 bg-black/20 backdrop-blur-sm"}`}
+      className={`border rounded-2xl shadow-xl overflow-hidden flex flex-col mb-6 break-inside-avoid ${SHOW_HALLOWEEN ? "relative hw-glow" : ""} ${section.isCompound ? "border-[#c8c7c7]/30 shadow-[0_10px_30px_rgba(17,34,55,0.8)] bg-[#112237]" : SHOW_HALLOWEEN ? "border-[#c6dc3b]/35 bg-black/20 backdrop-blur-sm" : "border-white/20 bg-black/20 backdrop-blur-sm"}`}
     >
       <BoxHeader
         title={section.title}
         bgColor={section.color}
         isCompound={section.isCompound}
+        // HALLOWEEN: ไอคอนข้างชื่อหมวด
+        extra={
+          SHOW_HALLOWEEN && HW_EMBLEM[section.id] ? (
+            <HwArt
+              name={HW_EMBLEM[section.id]}
+              className="block w-6 shrink-0"
+            />
+          ) : null
+        }
+        // HALLOWEEN: เมือกเขียวหยดจากหัวการ์ด
+        deco={
+          SHOW_HALLOWEEN ? (
+            <HwDrip className="absolute left-0 right-0 -bottom-[16px] h-[16px] z-10" />
+          ) : null
+        }
       />
       <div className="p-3 space-y-1">
         {section.data.map((p, idx) => (
@@ -99,12 +114,22 @@ const App = () => {
 
   return (
     <div className="min-h-screen flex flex-col pb-10 relative">
+      {/* HALLOWEEN: ฉากหลัง (ใยแมงมุม + ค้างคาวบิน) */}
+      {SHOW_HALLOWEEN && <HalloweenSky />}
       <PromoModal
         isOpen={showPromoModal}
         onClose={() => setShowPromoModal(false)}
       />
 
-      <header className="max-w-[1400px] mx-auto w-full px-4 pt-8 pb-6 text-center flex flex-col items-center justify-center gap-3">
+      <header
+        className={`max-w-[1400px] mx-auto w-full px-4 pt-8 pb-6 text-center flex flex-col items-center justify-center gap-3${SHOW_HALLOWEEN ? " relative" : ""}`}
+      >
+        {/* HALLOWEEN: ข้อความต้อนรับเหนือโลโก้ */}
+        {SHOW_HALLOWEEN && (
+          <p className="font-bd font-bold text-[10px] md:text-xs text-[#ff7518] uppercase tracking-[0.35em] -mb-1">
+            Happy Ape-loween
+          </p>
+        )}
         <img
           src="./assets/Green Ape Logo.png"
           alt="Green Ape Logo"
@@ -113,14 +138,21 @@ const App = () => {
         <h1 className="font-bd font-black text-[40px] md:text-[48px] text-primary uppercase leading-none tracking-tight drop-shadow-lg">
           FLOWER MENU
         </h1>
-        <p className="font-bd font-bold text-sm md:text-base text-white uppercase tracking-[0.2em] bg-tertiary px-6 py-1.5 rounded-full shadow-lg">
+        <p
+          className={`font-bd font-bold text-sm md:text-base uppercase tracking-[0.2em] px-6 py-1.5 rounded-full shadow-lg ${SHOW_HALLOWEEN ? "bg-[#ff7518] text-[#1b1040]" : "bg-tertiary text-white"}`}
+        >
           {currentMonthYear}
         </p>
+        {/* HALLOWEEN: ฟักทอง ผี แมงมุมที่หัวเว็บ */}
+        {SHOW_HALLOWEEN && <HalloweenHeaderArt />}
       </header>
 
       <main className="max-w-[1400px] mx-auto w-full px-4 mb-4 md:columns-2 md:gap-6">
         {activeSections.map(renderSection)}
       </main>
+
+      {/* HALLOWEEN: แถบคั่น */}
+      {SHOW_HALLOWEEN && <HalloweenStrip />}
 
       <section className="max-w-[1400px] mx-auto w-full px-4">
         <PartyPackPromo />
@@ -133,6 +165,9 @@ const App = () => {
       <section className="max-w-[1400px] mx-auto w-full px-4">
         <CbdOilPromo />
       </section>
+
+      {/* HALLOWEEN: แถบคั่นท้ายหน้า */}
+      {SHOW_HALLOWEEN && <HalloweenStrip />}
 
       {!showPromoModal && (
         <button

@@ -4,13 +4,19 @@ const ProductCard = ({ product, onClick, theme }) => {
   const titleColor = isCompound ? "text-[#c8c7c7]" : "text-white";
   const titleHover = isCompound
     ? "group-hover:text-white"
-    : "group-hover:text-primary";
+    : SHOW_HALLOWEEN
+      ? "group-hover:text-[#ff7518]"
+      : "group-hover:text-primary";
   const detailColor = isCompound ? "text-[#112237]" : "text-white/80";
   const detailBg = isCompound ? "bg-[#c8c7c7]" : "bg-white/10";
   const priceColor1 = isCompound ? "text-white" : "text-primary";
 
   const borderCls = isCompound ? "border-[#c8c7c7]/20" : "border-white/10";
-  const hoverBgCls = isCompound ? "hover:bg-[#c8c7c7]/5" : "hover:bg-white/10";
+  const hoverBgCls = isCompound
+    ? "hover:bg-[#c8c7c7]/5"
+    : SHOW_HALLOWEEN
+      ? "hover:bg-[#ff7518]/10"
+      : "hover:bg-white/10";
 
   const soldOutPillCls = isCompound
     ? "border-[#c8c7c7]/30 text-[#c8c7c7]/60"
