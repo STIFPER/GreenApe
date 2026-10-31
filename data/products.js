@@ -57,7 +57,7 @@ const products = [
     p1: "฿350",
     p35: "฿1,100",
     stock1: false,
-    stock35: true,
+    stock35: false,
     terpenes: ["MYRCENE (FRUIT)", "LIMONENE (GAS)"],
   },
 
@@ -95,7 +95,7 @@ const products = [
     p1: "฿350",
     p35: "฿1,100",
     stock1: false,
-    stock35: true,
+    stock35: false,
     terpenes: ["LIMONENE (LEMON)", "CARYOPHYLLENE (PEPPER)"],
   },
   {
