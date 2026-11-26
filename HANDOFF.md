@@ -77,6 +77,8 @@ Each strain object looks like:
 
 See the `tagRank`/`stockRank`/`forMenu` functions — they exist twice (App.js and index.html) and must stay in sync if the sort rule ever changes.
 
+**Category mapping from the client's type labels (confirmed 2026-11-25):** the FIRST word of the label decides the section. `SATIVA…` (sativa-leaning, sativa dominant, "sativa dominant hybrid") → SATIVA, `INDICA…` (indica-leaning, indica dominant) → INDICA, `BALANCED HYBRID` and plain `HYBRID` → HYBRID. The cards don't show the sub-label. Applies to hidden strains too (Papaya Cheesy Runtz, Sensi Dawg, Super Lemon Haze were moved to SATIVA).
+
 **Category ordering on screen:** SATIVA → INDICA → HYBRID → COMPOUND GENETICS, in that exact order on mobile (single column) and visually balanced into two CSS columns (`columns-2`) on desktop. This uses native CSS multi-column layout specifically so DOM order (and therefore mobile order) is never scrambled by a separate "balance the columns" algorithm — an earlier weight-balancing approach caused COMPOUND GENETICS to appear in the wrong position on mobile and was replaced for that reason. Don't reintroduce a manual left/right array-splitting layout without re-testing mobile order.
 
 **"CG-" naming convention:** when the client's stock spreadsheet has strains prefixed `CG-` (e.g. `CG-Da Funk`), that prefix only indicates "this belongs in the COMPOUND GENETICS section of the spreadsheet" — it must **never** appear in the on-site display name. Strip it (`CG-Da Funk` → `DA FUNK`).
